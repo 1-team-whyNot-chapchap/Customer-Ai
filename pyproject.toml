@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chapchap-customer-ai"
+version = "0.1.0"
+description = "Internal FastAPI runtime for Chapchap Customer AI."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "httpx>=0.28,<1",
+  "pydantic-settings>=2.6,<3",
+  "PyJWT[crypto]>=2.10,<3",
+  "uvicorn[standard]>=0.32,<1",
+]
+
+[project.optional-dependencies]
+rag = [
+  "langchain-chroma>=0.2,<2",
+  "langchain-core>=0.3,<2",
+  "langchain-text-splitters>=0.3,<2",
+  "pypdf>=5,<7",
+  "sentence-transformers>=3,<4",
+]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.24,<1",
+  "ruff>=0.9,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chapchap_customer_ai"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
