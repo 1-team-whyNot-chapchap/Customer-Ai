@@ -1,1 +1,1 @@
-"""HTTP API adapters. Candidate internal APIs stay disabled until contract tests pass."""
+"""HTTP API Adapter 패키지이며 Candidate 내부 API는 계약 테스트 통과 전까지 비활성으로 둔다."""

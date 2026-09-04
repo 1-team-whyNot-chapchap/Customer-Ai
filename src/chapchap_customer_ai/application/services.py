@@ -1,5 +1,5 @@
 class RuntimeNotReadyError(RuntimeError):
-    """Raised when an integration dependency has not passed its activation conditions."""
+    """연동 의존성이 활성화 조건을 통과하지 못했을 때 발생한다."""
 
 
 def require_runtime_ready(component: str) -> None:
