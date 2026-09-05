@@ -43,6 +43,13 @@ class Settings(BaseSettings):
     consultation_rag_timeout_seconds: float = Field(default=2.5, gt=0, le=8)
     consultation_state_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
     consultation_compose_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
+    summary_compose_timeout_seconds: float = Field(default=8.0, gt=0, le=30)
+    summary_max_messages: int = Field(default=100, gt=0, le=1000)
+    summary_max_context_characters: int = Field(default=50_000, gt=0)
+    summary_max_output_characters: int = Field(default=10_000, gt=0)
+    summary_callback_base_url: str | None = None
+    summary_callback_timeout_seconds: float = Field(default=5.0, gt=0, le=30)
+    summary_callback_max_attempts: int = Field(default=3, ge=1, le=5)
     deepseek_model: str = "deepseek-v4-flash"
     deepseek_temperature: float = Field(default=1.0, ge=0, le=2)
     deepseek_max_output_tokens: int = Field(default=3072, gt=0, le=8192)

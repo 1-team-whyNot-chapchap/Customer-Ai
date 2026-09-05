@@ -166,3 +166,74 @@ class ConsultationResponse(ContractModel):
         if len({item.chunk_id for item in self.evidence}) != len(self.evidence):
             raise ValueError("evidence chunk ids must be unique")
         return self
+
+
+class ConsultationMessageSender(StrEnum):
+    USER = "USER"
+    ADMIN = "ADMIN"
+    AI = "AI"
+
+
+class ConsultationSummaryMessage(ContractModel):
+    sender_type: ConsultationMessageSender = Field(alias="senderType")
+    content: str = Field(min_length=1, max_length=10_000)
+
+    @field_validator("content")
+    @classmethod
+    def validate_content(cls, content: str) -> str:
+        if not content.strip():
+            raise ValueError("content must not be blank")
+        return content
+
+
+class ConsultationSummaryCallback(ContractModel):
+    result_uri: Literal["/internal/v1/consultation-summary-results"] = Field(
+        alias="resultUri"
+    )
+
+
+class ConsultationSummaryRequest(ContractModel):
+    schema_version: Literal["1.0"] = Field(alias="schemaVersion")
+    summary_job_id: PositiveInt64 = Field(alias="summaryJobId")
+    consultation_id: PositiveInt64 = Field(alias="consultationId")
+    messages: list[ConsultationSummaryMessage] = Field(min_length=1)
+    callback: ConsultationSummaryCallback
+
+
+class ConsultationSummaryAccepted(ContractModel):
+    schema_version: Literal["1.0"] = Field(alias="schemaVersion")
+    summary_job_id: PositiveInt64 = Field(alias="summaryJobId")
+    consultation_id: PositiveInt64 = Field(alias="consultationId")
+    status: Literal["ACCEPTED"]
+
+
+class ConsultationSummaryFailureCode(StrEnum):
+    UNSAFE_CONTEXT = "UNSAFE_CONTEXT"
+    SUMMARY_GENERATION_FAILED = "SUMMARY_GENERATION_FAILED"
+    LLM_UNAVAILABLE = "LLM_UNAVAILABLE"
+    PROCESSING_TIMEOUT = "PROCESSING_TIMEOUT"
+    CUSTOMER_AI_UNAVAILABLE = "CUSTOMER_AI_UNAVAILABLE"
+
+
+class ConsultationSummaryCompleted(ContractModel):
+    schema_version: Literal["1.0"] = Field(alias="schemaVersion")
+    summary_job_id: PositiveInt64 = Field(alias="summaryJobId")
+    consultation_id: PositiveInt64 = Field(alias="consultationId")
+    status: Literal["COMPLETED"]
+    summary: str = Field(min_length=1, max_length=10_000)
+
+    @field_validator("summary")
+    @classmethod
+    def validate_summary(cls, summary: str) -> str:
+        if not summary.strip():
+            raise ValueError("summary must not be blank")
+        return summary
+
+
+class ConsultationSummaryFailed(ContractModel):
+    schema_version: Literal["1.0"] = Field(alias="schemaVersion")
+    summary_job_id: PositiveInt64 = Field(alias="summaryJobId")
+    consultation_id: PositiveInt64 = Field(alias="consultationId")
+    status: Literal["FAILED"]
+    failure_code: ConsultationSummaryFailureCode = Field(alias="failureCode")
+    retryable: StrictBool
