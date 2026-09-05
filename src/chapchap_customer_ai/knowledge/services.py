@@ -23,6 +23,12 @@ from chapchap_customer_ai.knowledge.ports import (
     KnowledgeSourceFetcher,
     RagChunkBuilder,
 )
+from chapchap_customer_ai.observability.models import (
+    DiagnosticEvent,
+    DiagnosticEventType,
+)
+from chapchap_customer_ai.observability.ports import DiagnosticSink
+from chapchap_customer_ai.observability.sinks import NoOpDiagnosticSink, emit_safely
 from chapchap_customer_ai.rag.models import (
     KnowledgeContext,
     RagCoreError,
@@ -38,6 +44,7 @@ class KnowledgeProcessingService:
     chunk_builder: RagChunkBuilder
     indexer: KnowledgeIndexer
     result_publisher: KnowledgeResultPublisher
+    diagnostics: DiagnosticSink = NoOpDiagnosticSink()
 
     def accept(
         self,
@@ -125,6 +132,24 @@ class KnowledgeProcessingService:
                 request.knowledge_version_id,
                 KnowledgeProcessingFailureCode.CUSTOMER_AI_UNAVAILABLE,
             )
+        if isinstance(result, KnowledgeProcessingCompleted):
+            event = DiagnosticEvent(
+                event_type=DiagnosticEventType.KNOWLEDGE_COMPLETED,
+                request_id=request_id,
+                knowledge_version_id=request.knowledge_version_id,
+                processing_id=processing_id,
+                chunk_count=result.chunk_count,
+            )
+        else:
+            event = DiagnosticEvent(
+                event_type=DiagnosticEventType.KNOWLEDGE_FAILED,
+                request_id=request_id,
+                knowledge_version_id=request.knowledge_version_id,
+                processing_id=processing_id,
+                failure_code=result.failure_code,
+                retryable=result.retryable,
+            )
+        emit_safely(self.diagnostics, event)
         self.result_publisher.publish(result, request_id)
 
     @staticmethod

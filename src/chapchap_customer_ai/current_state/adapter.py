@@ -20,6 +20,13 @@ from chapchap_customer_ai.current_state.models import (
 from chapchap_customer_ai.current_state.normalization import ToolResultNormalizer
 from chapchap_customer_ai.current_state.ports import CurrentStateTransport
 from chapchap_customer_ai.current_state.registry import CAPABILITY_REGISTRY
+from chapchap_customer_ai.observability.models import (
+    DiagnosticEvent,
+    DiagnosticEventType,
+    DiagnosticFailureCode,
+)
+from chapchap_customer_ai.observability.ports import DiagnosticSink
+from chapchap_customer_ai.observability.sinks import NoOpDiagnosticSink, emit_safely
 from chapchap_customer_ai.security.models import AuthenticatedContext
 
 EMPTY_TOOL_ARGUMENTS = MappingProxyType({})
@@ -30,6 +37,7 @@ class CurrentStateAdapter:
     transport: CurrentStateTransport
     normalizer: ToolResultNormalizer = field(default_factory=ToolResultNormalizer)
     monotonic: Callable[[], float] = time.monotonic
+    diagnostics: DiagnosticSink = NoOpDiagnosticSink()
 
     def fetch(
         self,
@@ -54,20 +62,47 @@ class CurrentStateAdapter:
         approved_bindings = tuple(binding for binding in bindings if binding is not None)
 
         if not self._context_is_authorized(context, approved_bindings):
-            return tuple(
+            facts = tuple(
                 StateFact(binding.capability, StateAvailability.FORBIDDEN)
                 for binding in approved_bindings
             )
+            self._observe(facts, context)
+            return facts
 
         deadline = self.monotonic() + timeout_seconds
         if len(approved_bindings) == 1:
-            return (self._fetch_one(approved_bindings[0], context, deadline),)
-        with ThreadPoolExecutor(max_workers=2, thread_name_prefix="current-state") as executor:
-            futures = tuple(
-                executor.submit(self._fetch_one, binding, context, deadline)
-                for binding in approved_bindings
+            facts = (self._fetch_one(approved_bindings[0], context, deadline),)
+        else:
+            with ThreadPoolExecutor(
+                max_workers=2, thread_name_prefix="current-state"
+            ) as executor:
+                futures = tuple(
+                    executor.submit(self._fetch_one, binding, context, deadline)
+                    for binding in approved_bindings
+                )
+                facts = tuple(future.result() for future in futures)
+        self._observe(facts, context)
+        return facts
+
+    def _observe(
+        self, facts: Sequence[StateFact], context: AuthenticatedContext
+    ) -> None:
+        for fact in facts:
+            emit_safely(
+                self.diagnostics,
+                DiagnosticEvent(
+                    event_type=DiagnosticEventType.CURRENT_STATE_RESULT,
+                    request_id=context.subject.request_id,
+                    consultation_id=context.subject.consultation_id,
+                    capability_id=fact.capability,
+                    availability=fact.availability,
+                    failure_code=(
+                        DiagnosticFailureCode.CONTRACT_ERROR
+                        if fact.error_code == StateErrorCode.CONTRACT_ERROR
+                        else None
+                    ),
+                ),
             )
-            return tuple(future.result() for future in futures)
 
     @staticmethod
     def _context_is_authorized(
