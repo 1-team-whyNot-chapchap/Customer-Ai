@@ -39,18 +39,31 @@ class StateAvailability(StrEnum):
     FORBIDDEN = "FORBIDDEN"
 
 
+class StateErrorCode(StrEnum):
+    CONTRACT_ERROR = "CONTRACT_ERROR"
+
+
 @dataclass(frozen=True, slots=True)
 class StateFact:
     capability: Capability
-    availability: StateAvailability
+    availability: StateAvailability | None
     safe_answer: str | None = None
+    values: tuple[tuple[str, str | int | None], ...] = ()
+    error_code: StateErrorCode | None = None
 
     def __post_init__(self) -> None:
-        if self.availability == StateAvailability.AVAILABLE:
+        if self.error_code is not None:
+            if self.availability is not None or self.safe_answer is not None or self.values:
+                raise ValueError("state errors must not contain availability or business facts")
+        elif self.availability is None:
+            raise ValueError("state facts require an availability or error code")
+        elif self.availability == StateAvailability.AVAILABLE:
             if self.safe_answer is None or not self.safe_answer.strip():
                 raise ValueError("available state facts require a safe answer")
-        elif self.safe_answer is not None:
-            raise ValueError("unavailable state facts must not contain an answer")
+            if len({name for name, _ in self.values}) != len(self.values):
+                raise ValueError("state fact names must be unique")
+        elif self.safe_answer is not None or self.values:
+            raise ValueError("unavailable state facts must not contain business data")
 
 
 @dataclass(frozen=True, slots=True)
