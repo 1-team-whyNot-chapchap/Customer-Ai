@@ -402,3 +402,18 @@ def test_replay_store_reserves_all_entries_atomically_and_expires_them() -> None
     assert store.reserve([ReplayEntry("a", 20), ReplayEntry("b", 20)], now=10)
     assert not store.reserve([ReplayEntry("b", 30), ReplayEntry("c", 30)], now=10)
     assert store.reserve([ReplayEntry("b", 30), ReplayEntry("c", 30)], now=20)
+
+
+def test_service_only_verification_does_not_require_subject_assertion(
+    verifier: InternalSecurityVerifier,
+    keys: Mapping[str, Any],
+    now: int,
+) -> None:
+    token = encode_rs256(service_claims(now), keys["auth_private"], "auth-1")
+
+    identity = verifier.verify_service(f"Bearer {token}")
+
+    assert identity.service_subject == "customer-service"
+    with pytest.raises(InternalAuthError) as replay_error:
+        verifier.verify_service(f"Bearer {token}")
+    assert replay_error.value.code == AuthFailureCode.TOKEN_REPLAYED

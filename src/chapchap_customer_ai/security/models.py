@@ -34,3 +34,8 @@ class AuthenticatedSubject:
 class AuthenticatedContext:
     service_subject: str
     subject: AuthenticatedSubject
+
+
+@dataclass(frozen=True, slots=True)
+class AuthenticatedService:
+    service_subject: str
