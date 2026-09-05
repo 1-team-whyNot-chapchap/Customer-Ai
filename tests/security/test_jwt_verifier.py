@@ -417,3 +417,63 @@ def test_service_only_verification_does_not_require_subject_assertion(
     with pytest.raises(InternalAuthError) as replay_error:
         verifier.verify_service(f"Bearer {token}")
     assert replay_error.value.code == AuthFailureCode.TOKEN_REPLAYED
+
+
+def test_consultation_verification_accepts_only_approved_scope_set(
+    verifier: InternalSecurityVerifier,
+    keys: Mapping[str, Any],
+    now: int,
+    request_id: UUID,
+) -> None:
+    service = encode_rs256(service_claims(now), keys["auth_private"], "auth-1")
+    subject = encode_rs256(
+        subject_claims(
+            now,
+            request_id,
+            allowedAiScopes=["customer-ai.policy.read", "subscription.refund.read"],
+        ),
+        keys["subject_private"],
+        "subject-1",
+    )
+
+    result = verifier.verify_consultation(
+        f"Bearer {service}",
+        subject,
+        expected_request_id=request_id,
+        expected_consultation_id=501,
+        allowed_subject_scopes={
+            "customer-ai.policy.read",
+            "subscription.refund.read",
+        },
+        allowed_roles={UserRole.CUSTOMER},
+    )
+
+    assert result.subject.allowed_ai_scopes == frozenset(
+        {"customer-ai.policy.read", "subscription.refund.read"}
+    )
+
+
+def test_consultation_verification_rejects_unknown_scope(
+    verifier: InternalSecurityVerifier,
+    keys: Mapping[str, Any],
+    now: int,
+    request_id: UUID,
+) -> None:
+    service = encode_rs256(service_claims(now), keys["auth_private"], "auth-1")
+    subject = encode_rs256(
+        subject_claims(now, request_id, allowedAiScopes=["unknown.scope"]),
+        keys["subject_private"],
+        "subject-1",
+    )
+
+    with pytest.raises(InternalAuthError) as error:
+        verifier.verify_consultation(
+            f"Bearer {service}",
+            subject,
+            expected_request_id=request_id,
+            expected_consultation_id=501,
+            allowed_subject_scopes={"customer-ai.policy.read"},
+            allowed_roles={UserRole.CUSTOMER},
+        )
+
+    assert error.value.status_code == 403

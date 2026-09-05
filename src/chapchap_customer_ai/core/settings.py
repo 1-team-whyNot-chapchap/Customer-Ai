@@ -38,6 +38,14 @@ class Settings(BaseSettings):
     knowledge_callback_base_url: str | None = None
     knowledge_callback_timeout_seconds: float = Field(default=5.0, gt=0, le=30)
     knowledge_callback_max_attempts: int = Field(default=3, ge=1, le=5)
+    consultation_deadline_seconds: float = Field(default=8.0, gt=0, le=30)
+    consultation_route_timeout_seconds: float = Field(default=0.5, gt=0, le=2)
+    consultation_rag_timeout_seconds: float = Field(default=2.5, gt=0, le=8)
+    consultation_state_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
+    consultation_compose_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
+    deepseek_model: str = "deepseek-v4-flash"
+    deepseek_temperature: float = Field(default=1.0, ge=0, le=2)
+    deepseek_max_output_tokens: int = Field(default=3072, gt=0, le=8192)
 
 
 @lru_cache
