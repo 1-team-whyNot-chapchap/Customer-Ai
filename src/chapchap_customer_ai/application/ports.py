@@ -1,7 +1,9 @@
-from collections.abc import Sequence
+from collections.abc import Collection, Sequence
 from typing import Protocol
+from uuid import UUID
 
-from chapchap_customer_ai.contracts.models import KnowledgeProcessingRequest
+from chapchap_customer_ai.contracts.models import KnowledgeProcessingRequest, UserRole
+from chapchap_customer_ai.security.models import AuthenticatedContext
 
 
 class TextExtractor(Protocol):
@@ -25,4 +27,13 @@ class VectorStore(Protocol):
 
 
 class ServiceIdentityVerifier(Protocol):
-    def verify(self, authorization: str, subject_assertion: str | None) -> None: ...
+    def verify(
+        self,
+        authorization: str,
+        subject_assertion: str,
+        *,
+        expected_request_id: UUID,
+        expected_consultation_id: int,
+        required_subject_scope: str,
+        allowed_roles: Collection[UserRole],
+    ) -> AuthenticatedContext: ...
