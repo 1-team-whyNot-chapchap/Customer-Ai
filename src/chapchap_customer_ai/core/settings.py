@@ -32,6 +32,12 @@ class Settings(BaseSettings):
         default="customer_ai_knowledge_v1", pattern=r"^[a-z0-9][a-z0-9_-]{2,62}$"
     )
     chroma_persist_directory: Path | None = None
+    knowledge_source_allowed_hosts: tuple[str, ...] = ()
+    knowledge_source_timeout_seconds: float = Field(default=5.0, gt=0, le=30)
+    knowledge_source_max_bytes: int = Field(default=10 * 1024 * 1024, gt=0)
+    knowledge_callback_base_url: str | None = None
+    knowledge_callback_timeout_seconds: float = Field(default=5.0, gt=0, le=30)
+    knowledge_callback_max_attempts: int = Field(default=3, ge=1, le=5)
 
 
 @lru_cache

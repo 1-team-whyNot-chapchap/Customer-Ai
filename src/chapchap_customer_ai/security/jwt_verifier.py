@@ -14,6 +14,7 @@ from chapchap_customer_ai.security.keys import (
 )
 from chapchap_customer_ai.security.models import (
     AuthenticatedContext,
+    AuthenticatedService,
     AuthenticatedSubject,
     AuthFailureCode,
     InternalAuthError,
@@ -42,6 +43,13 @@ class InternalSecurityVerifier:
     service_max_lifetime_seconds: int = 300
     subject_max_lifetime_seconds: int = 60
 
+    def verify_service(self, authorization: str) -> AuthenticatedService:
+        service_claims = self._verified_service_claims(authorization)
+        self._reserve_replay(
+            (ReplayEntry(f"service:{self._text(service_claims, 'jti')}", service_claims["exp"]),)
+        )
+        return AuthenticatedService(self.service_subject)
+
     def verify(
         self,
         authorization: str,
@@ -63,13 +71,7 @@ class InternalSecurityVerifier:
             raise ValueError("expected_consultation_id must be a positive int64")
         if not required_subject_scope.strip() or not allowed_roles:
             raise ValueError("required subject scope and allowed roles must be non-empty")
-        service_token = self._bearer_token(authorization)
-        service_claims = self._decode(
-            service_token,
-            issuer=self.service_issuer,
-            required_claims=("sub", "scope", "iat", "exp", "jti"),
-        )
-        self._verify_service_claims(service_claims)
+        service_claims = self._verified_service_claims(authorization)
 
         subject_claims = self._decode(
             subject_assertion,
@@ -95,11 +97,25 @@ class InternalSecurityVerifier:
             allowed_roles=allowed_roles,
         )
 
-        now = self.clock.now_epoch_seconds()
         entries = (
             ReplayEntry(f"service:{self._text(service_claims, 'jti')}", service_claims["exp"]),
             ReplayEntry(f"subject:{self._text(subject_claims, 'jti')}", subject_claims["exp"]),
         )
+        self._reserve_replay(entries)
+        return AuthenticatedContext(self.service_subject, subject)
+
+    def _verified_service_claims(self, authorization: str) -> Mapping[str, Any]:
+        service_token = self._bearer_token(authorization)
+        service_claims = self._decode(
+            service_token,
+            issuer=self.service_issuer,
+            required_claims=("sub", "scope", "iat", "exp", "jti"),
+        )
+        self._verify_service_claims(service_claims)
+        return service_claims
+
+    def _reserve_replay(self, entries: tuple[ReplayEntry, ...]) -> None:
+        now = self.clock.now_epoch_seconds()
         try:
             reserved = self.replay_store.reserve(entries, now)
         except Exception:
@@ -112,7 +128,6 @@ class InternalSecurityVerifier:
                 AuthFailureCode.TOKEN_REPLAYED,
                 "The authenticated request has already been used.",
             )
-        return AuthenticatedContext(self.service_subject, subject)
 
     @staticmethod
     def _bearer_token(authorization: str) -> str:
