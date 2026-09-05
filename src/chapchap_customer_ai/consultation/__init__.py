@@ -1,0 +1,1 @@
+"""Synchronous consultation response boundary."""

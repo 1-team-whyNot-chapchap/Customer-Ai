@@ -104,6 +104,64 @@ class InternalSecurityVerifier:
         self._reserve_replay(entries)
         return AuthenticatedContext(self.service_subject, subject)
 
+    def verify_consultation(
+        self,
+        authorization: str,
+        subject_assertion: str,
+        *,
+        expected_request_id: UUID,
+        expected_consultation_id: int,
+        allowed_subject_scopes: Collection[str],
+        allowed_roles: Collection[UserRole],
+    ) -> AuthenticatedContext:
+        if not isinstance(expected_request_id, UUID):
+            raise ValueError("expected_request_id must be a UUID")
+        if (
+            isinstance(expected_consultation_id, bool)
+            or not isinstance(expected_consultation_id, int)
+            or expected_consultation_id <= 0
+            or expected_consultation_id > INT64_MAX
+        ):
+            raise ValueError("expected_consultation_id must be a positive int64")
+        if not allowed_subject_scopes or not allowed_roles:
+            raise ValueError("allowed subject scopes and roles must be non-empty")
+        service_claims = self._verified_service_claims(authorization)
+        subject_claims = self._decode(
+            subject_assertion,
+            issuer=self.subject_issuer,
+            required_claims=(
+                "userId",
+                "role",
+                "allowedAiScopes",
+                "requestId",
+                "consultationId",
+                "iat",
+                "exp",
+                "jti",
+                "kid",
+            ),
+            require_key_id_claim=True,
+        )
+        subject = self._verify_subject_claims(
+            subject_claims,
+            expected_request_id=expected_request_id,
+            expected_consultation_id=expected_consultation_id,
+            required_scope=None,
+            allowed_scopes=allowed_subject_scopes,
+            allowed_roles=allowed_roles,
+        )
+        self._reserve_replay(
+            (
+                ReplayEntry(
+                    f"service:{self._text(service_claims, 'jti')}", service_claims["exp"]
+                ),
+                ReplayEntry(
+                    f"subject:{self._text(subject_claims, 'jti')}", subject_claims["exp"]
+                ),
+            )
+        )
+        return AuthenticatedContext(self.service_subject, subject)
+
     def _verified_service_claims(self, authorization: str) -> Mapping[str, Any]:
         service_token = self._bearer_token(authorization)
         service_claims = self._decode(
@@ -216,7 +274,8 @@ class InternalSecurityVerifier:
         *,
         expected_request_id: UUID,
         expected_consultation_id: int,
-        required_scope: str,
+        required_scope: str | None,
+        allowed_scopes: Collection[str] | None = None,
         allowed_roles: Collection[UserRole],
     ) -> AuthenticatedSubject:
         self._verify_lifetime(claims, self.subject_max_lifetime_seconds)
@@ -244,7 +303,11 @@ class InternalSecurityVerifier:
         ):
             raise self._authorization_error("The subject scope is not allowed.")
         scopes = frozenset(raw_scopes)
-        if len(scopes) != len(raw_scopes) or required_scope not in scopes:
+        if len(scopes) != len(raw_scopes):
+            raise self._authorization_error("The subject scope is not allowed.")
+        if required_scope is not None and required_scope not in scopes:
+            raise self._authorization_error("The subject scope is not allowed.")
+        if allowed_scopes is not None and not scopes.issubset(set(allowed_scopes)):
             raise self._authorization_error("The subject scope is not allowed.")
         self._text(claims, "jti")
         return AuthenticatedSubject(user_id, role, scopes, request_id, consultation_id)

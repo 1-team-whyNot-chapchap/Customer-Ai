@@ -2,7 +2,16 @@ from enum import StrEnum
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, StrictBool, StrictInt
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    HttpUrl,
+    StrictBool,
+    StrictInt,
+    field_validator,
+    model_validator,
+)
 
 PositiveInt64 = Annotated[StrictInt, Field(gt=0, le=9_223_372_036_854_775_807)]
 
@@ -22,6 +31,13 @@ class TrustedSubject(ContractModel):
     user_id: PositiveInt64 = Field(alias="userId")
     role: UserRole
     allowed_ai_scopes: list[str] = Field(alias="allowedAiScopes", min_length=1)
+
+    @field_validator("allowed_ai_scopes")
+    @classmethod
+    def validate_scopes(cls, scopes: list[str]) -> list[str]:
+        if any(not scope.strip() for scope in scopes) or len(scopes) != len(set(scopes)):
+            raise ValueError("allowedAiScopes must contain unique non-blank scopes")
+        return scopes
 
 
 class KnowledgeSource(ContractModel):
@@ -97,3 +113,56 @@ class ConsultationResponseRequest(ContractModel):
     subject: TrustedSubject
     message: str = Field(min_length=1, max_length=10_000)
     conversation_context: list[str] = Field(alias="conversationContext", max_length=20)
+
+
+class ConsultationRoute(StrEnum):
+    POLICY = "POLICY"
+    USER_STATE = "USER_STATE"
+    POLICY_AND_STATE = "POLICY_AND_STATE"
+    UNSUPPORTED = "UNSUPPORTED"
+
+
+class ConsultationDecision(StrEnum):
+    ANSWER = "ANSWER"
+    HANDOFF = "HANDOFF"
+    DEGRADED = "DEGRADED"
+
+
+class ConsultationEvidence(ContractModel):
+    knowledge_version_id: PositiveInt64 = Field(alias="knowledgeVersionId")
+    chunk_id: str = Field(alias="chunkId", min_length=1, max_length=200)
+    retrieval_rank: Annotated[StrictInt, Field(gt=0)] = Field(alias="retrievalRank")
+    retrieval_score: float = Field(alias="retrievalScore", ge=0.0, le=1.0)
+
+
+class ConsultationResponse(ContractModel):
+    schema_version: Literal["1.0"] = Field(alias="schemaVersion")
+    request_id: UUID = Field(alias="requestId")
+    decision: ConsultationDecision
+    answer: str | None = Field(default=None, min_length=1, max_length=10_000)
+    route: ConsultationRoute
+    degraded: StrictBool
+    handoff_required: StrictBool = Field(alias="handoffRequired")
+    evidence: list[ConsultationEvidence] = Field(default_factory=list, max_length=5)
+
+    @model_validator(mode="after")
+    def validate_decision_contract(self) -> "ConsultationResponse":
+        if self.answer is not None and not self.answer.strip():
+            raise ValueError("answer must not be blank")
+        if self.decision == ConsultationDecision.ANSWER:
+            if self.answer is None or self.degraded or self.handoff_required:
+                raise ValueError("ANSWER requires an answer without degradation or handoff")
+        elif self.decision == ConsultationDecision.HANDOFF:
+            if not self.handoff_required or self.answer is not None or self.evidence:
+                raise ValueError("HANDOFF requires only the handoff signal")
+        elif self.answer is None or not self.degraded:
+            raise ValueError("DEGRADED requires a partial answer and degraded=true")
+        if (
+            self.decision != ConsultationDecision.HANDOFF
+            and self.route in {ConsultationRoute.POLICY, ConsultationRoute.POLICY_AND_STATE}
+            and not self.evidence
+        ):
+            raise ValueError("policy answers require evidence")
+        if len({item.chunk_id for item in self.evidence}) != len(self.evidence):
+            raise ValueError("evidence chunk ids must be unique")
+        return self
