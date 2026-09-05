@@ -19,6 +19,7 @@ dependencies = [
 
 [project.optional-dependencies]
 rag = [
+  "chromadb>=0.5,<2",
   "langchain-chroma>=0.2,<2",
   "langchain-core>=0.3,<2",
   "langchain-text-splitters>=0.3,<2",

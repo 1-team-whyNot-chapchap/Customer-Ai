@@ -21,6 +21,14 @@ class Settings(BaseSettings):
     service_jwks_url: str | None = None
     subject_assertion_jwks_url: str | None = None
     request_deadline_seconds: float = Field(default=8.0, gt=0, le=30)
+    rag_embedding_model: str = "intfloat/multilingual-e5-small"
+    rag_embedding_dimensions: int = Field(default=384, gt=0)
+    rag_top_k: int = Field(default=5, gt=0, le=50)
+    rag_similarity_threshold: float = Field(default=0.70, ge=0.0, le=1.0)
+    chroma_collection_name: str = Field(
+        default="customer_ai_knowledge_v1", pattern=r"^[a-z0-9][a-z0-9_-]{2,62}$"
+    )
+    chroma_persist_directory: Path | None = None
 
 
 @lru_cache

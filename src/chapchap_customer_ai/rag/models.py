@@ -7,6 +7,8 @@ class RagFailureCode(StrEnum):
     UNSUPPORTED_DOCUMENT = "UNSUPPORTED_DOCUMENT"
     ENCRYPTED_DOCUMENT = "ENCRYPTED_DOCUMENT"
     CHUNK_PROFILE_INVALID = "CHUNK_PROFILE_INVALID"
+    EMBEDDING_UNAVAILABLE = "EMBEDDING_UNAVAILABLE"
+    VECTOR_STORE_UNAVAILABLE = "VECTOR_STORE_UNAVAILABLE"
 
 
 class RagCoreError(ValueError):
@@ -97,3 +99,23 @@ class RagEvidence:
             raise ValueError("retrieval_rank must be positive")
         if not 0.0 <= self.retrieval_score <= 1.0:
             raise ValueError("retrieval_score must be between 0.0 and 1.0")
+
+
+@dataclass(frozen=True, slots=True)
+class RetrievedKnowledge:
+    """내부 답변 조립용 검색 결과. 외부에는 evidence만 전달한다."""
+
+    text: str
+    section_path: tuple[str, ...]
+    document_key: str
+    category: str
+    version: str
+    effective_from: str
+    evidence: RagEvidence
+
+    def __post_init__(self) -> None:
+        for field_name in ("text", "document_key", "category", "version", "effective_from"):
+            if not getattr(self, field_name).strip():
+                raise ValueError(f"{field_name} must not be blank")
+        if not self.section_path or any(not part.strip() for part in self.section_path):
+            raise ValueError("section_path must contain non-blank section names")
