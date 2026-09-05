@@ -1,1 +1,1 @@
-"""Runtime configuration and cross-cutting concerns."""
+"""런타임 설정과 횡단 관심사 패키지."""
