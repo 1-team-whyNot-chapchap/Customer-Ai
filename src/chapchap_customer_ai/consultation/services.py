@@ -11,6 +11,7 @@ from chapchap_customer_ai.consultation.models import (
     ConsultationDependencyError,
     ConsultationRequestError,
     StateAvailability,
+    StateErrorCode,
     StateFact,
 )
 from chapchap_customer_ai.consultation.ports import (
@@ -217,6 +218,7 @@ class ConsultationResponseService:
             return self._handoff(request_id, route)
         unresolved = any(
             fact.availability in {StateAvailability.UNAVAILABLE, StateAvailability.TIMEOUT}
+            or fact.error_code == StateErrorCode.CONTRACT_ERROR
             for fact in facts
         ) or len(facts) != len(capabilities)
         answer = " ".join(answers)

@@ -12,6 +12,7 @@ from chapchap_customer_ai.consultation.models import (
     ConsultationRequestError,
     GroundedAnswerDraft,
     StateAvailability,
+    StateErrorCode,
     StateFact,
 )
 from chapchap_customer_ai.consultation.routing import RuleBasedRouteResolver
@@ -300,6 +301,28 @@ def test_combined_route_degrades_when_state_is_unavailable() -> None:
     assert result.route == ConsultationRoute.POLICY_AND_STATE
     assert result.degraded and result.handoff_required
     assert len(result.evidence) == 1
+
+
+def test_contract_error_is_never_used_as_a_business_state() -> None:
+    dependencies = Dependencies(
+        state=StateProvider(
+            (
+                StateFact(
+                    Capability.PAYMENT_CURRENT,
+                    None,
+                    error_code=StateErrorCode.CONTRACT_ERROR,
+                ),
+            )
+        )
+    )
+    value = request("내 결제 상태 알려줘", ("subscription.payment.read",))
+
+    result = dependencies.service().respond(
+        value, context(value), idempotency_key="contract-error"
+    )
+
+    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.answer is None
 
 
 def test_scope_and_signed_body_mismatch_fail_before_dependencies() -> None:
