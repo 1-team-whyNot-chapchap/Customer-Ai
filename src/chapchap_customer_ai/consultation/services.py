@@ -33,6 +33,9 @@ from chapchap_customer_ai.contracts.models import (
     ConsultationResponseRequest,
     ConsultationRoute,
 )
+from chapchap_customer_ai.observability.models import DiagnosticEvent, DiagnosticEventType
+from chapchap_customer_ai.observability.ports import DiagnosticSink
+from chapchap_customer_ai.observability.sinks import NoOpDiagnosticSink, emit_safely
 from chapchap_customer_ai.rag.models import RagCoreError, RetrievedKnowledge
 from chapchap_customer_ai.security.models import AuthenticatedContext
 
@@ -70,6 +73,7 @@ class ConsultationResponseService:
     rag_timeout_seconds: float = 2.5
     state_timeout_seconds: float = 3.0
     compose_timeout_seconds: float = 3.0
+    diagnostics: DiagnosticSink = NoOpDiagnosticSink()
 
     def __post_init__(self) -> None:
         if self.request_deadline_seconds <= 0 or any(
@@ -95,11 +99,22 @@ class ConsultationResponseService:
         if not key or len(key) > 200:
             raise ConsultationRequestError("A valid Idempotency-Key is required.")
         fingerprint = self._fingerprint(request)
-        return self.registry.execute_once(
+        response = self.registry.execute_once(
             key,
             fingerprint,
             lambda: self._respond_once(request, context),
         )
+        emit_safely(
+            self.diagnostics,
+            DiagnosticEvent(
+                event_type=DiagnosticEventType.CONSULTATION_RESULT,
+                request_id=request.request_id,
+                consultation_id=request.consultation_id,
+                route=response.route,
+                decision=response.decision,
+            ),
+        )
+        return response
 
     def _respond_once(
         self, request: ConsultationResponseRequest, context: AuthenticatedContext

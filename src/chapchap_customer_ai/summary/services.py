@@ -10,6 +10,9 @@ from chapchap_customer_ai.contracts.models import (
     ConsultationSummaryFailureCode,
     ConsultationSummaryRequest,
 )
+from chapchap_customer_ai.observability.models import DiagnosticEvent, DiagnosticEventType
+from chapchap_customer_ai.observability.ports import DiagnosticSink
+from chapchap_customer_ai.observability.sinks import NoOpDiagnosticSink, emit_safely
 from chapchap_customer_ai.summary.guardrails import SummaryGuardrails
 from chapchap_customer_ai.summary.models import (
     RETRYABLE_FAILURES,
@@ -32,6 +35,7 @@ class ConsultationSummaryService:
     result_publisher: SummaryResultPublisher
     guardrails: SummaryGuardrails = SummaryGuardrails()
     compose_timeout_seconds: float = 8.0
+    diagnostics: DiagnosticSink = NoOpDiagnosticSink()
 
     def __post_init__(self) -> None:
         if self.compose_timeout_seconds <= 0:
@@ -101,6 +105,21 @@ class ConsultationSummaryService:
             result = self._failed(
                 request, ConsultationSummaryFailureCode.CUSTOMER_AI_UNAVAILABLE
             )
+        if isinstance(result, ConsultationSummaryCompleted):
+            event = DiagnosticEvent(
+                event_type=DiagnosticEventType.SUMMARY_COMPLETED,
+                request_id=request_id,
+                consultation_id=request.consultation_id,
+            )
+        else:
+            event = DiagnosticEvent(
+                event_type=DiagnosticEventType.SUMMARY_FAILED,
+                request_id=request_id,
+                consultation_id=request.consultation_id,
+                failure_code=result.failure_code,
+                retryable=result.retryable,
+            )
+        emit_safely(self.diagnostics, event)
         self.result_publisher.publish(result, request_id)
 
     @staticmethod
