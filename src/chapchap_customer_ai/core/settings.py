@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     app_name: str = "chapchap-customer-ai"
     environment: str = "local"
     log_level: str = "INFO"
+    internal_security_enabled: bool = False
     service_jwt_issuer: str = "chapchap-auth-service"
     service_jwt_audience: str = "chapchap-customer-ai"
     subject_assertion_issuer: str = "chapchap-customer-service"
@@ -23,6 +24,11 @@ class Settings(BaseSettings):
     subject_assertion_jwks_url: str | None = None
     jwks_timeout_seconds: float = Field(default=5.0, gt=0, le=10)
     jwks_cache_lifespan_seconds: int = Field(default=300, ge=60, le=3600)
+    replay_redis_url: str | None = None
+    replay_key_prefix: str = Field(
+        default="chapchap:customer-ai:replay", pattern=r"^[a-zA-Z0-9:_-]{3,80}$"
+    )
+    replay_redis_socket_timeout_seconds: float = Field(default=2.0, gt=0, le=10)
     request_deadline_seconds: float = Field(default=8.0, gt=0, le=30)
     rag_embedding_model: str = "intfloat/multilingual-e5-small"
     rag_embedding_dimensions: int = Field(default=384, gt=0)
