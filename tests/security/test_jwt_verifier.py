@@ -12,7 +12,6 @@ from chapchap_customer_ai.contracts.models import UserRole
 from chapchap_customer_ai.security.jwt_verifier import INT64_MAX, InternalSecurityVerifier
 from chapchap_customer_ai.security.keys import StaticVerificationKeyResolver
 from chapchap_customer_ai.security.models import AuthFailureCode, InternalAuthError
-from chapchap_customer_ai.security.replay import InMemoryReplayStore, ReplayEntry
 
 
 @dataclass(frozen=True)
@@ -55,7 +54,7 @@ def verifier(keys: Mapping[str, Any], now: int) -> InternalSecurityVerifier:
             ("chapchap-customer-service", "subject-1"): keys["subject_public"],
         }
     )
-    return InternalSecurityVerifier(resolver, InMemoryReplayStore(), FixedClock(now))
+    return InternalSecurityVerifier(resolver, FixedClock(now))
 
 
 def service_claims(now: int, **overrides: Any) -> dict[str, Any]:
@@ -310,7 +309,7 @@ def test_subject_rejects_disallowed_role_or_scope(
     assert error.value.status_code == 403
 
 
-def test_replay_is_rejected_after_atomic_reservation(
+def test_same_signed_context_can_be_reverified_for_idempotent_retry(
     verifier: InternalSecurityVerifier,
     keys: Mapping[str, Any],
     now: int,
@@ -325,14 +324,13 @@ def test_replay_is_rejected_after_atomic_reservation(
         "allowed_roles": {UserRole.CUSTOMER},
     }
 
-    verifier.verify(f"Bearer {service}", subject, **arguments)
-    with pytest.raises(InternalAuthError) as error:
-        verifier.verify(f"Bearer {service}", subject, **arguments)
+    first = verifier.verify(f"Bearer {service}", subject, **arguments)
+    second = verifier.verify(f"Bearer {service}", subject, **arguments)
 
-    assert error.value.code == AuthFailureCode.TOKEN_REPLAYED
+    assert first == second
 
 
-def test_invalid_subject_does_not_consume_service_replay_key(
+def test_invalid_subject_does_not_prevent_valid_retry_with_same_service_token(
     verifier: InternalSecurityVerifier,
     keys: Mapping[str, Any],
     now: int,
@@ -396,14 +394,6 @@ def test_missing_bearer_and_unknown_key_are_safe(
     assert unknown_key_token not in str(key_error.value)
 
 
-def test_replay_store_reserves_all_entries_atomically_and_expires_them() -> None:
-    store = InMemoryReplayStore()
-
-    assert store.reserve([ReplayEntry("a", 20), ReplayEntry("b", 20)], now=10)
-    assert not store.reserve([ReplayEntry("b", 30), ReplayEntry("c", 30)], now=10)
-    assert store.reserve([ReplayEntry("b", 30), ReplayEntry("c", 30)], now=20)
-
-
 def test_service_only_verification_does_not_require_subject_assertion(
     verifier: InternalSecurityVerifier,
     keys: Mapping[str, Any],
@@ -412,11 +402,10 @@ def test_service_only_verification_does_not_require_subject_assertion(
     token = encode_rs256(service_claims(now), keys["auth_private"], "auth-1")
 
     identity = verifier.verify_service(f"Bearer {token}")
+    repeated_identity = verifier.verify_service(f"Bearer {token}")
 
     assert identity.service_subject == "customer-service"
-    with pytest.raises(InternalAuthError) as replay_error:
-        verifier.verify_service(f"Bearer {token}")
-    assert replay_error.value.code == AuthFailureCode.TOKEN_REPLAYED
+    assert repeated_identity == identity
 
 
 def test_consultation_verification_accepts_only_approved_scope_set(

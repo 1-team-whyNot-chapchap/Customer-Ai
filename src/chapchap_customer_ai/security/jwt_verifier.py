@@ -8,6 +8,7 @@ import jwt
 
 from chapchap_customer_ai.contracts.models import UserRole
 from chapchap_customer_ai.core.settings import Settings
+from chapchap_customer_ai.security.clock import Clock, SystemClock
 from chapchap_customer_ai.security.keys import (
     JwksVerificationKeyResolver,
     VerificationKeyResolver,
@@ -19,13 +20,6 @@ from chapchap_customer_ai.security.models import (
     AuthFailureCode,
     InternalAuthError,
 )
-from chapchap_customer_ai.security.replay import (
-    Clock,
-    InMemoryReplayStore,
-    ReplayEntry,
-    ReplayStore,
-    SystemClock,
-)
 
 INT64_MAX = 9_223_372_036_854_775_807
 
@@ -33,7 +27,6 @@ INT64_MAX = 9_223_372_036_854_775_807
 @dataclass(frozen=True, slots=True)
 class InternalSecurityVerifier:
     key_resolver: VerificationKeyResolver
-    replay_store: ReplayStore
     clock: Clock = SystemClock()
     service_issuer: str = "chapchap-auth-service"
     subject_issuer: str = "chapchap-customer-service"
@@ -44,10 +37,7 @@ class InternalSecurityVerifier:
     subject_max_lifetime_seconds: int = 60
 
     def verify_service(self, authorization: str) -> AuthenticatedService:
-        service_claims = self._verified_service_claims(authorization)
-        self._reserve_replay(
-            (ReplayEntry(f"service:{self._text(service_claims, 'jti')}", service_claims["exp"]),)
-        )
+        self._verified_service_claims(authorization)
         return AuthenticatedService(self.service_subject)
 
     def verify(
@@ -71,7 +61,7 @@ class InternalSecurityVerifier:
             raise ValueError("expected_consultation_id must be a positive int64")
         if not required_subject_scope.strip() or not allowed_roles:
             raise ValueError("required subject scope and allowed roles must be non-empty")
-        service_claims = self._verified_service_claims(authorization)
+        self._verified_service_claims(authorization)
 
         subject_claims = self._decode(
             subject_assertion,
@@ -97,11 +87,6 @@ class InternalSecurityVerifier:
             allowed_roles=allowed_roles,
         )
 
-        entries = (
-            ReplayEntry(f"service:{self._text(service_claims, 'jti')}", service_claims["exp"]),
-            ReplayEntry(f"subject:{self._text(subject_claims, 'jti')}", subject_claims["exp"]),
-        )
-        self._reserve_replay(entries)
         return AuthenticatedContext(self.service_subject, subject)
 
     def verify_consultation(
@@ -125,7 +110,7 @@ class InternalSecurityVerifier:
             raise ValueError("expected_consultation_id must be a positive int64")
         if not allowed_subject_scopes or not allowed_roles:
             raise ValueError("allowed subject scopes and roles must be non-empty")
-        service_claims = self._verified_service_claims(authorization)
+        self._verified_service_claims(authorization)
         subject_claims = self._decode(
             subject_assertion,
             issuer=self.subject_issuer,
@@ -150,16 +135,6 @@ class InternalSecurityVerifier:
             allowed_scopes=allowed_subject_scopes,
             allowed_roles=allowed_roles,
         )
-        self._reserve_replay(
-            (
-                ReplayEntry(
-                    f"service:{self._text(service_claims, 'jti')}", service_claims["exp"]
-                ),
-                ReplayEntry(
-                    f"subject:{self._text(subject_claims, 'jti')}", subject_claims["exp"]
-                ),
-            )
-        )
         return AuthenticatedContext(self.service_subject, subject)
 
     def _verified_service_claims(self, authorization: str) -> Mapping[str, Any]:
@@ -171,21 +146,6 @@ class InternalSecurityVerifier:
         )
         self._verify_service_claims(service_claims)
         return service_claims
-
-    def _reserve_replay(self, entries: tuple[ReplayEntry, ...]) -> None:
-        now = self.clock.now_epoch_seconds()
-        try:
-            reserved = self.replay_store.reserve(entries, now)
-        except Exception:
-            raise self._authentication_error(
-                AuthFailureCode.INVALID_TOKEN,
-                "Replay protection is unavailable.",
-            ) from None
-        if not reserved:
-            raise self._authentication_error(
-                AuthFailureCode.TOKEN_REPLAYED,
-                "The authenticated request has already been used.",
-            )
 
     @staticmethod
     def _bearer_token(authorization: str) -> str:
@@ -371,18 +331,7 @@ class InternalSecurityVerifier:
         return InternalAuthError(AuthFailureCode.INVALID_SUBJECT_CONTEXT, 401, message)
 
 
-def create_internal_security_verifier(
-    settings: Settings,
-    replay_store: ReplayStore,
-) -> InternalSecurityVerifier:
-    if settings.environment.lower() not in {"local", "test"} and isinstance(
-        replay_store, InMemoryReplayStore
-    ):
-        raise InternalAuthError(
-            AuthFailureCode.INVALID_TOKEN,
-            401,
-            "Distributed replay protection is not configured.",
-        )
+def create_internal_security_verifier(settings: Settings) -> InternalSecurityVerifier:
     if (
         settings.service_jwt_issuer != "chapchap-auth-service"
         or settings.subject_assertion_issuer != "chapchap-customer-service"
@@ -410,7 +359,6 @@ def create_internal_security_verifier(
     )
     return InternalSecurityVerifier(
         resolver,
-        replay_store,
         service_issuer=settings.service_jwt_issuer,
         subject_issuer=settings.subject_assertion_issuer,
         audience=settings.service_jwt_audience,

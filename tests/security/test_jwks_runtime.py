@@ -10,7 +10,6 @@ from chapchap_customer_ai.security.keys import (
     StaticVerificationKeyResolver,
 )
 from chapchap_customer_ai.security.models import AuthFailureCode, InternalAuthError
-from chapchap_customer_ai.security.replay import InMemoryReplayStore
 
 
 @dataclass
@@ -69,7 +68,7 @@ def test_runtime_factory_rejects_missing_or_untrusted_jwks_urls(
     )
 
     with pytest.raises(InternalAuthError) as error:
-        create_internal_security_verifier(settings, InMemoryReplayStore())
+        create_internal_security_verifier(settings)
 
     assert error.value.code == AuthFailureCode.KEY_UNAVAILABLE
 
@@ -102,7 +101,7 @@ def test_runtime_factory_builds_only_with_both_https_jwks_urls(
         jwks_cache_lifespan_seconds=600,
     )
 
-    verifier = create_internal_security_verifier(settings, InMemoryReplayStore())
+    verifier = create_internal_security_verifier(settings)
 
     assert verifier.key_resolver is resolver
     assert captured == {
@@ -131,17 +130,19 @@ def test_runtime_factory_rejects_unapproved_trust_contract(override: dict[str, s
     )
 
     with pytest.raises(InternalAuthError) as error:
-        create_internal_security_verifier(settings, InMemoryReplayStore())
+        create_internal_security_verifier(settings)
 
     assert error.value.code == AuthFailureCode.INVALID_TOKEN
 
 
-def test_runtime_factory_rejects_in_memory_replay_store_outside_local_or_test() -> None:
+def test_runtime_factory_allows_production_with_trusted_jwks_contract() -> None:
     settings = Settings(
         environment="production",
         service_jwks_url="https://auth.internal/jwks",
         subject_assertion_jwks_url="https://customer.internal/jwks",
     )
 
-    with pytest.raises(InternalAuthError, match="Distributed replay protection"):
-        create_internal_security_verifier(settings, InMemoryReplayStore())
+    verifier = create_internal_security_verifier(settings)
+
+    assert verifier.service_issuer == "chapchap-auth-service"
+    assert verifier.subject_issuer == "chapchap-customer-service"

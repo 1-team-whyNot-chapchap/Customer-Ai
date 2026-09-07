@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     app_name: str = "chapchap-customer-ai"
     environment: str = "local"
     log_level: str = "INFO"
+    internal_security_enabled: bool = False
     service_jwt_issuer: str = "chapchap-auth-service"
     service_jwt_audience: str = "chapchap-customer-ai"
     subject_assertion_issuer: str = "chapchap-customer-service"
