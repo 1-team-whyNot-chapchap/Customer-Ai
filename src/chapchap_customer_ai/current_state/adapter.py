@@ -1,3 +1,4 @@
+import math
 import time
 from collections.abc import Callable, Sequence
 from concurrent.futures import ThreadPoolExecutor
@@ -47,7 +48,7 @@ class CurrentStateAdapter:
         timeout_seconds: float,
     ) -> Sequence[StateFact]:
         requested = tuple(capabilities)
-        if timeout_seconds <= 0:
+        if not math.isfinite(timeout_seconds) or timeout_seconds <= 0:
             raise ValueError("Current-State timeout must be positive")
         if not 1 <= len(requested) <= 2:
             raise CurrentStateRequestError("One or two unique capabilities are required.")
@@ -110,6 +111,8 @@ class CurrentStateAdapter:
     ) -> bool:
         return (
             context.service_subject == "customer-service"
+            and type(context.subject.user_id) is int
+            and 0 < context.subject.user_id <= 2**63 - 1
             and context.subject.role in {UserRole.CUSTOMER, UserRole.RIDER}
             and all(
                 binding.required_scope in context.subject.allowed_ai_scopes
@@ -123,7 +126,8 @@ class CurrentStateAdapter:
         context: AuthenticatedContext,
         deadline: float,
     ) -> StateFact:
-        for attempt in range(2):
+        maximum_attempts = 1 if binding.domain_owner == "subscription-service" else 2
+        for attempt in range(maximum_attempts):
             remaining = deadline - self.monotonic()
             if remaining <= 0:
                 return StateFact(binding.capability, StateAvailability.TIMEOUT)
@@ -158,7 +162,7 @@ class CurrentStateAdapter:
             if (
                 result.outcome == TransportOutcome.UNAVAILABLE
                 and result.retryable
-                and attempt == 0
+                and attempt + 1 < maximum_attempts
             ):
                 continue
             return self._normalize_transport_result(binding.capability, result)

@@ -43,6 +43,8 @@ class Settings(BaseSettings):
     consultation_route_timeout_seconds: float = Field(default=0.5, gt=0, le=2)
     consultation_rag_timeout_seconds: float = Field(default=2.5, gt=0, le=8)
     consultation_state_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
+    subscription_current_state_base_url: str | None = None
+    subscription_current_state_allow_loopback_http: bool = False
     consultation_compose_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
     summary_compose_timeout_seconds: float = Field(default=8.0, gt=0, le=30)
     summary_max_messages: int = Field(default=100, gt=0, le=1000)
