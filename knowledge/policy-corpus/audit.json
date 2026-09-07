@@ -1,0 +1,49 @@
+{
+  "documents": 7,
+  "included": 57,
+  "partial": 13,
+  "excluded": 153,
+  "hold": 2,
+  "result": "PASS",
+  "classifiedPolicies": 225,
+  "criticalConditions": 29,
+  "files": [
+    {
+      "file": "01-subscription-basics.md",
+      "sections": 40,
+      "bytes": 26302
+    },
+    {
+      "file": "02-subscription-changes-cancellation.md",
+      "sections": 28,
+      "bytes": 22611
+    },
+    {
+      "file": "03-pricing-billing.md",
+      "sections": 25,
+      "bytes": 15036
+    },
+    {
+      "file": "04-refunds.md",
+      "sections": 11,
+      "bytes": 11323
+    },
+    {
+      "file": "05-delivery.md",
+      "sections": 12,
+      "bytes": 12035
+    },
+    {
+      "file": "06-customer-support.md",
+      "sections": 12,
+      "bytes": 6076
+    },
+    {
+      "file": "07-account.md",
+      "sections": 12,
+      "bytes": 4695
+    }
+  ],
+  "embeddingPerformed": false,
+  "uploadPerformed": false
+}

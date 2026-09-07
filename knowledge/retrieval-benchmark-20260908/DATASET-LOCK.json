@@ -1,0 +1,8 @@
+{
+  "sha256": "334a68cac24aee227f007a8012c983b8800f15e0abcb72a1a5ac8d815a9df168",
+  "questions": 300,
+  "groups": 150,
+  "development": 200,
+  "final": 100,
+  "sourceCommit": "309746605697d5119aac7d5621a097632e9ee182"
+}

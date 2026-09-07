@@ -1,0 +1,48 @@
+{
+  "questions": 300,
+  "scenarioGroups": 150,
+  "development": 200,
+  "final": 100,
+  "crossSplitGroups": 0,
+  "policyIdsCovered": 70,
+  "chunks": 146,
+  "executionRows": 1000,
+  "sourceHashesUnchanged": true,
+  "goldQuotesMatchSourceLines": true,
+  "contextsMatchOriginalChunks": true,
+  "metricsRecomputedMatch": true,
+  "developmentRunHashesUnchanged": true,
+  "finalClauseImprovements": [
+    "Q015",
+    "Q023",
+    "Q024",
+    "Q032",
+    "Q065",
+    "Q066",
+    "Q161",
+    "Q162",
+    "Q203",
+    "Q204",
+    "Q211",
+    "Q214",
+    "Q235",
+    "Q236"
+  ],
+  "finalClauseRegressions": [
+    "Q081",
+    "Q082",
+    "Q129",
+    "Q139",
+    "Q140",
+    "Q217"
+  ],
+  "failureRecords": 384,
+  "categories": {
+    "basic": 100,
+    "condition": 100,
+    "multi": 40,
+    "unsupported": 30,
+    "external": 30
+  },
+  "multiSourceGoldAnchors": 68
+}

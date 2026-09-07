@@ -1,0 +1,46 @@
+{
+  "datasetSha256": "334a68cac24aee227f007a8012c983b8800f15e0abcb72a1a5ac8d815a9df168",
+  "phase": "final",
+  "completedAt": "2026-09-08T00:30:47.580759+09:00",
+  "engineSha256": "5a9cc5b1cfd9156fc904896695c0390753fb869ba44dafaeee0c1f3bc7872255",
+  "model": "intfloat/multilingual-e5-small",
+  "modelRevision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "modelLoadMs": 5445.929299999989,
+  "headingEmbeddingMs": 549.5584000000235,
+  "meanQueryEmbeddingMs": 11.227218999883917,
+  "memory": {
+    "rssBytes": 854286336,
+    "peakRssBytes": 854286336
+  },
+  "cacheDirectory": "C:\\Users\\82109\\Desktop\\Workspace\\chapchap\\Customer-Ai\\reports\\retrieval-benchmark-20260908\\334a68cac24aee22",
+  "originalCollectionCount": 146,
+  "benchmarkCollectionCount": 146,
+  "metrics": {
+    "R1": {
+      "rows": 100,
+      "errors": 0,
+      "answerable": 80,
+      "nonPolicy": 20,
+      "allPolicies": 72,
+      "allAnchors": 59,
+      "allSourceClauses": 59,
+      "nonPolicyReturnedCandidates": 20,
+      "meanContextTokens": 971.23,
+      "medianRetrievalMs": 2.4408500003119116,
+      "p95RetrievalMs": 3.196699999534758
+    },
+    "R4": {
+      "rows": 100,
+      "errors": 0,
+      "answerable": 80,
+      "nonPolicy": 20,
+      "allPolicies": 67,
+      "allAnchors": 67,
+      "allSourceClauses": 67,
+      "nonPolicyReturnedCandidates": 20,
+      "meanContextTokens": 1537.49,
+      "medianRetrievalMs": 10.475649999534653,
+      "p95RetrievalMs": 24.61789999870234
+    }
+  }
+}

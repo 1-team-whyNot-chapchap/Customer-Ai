@@ -1,0 +1,2255 @@
+{
+  "sourceCommit": "309746605697d5119aac7d5621a097632e9ee182",
+  "sources": {
+    "Subscription-Service/챱챱_구독_정책.md": "e32c1ac3f65b3b546ea9c2ee3cd4ebc0bb73e87e36302a1c4b23e09c388999c8",
+    "Delivery-Service/챱챱_배달_정책.md": "895bed40cadf475e082a3f4c9271ff93205f5767ff0c9afe36bf12800c9fa25f",
+    "Customer-Service/챱챱_Customer_Service_통합_정책서.md": "f63695f108b7895fa6662707cce9f5b9b99c54972f03e8b61217908bbb5d7eda",
+    "Auth-Service/챱챱_Auth_Service_통합_정책서.md": "af0f72e207655783c47619449f7c1ce537a8ce0a70289a2c61e10ec166e7079a"
+  },
+  "documents": [
+    {
+      "file": "01-subscription-basics.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "spans": [
+        {
+          "policyId": "SUB-INTRO-TERMS",
+          "start": 60,
+          "end": 96
+        },
+        {
+          "policyId": "SUB-CURRENT-HEADER",
+          "start": 140,
+          "end": 140
+        },
+        {
+          "policyId": "POL-COMMON-001",
+          "start": 142,
+          "end": 146
+        },
+        {
+          "policyId": "POL-TERMS-001",
+          "start": 148,
+          "end": 196
+        },
+        {
+          "policyId": "POL-ADDRESS-001",
+          "start": 198,
+          "end": 221
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-005",
+          "start": 383,
+          "end": 398
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-006",
+          "start": 405,
+          "end": 413
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-007",
+          "start": 415,
+          "end": 436
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-008",
+          "start": 444,
+          "end": 456
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-009",
+          "start": 458,
+          "end": 466
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-010",
+          "start": 468,
+          "end": 481
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-011",
+          "start": 489,
+          "end": 495
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-012",
+          "start": 497,
+          "end": 507
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-013",
+          "start": 515,
+          "end": 548
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-014",
+          "start": 555,
+          "end": 576
+        },
+        {
+          "policyId": "POL-ORDER-001",
+          "start": 928,
+          "end": 949
+        },
+        {
+          "policyId": "POL-ORDER-005",
+          "start": 1022,
+          "end": 1030
+        },
+        {
+          "policyId": "POL-ORDER-006",
+          "start": 1036,
+          "end": 1050
+        }
+      ]
+    },
+    {
+      "file": "02-subscription-changes-cancellation.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "spans": [
+        {
+          "policyId": "POL-SUBSCRIPTION-001",
+          "start": 223,
+          "end": 242
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-002",
+          "start": 252,
+          "end": 293
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-003",
+          "start": 305,
+          "end": 372
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-015",
+          "start": 585,
+          "end": 601
+        },
+        {
+          "policyId": "POL-ORDER-002",
+          "start": 958,
+          "end": 979
+        },
+        {
+          "policyId": "POL-ORDER-003",
+          "start": 987,
+          "end": 995
+        },
+        {
+          "policyId": "POL-ORDER-004",
+          "start": 1001,
+          "end": 1014
+        }
+      ]
+    },
+    {
+      "file": "03-pricing-billing.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "spans": [
+        {
+          "policyId": "POL-PAYMENT-001",
+          "start": 608,
+          "end": 622
+        },
+        {
+          "policyId": "POL-PAYMENT-002",
+          "start": 633,
+          "end": 641
+        },
+        {
+          "policyId": "POL-PAYMENT-003",
+          "start": 643,
+          "end": 656
+        },
+        {
+          "policyId": "POL-PAYMENT-004",
+          "start": 666,
+          "end": 681
+        },
+        {
+          "policyId": "POL-PAYMENT-005",
+          "start": 691,
+          "end": 708
+        },
+        {
+          "policyId": "POL-PAYMENT-006",
+          "start": 718,
+          "end": 736
+        },
+        {
+          "policyId": "POL-PAYMENT-007",
+          "start": 744,
+          "end": 765
+        },
+        {
+          "policyId": "POL-PAYMENT-008",
+          "start": 776,
+          "end": 786
+        },
+        {
+          "policyId": "POL-PAYMENT-011",
+          "start": 860,
+          "end": 883
+        }
+      ]
+    },
+    {
+      "file": "04-refunds.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "spans": [
+        {
+          "policyId": "POL-PAYMENT-009",
+          "start": 792,
+          "end": 824
+        },
+        {
+          "policyId": "POL-PAYMENT-012",
+          "start": 891,
+          "end": 920
+        },
+        {
+          "policyId": "POL-ORDER-008",
+          "start": 1099,
+          "end": 1126
+        }
+      ]
+    },
+    {
+      "file": "05-delivery.md",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "spans": [
+        {
+          "policyId": "DLV-POL-PRINCIPLE-001",
+          "start": 97,
+          "end": 99
+        },
+        {
+          "policyId": "DLV-POL-SLOT-001",
+          "start": 173,
+          "end": 180
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-002",
+          "start": 581,
+          "end": 591
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-003",
+          "start": 599,
+          "end": 604
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-003",
+          "start": 610,
+          "end": 610
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-003",
+          "start": 613,
+          "end": 613
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-001",
+          "start": 624,
+          "end": 633
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-002",
+          "start": 641,
+          "end": 653
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-003",
+          "start": 660,
+          "end": 665
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-004",
+          "start": 672,
+          "end": 681
+        },
+        {
+          "policyId": "DLV-POL-FAILURE-003",
+          "start": 744,
+          "end": 754
+        },
+        {
+          "policyId": "DLV-POL-DELAY-001",
+          "start": 763,
+          "end": 771
+        },
+        {
+          "policyId": "DLV-POL-DELAY-002",
+          "start": 779,
+          "end": 792
+        },
+        {
+          "policyId": "DLV-POL-VIEW-001",
+          "start": 802,
+          "end": 827
+        }
+      ]
+    },
+    {
+      "file": "06-customer-support.md",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "spans": [
+        {
+          "policyId": "CS-POL-RBAC-001",
+          "start": 117,
+          "end": 127
+        },
+        {
+          "policyId": "CS-POL-CON-001",
+          "start": 175,
+          "end": 175
+        },
+        {
+          "policyId": "CS-POL-CON-001",
+          "start": 204,
+          "end": 204
+        },
+        {
+          "policyId": "CS-POL-CON-002",
+          "start": 206,
+          "end": 223
+        },
+        {
+          "policyId": "CS-POL-QI-001",
+          "start": 594,
+          "end": 602
+        },
+        {
+          "policyId": "CS-POL-QI-002",
+          "start": 604,
+          "end": 633
+        },
+        {
+          "policyId": "CS-POL-QI-003",
+          "start": 636,
+          "end": 640
+        },
+        {
+          "policyId": "CS-POL-QI-004",
+          "start": 642,
+          "end": 646
+        },
+        {
+          "policyId": "CS-POL-QI-005",
+          "start": 648,
+          "end": 662
+        },
+        {
+          "policyId": "CS-POL-NOTI-003",
+          "start": 685,
+          "end": 710
+        },
+        {
+          "policyId": "CS-POL-NOTI-007",
+          "start": 745,
+          "end": 745
+        },
+        {
+          "policyId": "CS-POL-NOTI-007",
+          "start": 748,
+          "end": 748
+        },
+        {
+          "policyId": "CS-POL-FILE-003",
+          "start": 936,
+          "end": 946
+        },
+        {
+          "policyId": "CS-POL-FILE-003",
+          "start": 956,
+          "end": 961
+        }
+      ]
+    },
+    {
+      "file": "07-account.md",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "spans": [
+        {
+          "policyId": "AUTH-POL-ACC-003",
+          "start": 175,
+          "end": 182
+        },
+        {
+          "policyId": "AUTH-POL-SIGN-001",
+          "start": 200,
+          "end": 207
+        },
+        {
+          "policyId": "AUTH-POL-SIGN-005",
+          "start": 240,
+          "end": 240
+        },
+        {
+          "policyId": "AUTH-POL-SIGN-005",
+          "start": 246,
+          "end": 247
+        },
+        {
+          "policyId": "AUTH-POL-SES-001",
+          "start": 257,
+          "end": 261
+        },
+        {
+          "policyId": "AUTH-POL-SES-001",
+          "start": 264,
+          "end": 264
+        },
+        {
+          "policyId": "AUTH-POL-SES-003",
+          "start": 276,
+          "end": 282
+        },
+        {
+          "policyId": "AUTH-POL-SES-003",
+          "start": 285,
+          "end": 287
+        },
+        {
+          "policyId": "AUTH-POL-CNS-003",
+          "start": 378,
+          "end": 383
+        },
+        {
+          "policyId": "AUTH-POL-CNS-004",
+          "start": 385,
+          "end": 390
+        },
+        {
+          "policyId": "AUTH-POL-WD-006",
+          "start": 587,
+          "end": 590
+        },
+        {
+          "policyId": "AUTH-POL-IMG-001",
+          "start": 669,
+          "end": 674
+        },
+        {
+          "policyId": "AUTH-POL-PRI-008",
+          "start": 615,
+          "end": 625
+        },
+        {
+          "policyId": "AUTH-POL-PRI-009",
+          "start": 627,
+          "end": 636
+        },
+        {
+          "policyId": "AUTH-POL-OPS-001",
+          "start": 846,
+          "end": 852
+        }
+      ]
+    }
+  ],
+  "policyInventory": [
+    {
+      "id": "POL-COMMON-001",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 142,
+      "title": "### POL-COMMON-001 — 날짜와 시간 기준",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-TERMS-001",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 148,
+      "title": "### POL-TERMS-001 — 비대면 보관 약관 동의",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ADDRESS-001",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 198,
+      "title": "### POL-ADDRESS-001 — 배송지별 배달 요청사항",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-001",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 223,
+      "title": "### POL-SUBSCRIPTION-001 — 구독 자동 갱신",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-002",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 252,
+      "title": "### POL-SUBSCRIPTION-002 — 구독 설정 변경",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-003",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 305,
+      "title": "### POL-SUBSCRIPTION-003 — 구독 해지",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-005",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 383,
+      "title": "### POL-SUBSCRIPTION-005 — 구독 이용 기간",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-006",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 405,
+      "title": "### POL-SUBSCRIPTION-006 — 배송 요일별 인원수 설정",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-007",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 415,
+      "title": "### POL-SUBSCRIPTION-007 — 첫 이용 기간 시작일",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-008",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 444,
+      "title": "### POL-SUBSCRIPTION-008 — 구독 플랜 종류",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-009",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 458,
+      "title": "### POL-SUBSCRIPTION-009 — 구독 배송 요일 선택",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-010",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 468,
+      "title": "### POL-SUBSCRIPTION-010 — 배송 요일의 주간 반복",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-011",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 489,
+      "title": "### POL-SUBSCRIPTION-011 — 구독 배송 시간대",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-012",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 497,
+      "title": "### POL-SUBSCRIPTION-012 — 배송 요일별 인원수·배송지·시간대 설정",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-013",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 515,
+      "title": "### POL-SUBSCRIPTION-013 — 처리 기준 시각에 따른 반영 기준일",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-014",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 555,
+      "title": "### POL-SUBSCRIPTION-014 — 고객당 하나의 구독 관계",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-SUBSCRIPTION-015",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 585,
+      "title": "### POL-SUBSCRIPTION-015 — 회원 탈퇴와 구독 해지 경계",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-001",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 608,
+      "title": "### POL-PAYMENT-001 — 28일 이용금액 선결제",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-002",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 633,
+      "title": "### POL-PAYMENT-002 — 배송비",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-003",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 643,
+      "title": "### POL-PAYMENT-003 — 이용금액 계산",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-004",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 666,
+      "title": "### POL-PAYMENT-004 — 정기결제 시점",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-005",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 691,
+      "title": "### POL-PAYMENT-005 — 정기결제 재시도",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-006",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 718,
+      "title": "### POL-PAYMENT-006 — 정기결제 최종 실패 처리",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-007",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 744,
+      "title": "### POL-PAYMENT-007 — 첫 구독 결제 실패와 재신청",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-008",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 776,
+      "title": "### POL-PAYMENT-008 — 플랜별 도시락 가격",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-009",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 792,
+      "title": "### POL-PAYMENT-009 — 첫 구독 도시락 비용 할인",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-010",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 833,
+      "title": "### POL-PAYMENT-010 — 외부 결제 요청 전 거래 생성과 결과 확정 후 처리 시도 기록",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "POL-PAYMENT-011",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 860,
+      "title": "### POL-PAYMENT-011 — 자동결제수단 등록·선택·삭제",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-PAYMENT-012",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 891,
+      "title": "### POL-PAYMENT-012 — 원 결제 취소와 환불",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-001",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 928,
+      "title": "### POL-ORDER-001 — 이용 기간의 주문 생성",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-002",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 958,
+      "title": "### POL-ORDER-002 — 구독 설정 변경의 주문 적용",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-003",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 987,
+      "title": "### POL-ORDER-003 — 생성된 주문의 내용 유지",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-004",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 1001,
+      "title": "### POL-ORDER-004 — 개별 주문 취소 제한",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-005",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 1022,
+      "title": "### POL-ORDER-005 — 주문별 도시락 수량",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-006",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 1036,
+      "title": "### POL-ORDER-006 — 일요일·공휴일 주문 생성 제외",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "POL-ORDER-007",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 1057,
+      "title": "### POL-ORDER-007 — 다음 날 주문의 전달 완료 기준",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "POL-ORDER-008",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "line": 1099,
+      "title": "### POL-ORDER-008 — 환불 대상으로 확정된 배송 건 처리",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-PRINCIPLE-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 97,
+      "title": "### 1.1 자체 배달 — `DLV-POL-PRINCIPLE-001`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-PRINCIPLE-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 107,
+      "title": "### 1.2 배달 실행에만 집중 — `DLV-POL-PRINCIPLE-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-PRINCIPLE-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 126,
+      "title": "### 1.3 고객별 결과 관리 — `DLV-POL-PRINCIPLE-003`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-BOUNDARY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 137,
+      "title": "## 2. 서비스 책임과 데이터 소유권 — `DLV-POL-BOUNDARY-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-GROUP-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 156,
+      "title": "### 3.1 전체 배송 단위 — `DLV-POL-GROUP-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-SLOT-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 173,
+      "title": "### 3.2 배송 시간대 — `DLV-POL-SLOT-001`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-CAPACITY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 187,
+      "title": "### 3.3 수용량 — `DLV-POL-CAPACITY-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-REGISTER-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 212,
+      "title": "### 4.1 등록 조건 — `DLV-POL-REGISTER-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-REGISTER-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 244,
+      "title": "### 4.2 중복 등록 방지 — `DLV-POL-REGISTER-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-REGISTER-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 261,
+      "title": "### 4.3 등록 가능 상태 — `DLV-POL-REGISTER-003`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-STATUS-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 279,
+      "title": "### 5.1 전체 배송 상태 — `DLV-POL-STATUS-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-STATUS-004",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 306,
+      "title": "### 5.2 기사별 배정 목록 상태 — `DLV-POL-STATUS-004`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-STATUS-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 318,
+      "title": "### 5.3 고객별 배송 대상 상태 — `DLV-POL-STATUS-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-STATUS-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 337,
+      "title": "### 5.4 배송 실행 상태 자동 계산 — `DLV-POL-STATUS-003`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-CONFIRM-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 353,
+      "title": "### 6.1 배송 최종 확정 — `DLV-POL-CONFIRM-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-ASSIGN-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 385,
+      "title": "### 7.1 기본 원칙 — `DLV-POL-ASSIGN-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-ASSIGN-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 406,
+      "title": "### 7.2 자동 배정 기준과 운영 순서 — `DLV-POL-ASSIGN-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-ASSIGN-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 434,
+      "title": "### 7.3 기사 권한 — `DLV-POL-ASSIGN-003`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-ASSIGN-004",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 446,
+      "title": "### 7.4 기사 확인과 이슈 처리 — `DLV-POL-ASSIGN-004`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-ASSIGN-005",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 474,
+      "title": "### 7.5 관리자 수동 배정과 목록 불변 — `DLV-POL-ASSIGN-005`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-SCHEDULE-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 496,
+      "title": "### 8.1 관리 범위 — `DLV-POL-SCHEDULE-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-SCHEDULE-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 510,
+      "title": "### 8.2 배정 검증 — `DLV-POL-SCHEDULE-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-AUTH-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 524,
+      "title": "### 8.3 인증 역할과 배송업무 활성 — `DLV-POL-AUTH-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-AUTHZ-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 545,
+      "title": "## 9. 상태 변경 권한 — `DLV-POL-AUTHZ-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-COMPLETE-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 566,
+      "title": "### 10.1 완료 조건과 기록 — `DLV-POL-COMPLETE-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-COMPLETE-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 581,
+      "title": "### 10.2 전달 방식 — `DLV-POL-COMPLETE-002`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-COMPLETE-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 599,
+      "title": "### 10.3 완료 증빙 범위 — `DLV-POL-COMPLETE-003`",
+      "decision": "partial",
+      "reason": "직접·비대면 증빙, 사진 접근, 서명·인증번호 미수집만 발췌; 관리자 복구·저장 구현 제외"
+    },
+    {
+      "id": "DLV-POL-ABSENCE-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 624,
+      "title": "### 11.1 고객 부재 절차 — `DLV-POL-ABSENCE-001`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-ABSENCE-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 641,
+      "title": "### 11.2 고객 사전 안내 — `DLV-POL-ABSENCE-002`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-ABSENCE-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 660,
+      "title": "### 11.3 신선도 안전 제한 — `DLV-POL-ABSENCE-003`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-ABSENCE-004",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 672,
+      "title": "### 11.4 보관·섭취 안내 — `DLV-POL-ABSENCE-004`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-FAILURE-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 690,
+      "title": "### 12.1 실패 권한과 단계 — `DLV-POL-FAILURE-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-FAILURE-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 706,
+      "title": "### 12.2 실패 사유 — `DLV-POL-FAILURE-002`",
+      "decision": "excluded",
+      "reason": "DLV-POL-VIEW-001에서 내부 failure_code 고객 비공개를 명시; 고객용 실패 안내만 포함"
+    },
+    {
+      "id": "DLV-POL-FAILURE-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 744,
+      "title": "### 12.3 실패 이후 처리 — `DLV-POL-FAILURE-003`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-DELAY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 763,
+      "title": "### 13.1 지연 판정 — `DLV-POL-DELAY-001`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-DELAY-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 779,
+      "title": "### 13.2 지연 사유와 후속 처리 — `DLV-POL-DELAY-002`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-VIEW-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 802,
+      "title": "### 14.1 마이페이지 조회 — `DLV-POL-VIEW-001`",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "DLV-POL-VIEW-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 834,
+      "title": "### 14.2 조회 방식 — `DLV-POL-VIEW-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-NOTIFY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 846,
+      "title": "### 14.3 배송 진행 알림 — `DLV-POL-NOTIFY-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-NOTIFY-002",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 855,
+      "title": "### 14.4 기사·관리자 운영 알림 — `DLV-POL-NOTIFY-002`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-VIEW-003",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 867,
+      "title": "### 14.5 Customer-AI Current-State 조회 — `DLV-POL-VIEW-003`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-IDEMPOTENCY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 886,
+      "title": "### 15.1 중복 결과 방지 — `DLV-POL-IDEMPOTENCY-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-CONCURRENCY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 903,
+      "title": "### 15.2 업무 제약과 동시성 — `DLV-POL-CONCURRENCY-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-AUDIT-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 923,
+      "title": "### 15.3 감사 이력 — `DLV-POL-AUDIT-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-CORRECTION-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 949,
+      "title": "## 16. 관리자 완료·실패 정보 정정 — `DLV-POL-CORRECTION-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-PRIVACY-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 971,
+      "title": "### 17.1 접근 통제 — `DLV-POL-PRIVACY-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-RETENTION-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 987,
+      "title": "### 17.2 분리 보존과 파기 — `DLV-POL-RETENTION-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-OPS-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 1002,
+      "title": "## 18. 운영 점검 항목 — `DLV-POL-OPS-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "DLV-POL-DEFER-001",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "line": 1039,
+      "title": "## 19. MVP 제외 및 후속 정책 — `DLV-POL-DEFER-001`",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-COM-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 87,
+      "title": "### CS-POL-COM-001 외부 진입",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-COM-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 93,
+      "title": "### CS-POL-COM-002 내부 서비스 통신",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-COM-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 105,
+      "title": "### CS-POL-COM-003 Customer-Service의 Kafka 역할",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RBAC-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 117,
+      "title": "### CS-POL-RBAC-001 일반 사용자",
+      "decision": "partial",
+      "reason": "본인 데이터 접근 조건 보존; 관리자 역할 그룹 운영 알림 제외"
+    },
+    {
+      "id": "CS-POL-RBAC-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 130,
+      "title": "### CS-POL-RBAC-002 ADMIN",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RBAC-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 140,
+      "title": "### CS-POL-RBAC-003 SUPER_ADMIN",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-FAQ-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 151,
+      "title": "### CS-POL-FAQ-001 사용자 노출",
+      "decision": "excluded",
+      "reason": "FAQ 노출 조건이며 FAQ 질문·답변 원문이 아님"
+    },
+    {
+      "id": "CS-POL-FAQ-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 164,
+      "title": "### CS-POL-FAQ-002 변경·삭제",
+      "decision": "excluded",
+      "reason": "FAQ 관리 정책이며 FAQ 질문·답변 원문이 아님"
+    },
+    {
+      "id": "CS-POL-CON-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 175,
+      "title": "### CS-POL-CON-001 상담 상태",
+      "decision": "partial",
+      "reason": "종료 후 새 상담 필요 문장 발췌; 내부 상태 전이도 제외"
+    },
+    {
+      "id": "CS-POL-CON-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 206,
+      "title": "### CS-POL-CON-002 관리자 자동 전환",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "CS-POL-CON-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 225,
+      "title": "### CS-POL-CON-003 관리자 상담 수락",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-CON-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 232,
+      "title": "### CS-POL-CON-004 상담 메시지",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-CON-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 247,
+      "title": "### CS-POL-CON-005 상담 종료·요약",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AI-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 258,
+      "title": "### CS-POL-AI-001 Runtime·Provider 경계",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AI-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 268,
+      "title": "### CS-POL-AI-002 허용 행위",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AI-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 278,
+      "title": "### CS-POL-AI-003 금지 행위",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AI-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 293,
+      "title": "### CS-POL-AI-004 입력·출력·Fact 신뢰 경계",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AI-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 305,
+      "title": "### CS-POL-AI-005 모델·실행 Baseline",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AI-006",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 322,
+      "title": "### CS-POL-AI-006 Current-State 조회",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 338,
+      "title": "### CS-POL-RAG-001 검색 대상",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 350,
+      "title": "### CS-POL-RAG-002 단순 검색 흐름",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 370,
+      "title": "### CS-POL-RAG-003 검색 기준",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 383,
+      "title": "### CS-POL-RAG-004 정책 충돌",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 387,
+      "title": "### CS-POL-RAG-005 실제 사용 Chunk 추적",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-006",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 406,
+      "title": "### CS-POL-RAG-006 Prompt Injection 방어",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RAG-007",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 417,
+      "title": "### CS-POL-RAG-007 사고 추적 최소정보",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 449,
+      "title": "### CS-POL-KNO-001 문서·Version 식별",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 456,
+      "title": "### CS-POL-KNO-002 Chunk Profile",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 474,
+      "title": "### CS-POL-KNO-003 등록 후 자동 처리",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 494,
+      "title": "### CS-POL-KNO-004 자동 Retry",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 542,
+      "title": "### CS-POL-KNO-005 자동 활성화",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-006",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 567,
+      "title": "### CS-POL-KNO-006 새 Version 실패",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-007",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 578,
+      "title": "### CS-POL-KNO-007 이전 Version",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KNO-008",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 584,
+      "title": "### CS-POL-KNO-008 Chunk 식별자 불변성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-QI-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 594,
+      "title": "### CS-POL-QI-001 문의 유형",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "CS-POL-QI-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 604,
+      "title": "### CS-POL-QI-002 문의 상태",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "CS-POL-QI-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 636,
+      "title": "### CS-POL-QI-003 실제 도메인 업무와 분리",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "CS-POL-QI-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 642,
+      "title": "### CS-POL-QI-004 AI 사용",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "CS-POL-QI-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 648,
+      "title": "### CS-POL-QI-005 외부 ID",
+      "decision": "partial",
+      "reason": "문의 유형별 필수 참조와 OTHER 비연결 허용 조건 보존; FK·동기 호출·DB 구현 제외"
+    },
+    {
+      "id": "CS-POL-NOTI-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 671,
+      "title": "### CS-POL-NOTI-001 수신 모델",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-NOTI-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 679,
+      "title": "### CS-POL-NOTI-002 멱등성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-NOTI-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 685,
+      "title": "### CS-POL-NOTI-003 고객 알림 18종",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "CS-POL-NOTI-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 712,
+      "title": "### CS-POL-NOTI-004 Delivery 기사 운영 알림 4종",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-NOTI-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 724,
+      "title": "### CS-POL-NOTI-005 Delivery 관리자 운영 알림 4종",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-NOTI-006",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 736,
+      "title": "### CS-POL-NOTI-006 운영 알림 Payload 저장",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-NOTI-007",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 745,
+      "title": "### CS-POL-NOTI-007 읽음 상태",
+      "decision": "partial",
+      "reason": "본인 직접 알림 읽음 권한 발췌; 관리자 알림 및 DB 구조 제외"
+    },
+    {
+      "id": "CS-POL-NOTI-008",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 752,
+      "title": "### CS-POL-NOTI-008 표시·정렬·Template",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-NOTI-009",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 763,
+      "title": "### CS-POL-NOTI-009 Delivery Producer 실패 경계",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RT-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 772,
+      "title": "### CS-POL-RT-001 WebSocket",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RT-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 780,
+      "title": "### CS-POL-RT-002 고객 알림 SSE",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RM-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 794,
+      "title": "### CS-POL-RM-001 목적",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RM-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 802,
+      "title": "### CS-POL-RM-002 Projection 유형",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RM-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 815,
+      "title": "### CS-POL-RM-003 최신성·멱등성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-RM-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 830,
+      "title": "### CS-POL-RM-004 지연·STALE",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KAF-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 847,
+      "title": "### CS-POL-KAF-001 전달 보장·멱등성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KAF-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 853,
+      "title": "### CS-POL-KAF-002 Retry·DLT",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KAF-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 882,
+      "title": "### CS-POL-KAF-003 정상 무시",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KAF-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 896,
+      "title": "### CS-POL-KAF-004 Message Key",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-KAF-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 907,
+      "title": "### CS-POL-KAF-005 상태 변경 Event와 알림 사실 Event",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-FILE-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 923,
+      "title": "### CS-POL-FILE-001 저장 위치",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-FILE-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 930,
+      "title": "### CS-POL-FILE-002 Object Key",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-FILE-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 936,
+      "title": "### CS-POL-FILE-003 파일 검증",
+      "decision": "partial",
+      "reason": "품질 문의 첨부 및 공통 검증 보존; 관리자 Knowledge 파일 표·Object Key 구현 제외"
+    },
+    {
+      "id": "CS-POL-FILE-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 965,
+      "title": "### CS-POL-FILE-004 악성 파일 방어",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-FILE-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 994,
+      "title": "### CS-POL-FILE-005 MinIO·DB 정합성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AUD-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1004,
+      "title": "### CS-POL-AUD-001 감사 대상",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AUD-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1030,
+      "title": "### CS-POL-AUD-002 수행자 정합성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AUD-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1041,
+      "title": "### CS-POL-AUD-003 AI/RAG 추적 최소정보",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AUD-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1060,
+      "title": "### CS-POL-AUD-004 민감정보 금지",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-AUD-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1074,
+      "title": "### CS-POL-AUD-005 수정·삭제",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-TX-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1086,
+      "title": "### CS-POL-TX-001 상담 생성",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-TX-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1098,
+      "title": "### CS-POL-TX-002 관리자 상담 수락",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-TX-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1109,
+      "title": "### CS-POL-TX-003 메시지 순번",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-TX-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1114,
+      "title": "### CS-POL-TX-004 Knowledge 활성화",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-TX-005",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1129,
+      "title": "### CS-POL-TX-005 핵심 감사 로그",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-TX-006",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1135,
+      "title": "### CS-POL-TX-006 명시적 성능 INDEX",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-SEC-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1146,
+      "title": "### CS-POL-SEC-001 최소 전송",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-SEC-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1160,
+      "title": "### CS-POL-SEC-002 Secret",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-SEC-003",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1171,
+      "title": "### CS-POL-SEC-003 로그",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-SEC-004",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1177,
+      "title": "### CS-POL-SEC-004 데이터 보관",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-OPS-001",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1204,
+      "title": "### CS-POL-OPS-001 장애별 처리",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "CS-POL-OPS-002",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "line": 1222,
+      "title": "### CS-POL-OPS-002 사용자 오류 노출",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ACC-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 157,
+      "title": "### AUTH-POL-ACC-001 내부 사용자 식별",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ACC-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 165,
+      "title": "### AUTH-POL-ACC-002 동일인 식별",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ACC-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 175,
+      "title": "### AUTH-POL-ACC-003 소셜 계정 연결",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "AUTH-POL-ACC-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 184,
+      "title": "### AUTH-POL-ACC-004 역할과 계정 상태",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SIGN-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 200,
+      "title": "### AUTH-POL-SIGN-001 로그인 방식",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "AUTH-POL-SIGN-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 209,
+      "title": "### AUTH-POL-SIGN-002 가입 세션",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SIGN-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 220,
+      "title": "### AUTH-POL-SIGN-003 본인인증 신뢰 경계",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SIGN-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 228,
+      "title": "### AUTH-POL-SIGN-004 가입 완료 트랜잭션",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SIGN-005",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 240,
+      "title": "### AUTH-POL-SIGN-005 만 14세 미만 처리",
+      "decision": "partial",
+      "reason": "확정된 연령 확인·가입 제한만 발췌; 법률 해설·DB·미래 설계 제외"
+    },
+    {
+      "id": "AUTH-POL-SES-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 257,
+      "title": "### AUTH-POL-SES-001 만료 기준",
+      "decision": "partial",
+      "reason": "일반 사용자 로그인 만료와 절대 만료 제한 보존; 관리자 세션·환경설정 제외"
+    },
+    {
+      "id": "AUTH-POL-SES-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 268,
+      "title": "### AUTH-POL-SES-002 Refresh Token 보호",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SES-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 276,
+      "title": "### AUTH-POL-SES-003 세션 폐기 범위",
+      "decision": "partial",
+      "reason": "고객 로그아웃·탈퇴·역할 변경·세션 폐기와 기존 Access Token 만료 한계 보존; 관리자 계정 작업 제외"
+    },
+    {
+      "id": "AUTH-POL-ADM-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 293,
+      "title": "### AUTH-POL-ADM-001 관리자 계정 발급",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ADM-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 302,
+      "title": "### AUTH-POL-ADM-002 비밀번호",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ADM-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 317,
+      "title": "### AUTH-POL-ADM-003 로그인 실패·잠금",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-RBAC-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 331,
+      "title": "### AUTH-POL-RBAC-001 관리자 권한",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-RBAC-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 346,
+      "title": "### AUTH-POL-RBAC-002 라이더 역할 변경",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-CNS-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 359,
+      "title": "### AUTH-POL-CNS-001 정책 종류",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-CNS-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 369,
+      "title": "### AUTH-POL-CNS-002 Version 관리",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-CNS-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 378,
+      "title": "### AUTH-POL-CNS-003 가입 동의",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "AUTH-POL-CNS-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 385,
+      "title": "### AUTH-POL-CNS-004 이메일 광고",
+      "decision": "partial",
+      "reason": "마케팅 수신 대상·버전·철회 조건 보존; 발송 서비스 운영·법률 의무 설명 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 399,
+      "title": "### AUTH-POL-PRI-001 개인정보 생명주기",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 424,
+      "title": "### AUTH-POL-PRI-002 Auth-Service 처리 항목",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 440,
+      "title": "### AUTH-POL-PRI-003 수집 최소화",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 449,
+      "title": "### AUTH-POL-PRI-004 목적 외 이용·제공 금지",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-005",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 456,
+      "title": "### AUTH-POL-PRI-005 처리위탁·외부 사업자",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-006",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 478,
+      "title": "### AUTH-POL-PRI-006 국외 이전",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-007",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 484,
+      "title": "### AUTH-POL-PRI-007 `identityKey` 분류",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-WD-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 495,
+      "title": "### AUTH-POL-WD-001 보유기간 결정",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-WD-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 502,
+      "title": "### AUTH-POL-WD-002 전자상거래 기록 경계",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-WD-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 511,
+      "title": "### AUTH-POL-WD-003 탈퇴 처리 순서",
+      "decision": "hold",
+      "reason": "사용자 직접 구독 해지 기능 미제공 표현이 Subscription POL-SUBSCRIPTION-003과 충돌; 원문 변경 없이 전체 적재 보류"
+    },
+    {
+      "id": "AUTH-POL-WD-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 549,
+      "title": "### AUTH-POL-WD-004 `users` 컬럼별 처리",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-WD-005",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 574,
+      "title": "### AUTH-POL-WD-005 연관 테이블 처리",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-WD-006",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 587,
+      "title": "### AUTH-POL-WD-006 재가입",
+      "decision": "partial",
+      "reason": "재가입 시 식별·기존 정보 미복원 보존; 미래 재가입 제한 설계 제외"
+    },
+    {
+      "id": "AUTH-POL-WD-007",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 593,
+      "title": "### AUTH-POL-WD-007 다른 서비스 전파",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-WD-008",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 604,
+      "title": "### AUTH-POL-WD-008 백업·로그 파기",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-PRI-008",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 615,
+      "title": "### AUTH-POL-PRI-008 권리행사",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-009",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 627,
+      "title": "### AUTH-POL-PRI-009 서비스별 요청 라우팅",
+      "decision": "included",
+      "reason": "고객 질문에 필요한 정책 본문·조건·예외·예시 보존; 관련 정책 목록·결정 이유만 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-010",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 638,
+      "title": "### AUTH-POL-PRI-010 개인정보 처리방침 공개",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-IMG-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 669,
+      "title": "### AUTH-POL-IMG-001 저장·검증",
+      "decision": "partial",
+      "reason": "프로필 파일 수·형식·크기·실제 형식 확인 보존; 저장소 구현 제외"
+    },
+    {
+      "id": "AUTH-POL-IMG-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 679,
+      "title": "### AUTH-POL-IMG-002 교체·삭제",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ADR-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 701,
+      "title": "### AUTH-POL-ADR-001 데이터 소유권",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-ADR-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 708,
+      "title": "### AUTH-POL-ADR-002 Event 반영",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SUB-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 719,
+      "title": "### AUTH-POL-SUB-001 데이터 소유권과 초기 상태",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-SUB-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 726,
+      "title": "### AUTH-POL-SUB-002 Event 반영과 탈퇴 판단",
+      "decision": "hold",
+      "reason": "사용자 직접 구독 해지 기능 미제공 표현이 Subscription POL-SUBSCRIPTION-003과 충돌; 원문 변경 없이 전체 적재 보류"
+    },
+    {
+      "id": "AUTH-POL-AUD-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 742,
+      "title": "### AUTH-POL-AUD-001 감사 대상",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-AUD-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 766,
+      "title": "### AUTH-POL-AUD-002 `detail` 허용 규칙",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-AUD-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 773,
+      "title": "### AUTH-POL-AUD-003 기록 금지값",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-AUD-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 789,
+      "title": "### AUTH-POL-AUD-004 접속기록·운영 로그",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-PRI-011",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 801,
+      "title": "### AUTH-POL-PRI-011 관리적 조치",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-012",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 810,
+      "title": "### AUTH-POL-PRI-012 기술적 조치",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-013",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 822,
+      "title": "### AUTH-POL-PRI-013 저장·전송 암호화",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-PRI-014",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 830,
+      "title": "### AUTH-POL-PRI-014 침해사고 대응",
+      "decision": "excluded",
+      "reason": "공개 개인정보·동의 안내의 확정 원문이 아닌 내부 법률·보안·데이터 관리 기준; 고객 안내 corpus 범위 제외"
+    },
+    {
+      "id": "AUTH-POL-OPS-001",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 846,
+      "title": "### AUTH-POL-OPS-001 외부 장애 기본 원칙",
+      "decision": "partial",
+      "reason": "소셜 로그인·본인인증·새 이미지 업로드 실패 결과 보존; 객체 정리·Kafka 복구 제외"
+    },
+    {
+      "id": "AUTH-POL-OPS-002",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 859,
+      "title": "### AUTH-POL-OPS-002 Kafka 개인정보 최소화",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-OPS-003",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 898,
+      "title": "### AUTH-POL-OPS-003 DB와 Event 불일치",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-OPS-004",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 910,
+      "title": "### AUTH-POL-OPS-004 변경 영향",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    },
+    {
+      "id": "AUTH-POL-OPS-005",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "line": 924,
+      "title": "### AUTH-POL-OPS-005 Swagger",
+      "decision": "excluded",
+      "reason": "고객 안내가 아닌 내부 구현·운영·권한·데이터 관리 정책"
+    }
+  ]
+}

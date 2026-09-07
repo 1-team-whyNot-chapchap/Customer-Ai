@@ -1,0 +1,663 @@
+{
+  "scope": "LOCAL_EVIDENCE_CANDIDATES_ONLY",
+  "method": "R4",
+  "query": "첫 주문 할인은 얼마인가요?",
+  "hits": [
+    {
+      "chunkId": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932",
+      "score": 0.8614452565605233,
+      "denseScore": 0.8688610078424343,
+      "bm25Score": 10.480362124465913,
+      "rrfScore": 0.03278688524590164,
+      "titleScore": 0.8441418369027314
+    },
+    {
+      "chunkId": "knowledge-4-cd6fd3d1b1a04fb7a918cdb8eacd64afceb4291dff15bcc9c9765a1abb0a6b66",
+      "score": 0.8577895838747935,
+      "denseScore": 0.8646204217488581,
+      "bm25Score": 9.399287374115366,
+      "rrfScore": 0.03225806451612903,
+      "titleScore": 0.841850962168643
+    },
+    {
+      "chunkId": "knowledge-4-8092cba49291a4be7cc1fc1a16a08ff41f8085f4bc326369a4e414008cdccb23",
+      "score": 0.8553427810932738,
+      "denseScore": 0.859535720594044,
+      "bm25Score": 8.11412831014701,
+      "rrfScore": 0.031746031746031744,
+      "titleScore": 0.8455592555914767
+    },
+    {
+      "chunkId": "knowledge-4-dfa4acacfd269ed53bfd9d79a918b30573ddd0c16b70748a5af19de3e88f9678",
+      "score": 0.8516914749119192,
+      "denseScore": 0.8549550132071093,
+      "bm25Score": 8.043309249484768,
+      "rrfScore": 0.03125,
+      "titleScore": 0.8440765522231424
+    },
+    {
+      "chunkId": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805",
+      "score": 0.8398200027438774,
+      "denseScore": 0.8527907904635325,
+      "bm25Score": 5.206436068277843,
+      "rrfScore": 0.029437229437229435,
+      "titleScore": 0.8095548313980159
+    }
+  ],
+  "candidates": [
+    {
+      "chunkId": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932",
+      "score": 0.8614452565605233,
+      "denseScore": 0.8688610078424343,
+      "bm25Score": 10.480362124465913,
+      "rrfScore": 0.03278688524590164,
+      "titleScore": 0.8441418369027314
+    },
+    {
+      "chunkId": "knowledge-4-cd6fd3d1b1a04fb7a918cdb8eacd64afceb4291dff15bcc9c9765a1abb0a6b66",
+      "score": 0.8577895838747935,
+      "denseScore": 0.8646204217488581,
+      "bm25Score": 9.399287374115366,
+      "rrfScore": 0.03225806451612903,
+      "titleScore": 0.841850962168643
+    },
+    {
+      "chunkId": "knowledge-4-8092cba49291a4be7cc1fc1a16a08ff41f8085f4bc326369a4e414008cdccb23",
+      "score": 0.8553427810932738,
+      "denseScore": 0.859535720594044,
+      "bm25Score": 8.11412831014701,
+      "rrfScore": 0.031746031746031744,
+      "titleScore": 0.8455592555914767
+    },
+    {
+      "chunkId": "knowledge-4-dfa4acacfd269ed53bfd9d79a918b30573ddd0c16b70748a5af19de3e88f9678",
+      "score": 0.8516914749119192,
+      "denseScore": 0.8549550132071093,
+      "bm25Score": 8.043309249484768,
+      "rrfScore": 0.03125,
+      "titleScore": 0.8440765522231424
+    },
+    {
+      "chunkId": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805",
+      "score": 0.8398200027438774,
+      "denseScore": 0.8527907904635325,
+      "bm25Score": 5.206436068277843,
+      "rrfScore": 0.029437229437229435,
+      "titleScore": 0.8095548313980159
+    },
+    {
+      "chunkId": "knowledge-3-5fca157b8eb62dca191ade5f06059dae200ef33ba0a61428a25588e99ead4d8f",
+      "score": 0.8362384896643245,
+      "denseScore": 0.8477062722973044,
+      "rrfScore": 0.014492753623188406,
+      "titleScore": 0.8094803301873712
+    },
+    {
+      "chunkId": "knowledge-2-41bd9b8ece0ad270f6d58ec5097802fdaccfd1ad2df83c3806a3440a35b5122c",
+      "score": 0.8338596027568477,
+      "denseScore": 0.8538279480069529,
+      "bm25Score": 6.609707089586788,
+      "rrfScore": 0.030536130536130537,
+      "titleScore": 0.7872667971732689
+    },
+    {
+      "chunkId": "knowledge-3-c6bcc1a0da7d00c618684ef1094658a2fc3e90f09837fe1fcea535529ff07432",
+      "score": 0.8333439415716271,
+      "denseScore": 0.8410234319456683,
+      "bm25Score": 6.002674957545069,
+      "rrfScore": 0.028438886647841874,
+      "titleScore": 0.8154251306988646
+    },
+    {
+      "chunkId": "knowledge-1-c9ff20281e0a4c58faadb97dae96f9951bba5110d20de9f8d78ac13dd92fa02a",
+      "score": 0.8277655692240398,
+      "denseScore": 0.844658285360691,
+      "rrfScore": 0.014285714285714285,
+      "titleScore": 0.7883492315718537
+    },
+    {
+      "chunkId": "knowledge-4-70412fbde93487dbdf980f7ffa2683de57352b3a7ecda76636e9ceef0f941cb1",
+      "score": 0.8277353453255035,
+      "denseScore": 0.8423938219827931,
+      "bm25Score": 4.684015135135949,
+      "rrfScore": 0.02797339593114241,
+      "titleScore": 0.7935322331251613
+    },
+    {
+      "chunkId": "knowledge-2-6cffe507dec1e28068d9458d2d84f0fa0127b7a836448bb2e522d690e91a20d8",
+      "score": 0.8262221656104327,
+      "denseScore": 0.8404079954220012,
+      "rrfScore": 0.013333333333333334,
+      "titleScore": 0.7931218960501065
+    },
+    {
+      "chunkId": "knowledge-2-d4862a8bbf827fa87349c29c62ac171fcbd71bdac81417bff3f1ce846548f164",
+      "score": 0.8258805590847624,
+      "denseScore": 0.8359788533501731,
+      "bm25Score": 4.124990526167378,
+      "rrfScore": 0.025978407557354925,
+      "titleScore": 0.802317872465471
+    },
+    {
+      "chunkId": "knowledge-4-9d6fcc3000053440317b07b08a1e32af103aa132672c7f0b210ef670c568c6cd",
+      "score": 0.8256559332702521,
+      "denseScore": 0.8500070857842036,
+      "bm25Score": 7.691276946274169,
+      "rrfScore": 0.030309988518943745,
+      "titleScore": 0.7688365774043657
+    },
+    {
+      "chunkId": "knowledge-4-ce697113cd2a9b89eb98db3207876d592f2e3b25629fe309aaec76f640b230ec",
+      "score": 0.8228402070163987,
+      "denseScore": 0.8480707289094295,
+      "bm25Score": 5.900277727116681,
+      "rrfScore": 0.029411764705882353,
+      "titleScore": 0.7639689892659938
+    },
+    {
+      "chunkId": "knowledge-2-04f4dea708e153cb848168a475b068a8cacfaa785fc5a570d006be2fce79a540",
+      "score": 0.8212958406018154,
+      "denseScore": 0.8430957063297031,
+      "bm25Score": 4.500835550695207,
+      "rrfScore": 0.027598020555767037,
+      "titleScore": 0.770429487236744
+    },
+    {
+      "chunkId": "knowledge-1-19b7b5cf7a51dacbb292e4c6509af2a7f097d77471ec08746bbc087ab9cf5032",
+      "score": 0.821171676984973,
+      "denseScore": 0.8414290160170832,
+      "rrfScore": 0.0136986301369863,
+      "titleScore": 0.773904552576716
+    },
+    {
+      "chunkId": "knowledge-1-9082e734df8816141c797bc5c38a78d7e51faa7da68addf593cd2355d76fc2c6",
+      "score": 0.8201845458489803,
+      "bm25Score": 4.612706442239272,
+      "rrfScore": 0.013888888888888888,
+      "denseScore": 0.8245881963728564,
+      "titleScore": 0.8099093612932696
+    },
+    {
+      "chunkId": "knowledge-1-9f18c95ee560e49a1a29abf5d65c52f1d24932fa34155b07e1351dcc949f4abb",
+      "score": 0.8180231753369728,
+      "bm25Score": 4.5628567945358816,
+      "rrfScore": 0.0136986301369863,
+      "denseScore": 0.8227016739190648,
+      "titleScore": 0.8071066786454246
+    },
+    {
+      "chunkId": "knowledge-4-965705eb978d5adaa3321eae47050a86284f68a7e35eabebb13aa280a763f576",
+      "score": 0.8165217787416349,
+      "bm25Score": 5.389393316311162,
+      "rrfScore": 0.014492753623188406,
+      "denseScore": 0.8269602320198762,
+      "titleScore": 0.7921653877590717
+    },
+    {
+      "chunkId": "knowledge-2-b20eb50e1c41af1da404a8063c299125a9fc2ddbede9b6ce8ca377f336ba3dda",
+      "score": 0.8152401912782115,
+      "bm25Score": 4.220394430360702,
+      "rrfScore": 0.013333333333333334,
+      "denseScore": 0.8125781711503811,
+      "titleScore": 0.8214515715764827
+    }
+  ],
+  "components": {
+    "dense": [
+      {
+        "chunkId": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932",
+        "denseScore": 0.868861198425293,
+        "score": 0.868861198425293
+      },
+      {
+        "chunkId": "knowledge-4-cd6fd3d1b1a04fb7a918cdb8eacd64afceb4291dff15bcc9c9765a1abb0a6b66",
+        "denseScore": 0.8646207451820374,
+        "score": 0.8646207451820374
+      },
+      {
+        "chunkId": "knowledge-4-8092cba49291a4be7cc1fc1a16a08ff41f8085f4bc326369a4e414008cdccb23",
+        "denseScore": 0.859535813331604,
+        "score": 0.859535813331604
+      },
+      {
+        "chunkId": "knowledge-4-dfa4acacfd269ed53bfd9d79a918b30573ddd0c16b70748a5af19de3e88f9678",
+        "denseScore": 0.8549551963806152,
+        "score": 0.8549551963806152
+      },
+      {
+        "chunkId": "knowledge-2-41bd9b8ece0ad270f6d58ec5097802fdaccfd1ad2df83c3806a3440a35b5122c",
+        "denseScore": 0.8538278341293335,
+        "score": 0.8538278341293335
+      },
+      {
+        "chunkId": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805",
+        "denseScore": 0.8527910709381104,
+        "score": 0.8527910709381104
+      },
+      {
+        "chunkId": "knowledge-4-9d6fcc3000053440317b07b08a1e32af103aa132672c7f0b210ef670c568c6cd",
+        "denseScore": 0.8500071167945862,
+        "score": 0.8500071167945862
+      },
+      {
+        "chunkId": "knowledge-4-ce697113cd2a9b89eb98db3207876d592f2e3b25629fe309aaec76f640b230ec",
+        "denseScore": 0.8480707406997681,
+        "score": 0.8480707406997681
+      },
+      {
+        "chunkId": "knowledge-3-5fca157b8eb62dca191ade5f06059dae200ef33ba0a61428a25588e99ead4d8f",
+        "denseScore": 0.8477062582969666,
+        "score": 0.8477062582969666
+      },
+      {
+        "chunkId": "knowledge-1-c9ff20281e0a4c58faadb97dae96f9951bba5110d20de9f8d78ac13dd92fa02a",
+        "denseScore": 0.8446582555770874,
+        "score": 0.8446582555770874
+      },
+      {
+        "chunkId": "knowledge-2-04f4dea708e153cb848168a475b068a8cacfaa785fc5a570d006be2fce79a540",
+        "denseScore": 0.8430956602096558,
+        "score": 0.8430956602096558
+      },
+      {
+        "chunkId": "knowledge-4-70412fbde93487dbdf980f7ffa2683de57352b3a7ecda76636e9ceef0f941cb1",
+        "denseScore": 0.8423937559127808,
+        "score": 0.8423937559127808
+      },
+      {
+        "chunkId": "knowledge-1-19b7b5cf7a51dacbb292e4c6509af2a7f097d77471ec08746bbc087ab9cf5032",
+        "denseScore": 0.8414292931556702,
+        "score": 0.8414292931556702
+      },
+      {
+        "chunkId": "knowledge-3-c6bcc1a0da7d00c618684ef1094658a2fc3e90f09837fe1fcea535529ff07432",
+        "denseScore": 0.8410236239433289,
+        "score": 0.8410236239433289
+      },
+      {
+        "chunkId": "knowledge-2-6cffe507dec1e28068d9458d2d84f0fa0127b7a836448bb2e522d690e91a20d8",
+        "denseScore": 0.8404079675674438,
+        "score": 0.8404079675674438
+      },
+      {
+        "chunkId": "knowledge-2-2a4ae7a2c566f3587bbe16e5f340bf8c5fff4b48536e432594002baea81362d8",
+        "denseScore": 0.8387058973312378,
+        "score": 0.8387058973312378
+      },
+      {
+        "chunkId": "knowledge-1-30f2373c699ad61444121d29b340b2c01f520a8cac9170f580500501e97aa78f",
+        "denseScore": 0.8377540707588196,
+        "score": 0.8377540707588196
+      },
+      {
+        "chunkId": "knowledge-2-d4862a8bbf827fa87349c29c62ac171fcbd71bdac81417bff3f1ce846548f164",
+        "denseScore": 0.8359788656234741,
+        "score": 0.8359788656234741
+      },
+      {
+        "chunkId": "knowledge-3-ced8f0a58cf109ace1428202e0314ca433a61f7b20e08536716b35b3e1bee760",
+        "denseScore": 0.8351301550865173,
+        "score": 0.8351301550865173
+      },
+      {
+        "chunkId": "knowledge-1-24720e832e930d594bf680c22cd76a789386a01cd8516595a98cbdc460688034",
+        "denseScore": 0.8327390551567078,
+        "score": 0.8327390551567078
+      }
+    ],
+    "bm25": [
+      {
+        "chunkId": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932",
+        "bm25Score": 10.480362124465913
+      },
+      {
+        "chunkId": "knowledge-4-cd6fd3d1b1a04fb7a918cdb8eacd64afceb4291dff15bcc9c9765a1abb0a6b66",
+        "bm25Score": 9.399287374115366
+      },
+      {
+        "chunkId": "knowledge-4-8092cba49291a4be7cc1fc1a16a08ff41f8085f4bc326369a4e414008cdccb23",
+        "bm25Score": 8.11412831014701
+      },
+      {
+        "chunkId": "knowledge-4-dfa4acacfd269ed53bfd9d79a918b30573ddd0c16b70748a5af19de3e88f9678",
+        "bm25Score": 8.043309249484768
+      },
+      {
+        "chunkId": "knowledge-4-9d6fcc3000053440317b07b08a1e32af103aa132672c7f0b210ef670c568c6cd",
+        "bm25Score": 7.691276946274169
+      },
+      {
+        "chunkId": "knowledge-2-41bd9b8ece0ad270f6d58ec5097802fdaccfd1ad2df83c3806a3440a35b5122c",
+        "bm25Score": 6.609707089586788
+      },
+      {
+        "chunkId": "knowledge-3-c6bcc1a0da7d00c618684ef1094658a2fc3e90f09837fe1fcea535529ff07432",
+        "bm25Score": 6.002674957545069
+      },
+      {
+        "chunkId": "knowledge-4-ce697113cd2a9b89eb98db3207876d592f2e3b25629fe309aaec76f640b230ec",
+        "bm25Score": 5.900277727116681
+      },
+      {
+        "chunkId": "knowledge-4-965705eb978d5adaa3321eae47050a86284f68a7e35eabebb13aa280a763f576",
+        "bm25Score": 5.389393316311162
+      },
+      {
+        "chunkId": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805",
+        "bm25Score": 5.206436068277843
+      },
+      {
+        "chunkId": "knowledge-4-70412fbde93487dbdf980f7ffa2683de57352b3a7ecda76636e9ceef0f941cb1",
+        "bm25Score": 4.684015135135949
+      },
+      {
+        "chunkId": "knowledge-1-9082e734df8816141c797bc5c38a78d7e51faa7da68addf593cd2355d76fc2c6",
+        "bm25Score": 4.612706442239272
+      },
+      {
+        "chunkId": "knowledge-1-9f18c95ee560e49a1a29abf5d65c52f1d24932fa34155b07e1351dcc949f4abb",
+        "bm25Score": 4.5628567945358816
+      },
+      {
+        "chunkId": "knowledge-2-04f4dea708e153cb848168a475b068a8cacfaa785fc5a570d006be2fce79a540",
+        "bm25Score": 4.500835550695207
+      },
+      {
+        "chunkId": "knowledge-2-b20eb50e1c41af1da404a8063c299125a9fc2ddbede9b6ce8ca377f336ba3dda",
+        "bm25Score": 4.220394430360702
+      },
+      {
+        "chunkId": "knowledge-2-d4862a8bbf827fa87349c29c62ac171fcbd71bdac81417bff3f1ce846548f164",
+        "bm25Score": 4.124990526167378
+      },
+      {
+        "chunkId": "knowledge-1-3c4e298b2dde2ad937deb007edff0c7d67e4b9222ab5a7d9f700a6ccad6ad514",
+        "bm25Score": 4.048913771826694
+      },
+      {
+        "chunkId": "knowledge-3-f4c461585b2f1b50a91cbfbb4c751fcb9e8409bcfb27309e3619a3a9785dc313",
+        "bm25Score": 3.9785798885022516
+      },
+      {
+        "chunkId": "knowledge-2-d5a76835d3f2c1ecb0e74eff12f9db67ada00eeb3de014679f28e612d45e461c",
+        "bm25Score": 3.967368341465762
+      },
+      {
+        "chunkId": "knowledge-2-29c4192ebf023fa24f0d720098c3b53f84a46cdfe75bb4e9b6dc15ad04a8375e",
+        "bm25Score": 3.9213315089111145
+      }
+    ],
+    "rrf": [
+      {
+        "chunkId": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932",
+        "score": 0.03278688524590164,
+        "denseScore": 0.868861198425293,
+        "bm25Score": 10.480362124465913
+      },
+      {
+        "chunkId": "knowledge-4-cd6fd3d1b1a04fb7a918cdb8eacd64afceb4291dff15bcc9c9765a1abb0a6b66",
+        "score": 0.03225806451612903,
+        "denseScore": 0.8646207451820374,
+        "bm25Score": 9.399287374115366
+      },
+      {
+        "chunkId": "knowledge-4-8092cba49291a4be7cc1fc1a16a08ff41f8085f4bc326369a4e414008cdccb23",
+        "score": 0.031746031746031744,
+        "denseScore": 0.859535813331604,
+        "bm25Score": 8.11412831014701
+      },
+      {
+        "chunkId": "knowledge-4-dfa4acacfd269ed53bfd9d79a918b30573ddd0c16b70748a5af19de3e88f9678",
+        "score": 0.03125,
+        "denseScore": 0.8549551963806152,
+        "bm25Score": 8.043309249484768
+      },
+      {
+        "chunkId": "knowledge-2-41bd9b8ece0ad270f6d58ec5097802fdaccfd1ad2df83c3806a3440a35b5122c",
+        "score": 0.030536130536130537,
+        "denseScore": 0.8538278341293335,
+        "bm25Score": 6.609707089586788
+      },
+      {
+        "chunkId": "knowledge-4-9d6fcc3000053440317b07b08a1e32af103aa132672c7f0b210ef670c568c6cd",
+        "score": 0.030309988518943745,
+        "denseScore": 0.8500071167945862,
+        "bm25Score": 7.691276946274169
+      },
+      {
+        "chunkId": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805",
+        "score": 0.029437229437229435,
+        "denseScore": 0.8527910709381104,
+        "bm25Score": 5.206436068277843
+      },
+      {
+        "chunkId": "knowledge-4-ce697113cd2a9b89eb98db3207876d592f2e3b25629fe309aaec76f640b230ec",
+        "score": 0.029411764705882353,
+        "denseScore": 0.8480707406997681,
+        "bm25Score": 5.900277727116681
+      },
+      {
+        "chunkId": "knowledge-3-c6bcc1a0da7d00c618684ef1094658a2fc3e90f09837fe1fcea535529ff07432",
+        "score": 0.028438886647841874,
+        "denseScore": 0.8410236239433289,
+        "bm25Score": 6.002674957545069
+      },
+      {
+        "chunkId": "knowledge-4-70412fbde93487dbdf980f7ffa2683de57352b3a7ecda76636e9ceef0f941cb1",
+        "score": 0.02797339593114241,
+        "denseScore": 0.8423937559127808,
+        "bm25Score": 4.684015135135949
+      },
+      {
+        "chunkId": "knowledge-2-04f4dea708e153cb848168a475b068a8cacfaa785fc5a570d006be2fce79a540",
+        "score": 0.027598020555767037,
+        "denseScore": 0.8430956602096558,
+        "bm25Score": 4.500835550695207
+      },
+      {
+        "chunkId": "knowledge-2-d4862a8bbf827fa87349c29c62ac171fcbd71bdac81417bff3f1ce846548f164",
+        "score": 0.025978407557354925,
+        "denseScore": 0.8359788656234741,
+        "bm25Score": 4.124990526167378
+      },
+      {
+        "chunkId": "knowledge-3-5fca157b8eb62dca191ade5f06059dae200ef33ba0a61428a25588e99ead4d8f",
+        "score": 0.014492753623188406,
+        "denseScore": 0.8477062582969666
+      },
+      {
+        "chunkId": "knowledge-4-965705eb978d5adaa3321eae47050a86284f68a7e35eabebb13aa280a763f576",
+        "score": 0.014492753623188406,
+        "bm25Score": 5.389393316311162
+      },
+      {
+        "chunkId": "knowledge-1-c9ff20281e0a4c58faadb97dae96f9951bba5110d20de9f8d78ac13dd92fa02a",
+        "score": 0.014285714285714285,
+        "denseScore": 0.8446582555770874
+      },
+      {
+        "chunkId": "knowledge-1-9082e734df8816141c797bc5c38a78d7e51faa7da68addf593cd2355d76fc2c6",
+        "score": 0.013888888888888888,
+        "bm25Score": 4.612706442239272
+      },
+      {
+        "chunkId": "knowledge-1-19b7b5cf7a51dacbb292e4c6509af2a7f097d77471ec08746bbc087ab9cf5032",
+        "score": 0.0136986301369863,
+        "denseScore": 0.8414292931556702
+      },
+      {
+        "chunkId": "knowledge-1-9f18c95ee560e49a1a29abf5d65c52f1d24932fa34155b07e1351dcc949f4abb",
+        "score": 0.0136986301369863,
+        "bm25Score": 4.5628567945358816
+      },
+      {
+        "chunkId": "knowledge-2-6cffe507dec1e28068d9458d2d84f0fa0127b7a836448bb2e522d690e91a20d8",
+        "score": 0.013333333333333334,
+        "denseScore": 0.8404079675674438
+      },
+      {
+        "chunkId": "knowledge-2-b20eb50e1c41af1da404a8063c299125a9fc2ddbede9b6ce8ca377f336ba3dda",
+        "score": 0.013333333333333334,
+        "bm25Score": 4.220394430360702
+      },
+      {
+        "chunkId": "knowledge-2-2a4ae7a2c566f3587bbe16e5f340bf8c5fff4b48536e432594002baea81362d8",
+        "score": 0.013157894736842105,
+        "denseScore": 0.8387058973312378
+      },
+      {
+        "chunkId": "knowledge-1-30f2373c699ad61444121d29b340b2c01f520a8cac9170f580500501e97aa78f",
+        "score": 0.012987012987012988,
+        "denseScore": 0.8377540707588196
+      },
+      {
+        "chunkId": "knowledge-1-3c4e298b2dde2ad937deb007edff0c7d67e4b9222ab5a7d9f700a6ccad6ad514",
+        "score": 0.012987012987012988,
+        "bm25Score": 4.048913771826694
+      },
+      {
+        "chunkId": "knowledge-3-f4c461585b2f1b50a91cbfbb4c751fcb9e8409bcfb27309e3619a3a9785dc313",
+        "score": 0.01282051282051282,
+        "bm25Score": 3.9785798885022516
+      },
+      {
+        "chunkId": "knowledge-2-d5a76835d3f2c1ecb0e74eff12f9db67ada00eeb3de014679f28e612d45e461c",
+        "score": 0.012658227848101266,
+        "bm25Score": 3.967368341465762
+      },
+      {
+        "chunkId": "knowledge-3-ced8f0a58cf109ace1428202e0314ca433a61f7b20e08536716b35b3e1bee760",
+        "score": 0.012658227848101266,
+        "denseScore": 0.8351301550865173
+      },
+      {
+        "chunkId": "knowledge-1-24720e832e930d594bf680c22cd76a789386a01cd8516595a98cbdc460688034",
+        "score": 0.0125,
+        "denseScore": 0.8327390551567078
+      },
+      {
+        "chunkId": "knowledge-2-29c4192ebf023fa24f0d720098c3b53f84a46cdfe75bb4e9b6dc15ad04a8375e",
+        "score": 0.0125,
+        "bm25Score": 3.9213315089111145
+      }
+    ]
+  },
+  "context": [
+    {
+      "chunk_id": "knowledge-4-dfa4acacfd269ed53bfd9d79a918b30573ddd0c16b70748a5af19de3e88f9678",
+      "knowledge_version_id": 4,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "04-refunds",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "POL-PAYMENT-009 — 첫 구독 도시락 비용 할인"
+      ],
+      "ordinal": 1,
+      "text": "- 마지막 확정일: 2026-08-18\n- 적용 대상: 첫 구독 결제를 완료한 고객\n- 정책 내용: 고객의 첫 구독 결제에서 각 주문의 도시락 한 개에 해당하는 비용의 30%를 한 번 할인한다. 배송비와 각 주문의 나머지 도시락에는 할인을 적용하지 않는다.",
+      "originHit": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932"
+    },
+    {
+      "chunk_id": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932",
+      "knowledge_version_id": 4,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "04-refunds",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "POL-PAYMENT-009 — 첫 구독 도시락 비용 할인",
+        "할인 금액 계산"
+      ],
+      "ordinal": 2,
+      "text": "- 할인 대상 도시락 비용은 첫 이용 기간에 생성될 각 주문에서 도시락 한 개의 가격만 합산하여 계산한다.\n- 할인 금액은 `할인 대상 도시락 비용 × 30%`다.\n- 요일별 인원수가 달라도 각 주문에서 도시락 한 개까지만 30% 할인을 적용하고, 나머지 도시락은 정가로 계산한다.\n- 첫 구독 결제금액은 `전체 도시락 정가 합계 - 할인 금액 + 전체 배송비`다.",
+      "originHit": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932"
+    },
+    {
+      "chunk_id": "knowledge-4-cd6fd3d1b1a04fb7a918cdb8eacd64afceb4291dff15bcc9c9765a1abb0a6b66",
+      "knowledge_version_id": 4,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "04-refunds",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "POL-PAYMENT-009 — 첫 구독 도시락 비용 할인",
+        "핵심 제약"
+      ],
+      "ordinal": 3,
+      "text": "- 첫 구독 결제가 성공한 시점에 할인을 사용한 것으로 처리한다.\n- 첫 구독 결제에 실패하면 할인을 사용한 것으로 처리하지 않는다.\n- 할인 사용 가능 여부는 인증 서비스가 제공한 고객 식별자를 기준으로 판단하며, 고객 계정 하나당 한 번만 사용할 수 있다.\n- 구독 서비스는 소셜 로그인 제공자나 동일인 여부를 직접 판정하지 않고, 인증 서비스가 제공한 고객 식별자를 신뢰한다.\n- 구독 시작 결제 전에 고객별 하나의 구독에 첫 구독 할인이 이미 적용되었는지 확인한다.\n- 첫 할인 결제에 성공한 구독에만 할인 적용 사실을 기록한다. 할인이 적용되지 않았으면 기존 값을 바꾸지 않는다.\n- 할인 적용 기록은 해당 구독이 해지되거나 종료되어도 변경하거나 삭제하지 않는다.\n- 요일별 인원수가 몇 명이더라도 할인 대상은 주문마다 도시락 한 개를 초과하지 않는다.\n- 첫 구독 결제 성공 후 구독을 시작 취소·해지·종료하더라도 사용한 할인은 복구되지 않으며, 이후 다시 구독해도 적용하지 않는다.\n- 자동 갱신되는 다음 이용 기간과 이후의 결제에는 적용하지 않는다.",
+      "originHit": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932"
+    },
+    {
+      "chunk_id": "knowledge-4-8092cba49291a4be7cc1fc1a16a08ff41f8085f4bc326369a4e414008cdccb23",
+      "knowledge_version_id": 4,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "04-refunds",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "POL-PAYMENT-009 — 첫 구독 도시락 비용 할인",
+        "예시"
+      ],
+      "ordinal": 4,
+      "text": "가정식 플랜에서 월요일 1명·수요일 2명·금요일 3명으로 설정하고 각 요일에 주문이 4건씩 생성되면 전체 도시락은 24개다. 전체 도시락 정가는 `8,900원 × 24개 = 213,600원`이고, 주문 12건에서 한 개씩 적용되는 할인 대상 금액은 `8,900원 × 12건 = 106,800원`이다. 할인 금액은 `106,800원 × 30% = 32,040원`, 전체 배송비는 `3,000원 × 12건 = 36,000원`이므로 첫 구독 결제금액은 `213,600원 - 32,040원 + 36,000원 = 217,560원`이다.\n\n요일별 인원수가 달라도 할인은 각 주문의 도시락 한 개에만 적용한다. 이후 구독을 해지하고 다시 구독하더라도 30% 할인을 다시 적용하지 않는다.\n\n예를 들어 특정 고객의 구독에 30% 할인이 적용되어 결제에 성공하면 해당 구독에 할인 적용 사실을 남긴다. 이후 그 구독이 종료되고 고객이 다시 신청해도 같은 구독을 재사용하며 할인 적용 기록이 남아 있으므로 다시 할인하지 않는다.",
+      "originHit": "knowledge-4-88ce0581d9b3f75d34803bc2d730e7a3a6e324d1590ba59ccd124f0e93fe5932"
+    },
+    {
+      "chunk_id": "knowledge-1-6f23213dc49d05181589f60f9f6e0b30beb566218f5e1ae0647dc9b3283d58cd",
+      "knowledge_version_id": 1,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "01-subscription-basics",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "4. 현재 정책",
+        "POL-ORDER-001 — 이용 기간의 주문 생성"
+      ],
+      "ordinal": 37,
+      "text": "- 마지막 확정일: 2026-08-18\n- 적용 대상: 첫 구독 신청 또는 정기결제를 처리하는 고객\n- 정책 내용: 처리 기준 시각으로 이용 기간·배송일·금액을 계산하고, 결제를 요청하기 전에 해당 이용 기간의 실제 배송일마다 주문을 한 건씩 실제 데이터로 생성한다.",
+      "originHit": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805"
+    },
+    {
+      "chunk_id": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805",
+      "knowledge_version_id": 1,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "01-subscription-basics",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "4. 현재 정책",
+        "POL-ORDER-001 — 이용 기간의 주문 생성",
+        "핵심 제약"
+      ],
+      "ordinal": 38,
+      "text": "- 첫 이용 기간에는 첫 이용 기간 시작일인 실제 첫 배송일부터 이용 기간 종료일까지 배송 요일을 적용하여 주문을 생성한다.\n- 첫 이용 기간의 주문은 첫 결제 전에 `확정 대기`로 생성하고, PG 성공 응답 후 `유효`로 확정한다.\n- 첫 주문은 구독이 `이용 중`으로 바뀌기 전날 `15:00 KST`에 전달될 수 있다.\n- 첫 주문이 전달 완료되기 전에는 고객의 시작 취소 대상이 될 수 있으며, 시작 취소가 확정된 주문은 전달하지 않는다.\n- 다음 이용 기간 주문도 정기결제 전에 `확정 대기`로 생성하고, PG 성공 응답 후 `유효`로 확정한다.\n- 확정 대기 주문은 고객의 유효 주문 조회와 주문 전달 대상에서 제외한다.\n- 첫 결제 실패 주문은 즉시 `결제 실패`로 확정한다. 정기결제 최종 실패 주문도 `결제 실패`이며, 이 경우에는 현재 이용 기간의 바로 다음 기간 주문만 해당한다. 첫 구독 취소 또는 정기결제 재시도 중 해지로 시작 취소가 확정된 주문은 `시작 취소`로 남긴다.\n- 각 이용 기간의 최초 주문 묶음은 한 번 생성한다. 첫 결제 실패 뒤 재신청에는 다음 순번의 새 이용 기간과 새 주문 묶음을 생성한다. 이용 중 설정 변경에는 변경 대상 배송일의 대체 주문이 추가될 수 있다.\n- 일요일과 공휴일에는 주문을 생성하지 않는다.\n- 주문 수는 고정된 12건이 아니라 실제 배송일 수에 따라 달라진다.",
+      "originHit": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805"
+    },
+    {
+      "chunk_id": "knowledge-1-9082e734df8816141c797bc5c38a78d7e51faa7da68addf593cd2355d76fc2c6",
+      "knowledge_version_id": 1,
+      "chunk_profile": "HYBRID_POLICY_V1",
+      "document_key": "01-subscription-basics",
+      "category": "LOCAL_POLICY_REVIEW",
+      "version": "3097466",
+      "effective_from": "LOCAL_REVIEW_ONLY",
+      "section_path": [
+        "4. 현재 정책",
+        "POL-ORDER-001 — 이용 기간의 주문 생성",
+        "예시"
+      ],
+      "ordinal": 39,
+      "text": "배송 요일이 월요일·수요일·금요일인 고객의 신청을 8월 10일 월요일 15:00에 접수하면 반영 기준일은 8월 12일 수요일이다. 해당 날짜가 선택 요일이므로 첫 이용 기간도 8월 12일에 시작하도록 계산하고, 결제 전에 8월 12일부터 28일 동안의 실제 배송일마다 주문을 `확정 대기`로 생성한다.",
+      "originHit": "knowledge-1-d8b9426a4e0ba9e419c0f2f4991fb33af34aef847f982c126e5f7469315f1805"
+    }
+  ],
+  "omittedChunkIds": [],
+  "contextTokens": 1151,
+  "decision": "CANDIDATES_ONLY"
+}

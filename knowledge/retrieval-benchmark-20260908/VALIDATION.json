@@ -1,0 +1,12 @@
+{
+  "pytest": {"command": ".venv/Scripts/python.exe -m pytest -q", "exitCode": 0, "passed": 348, "warnings": 1, "elapsedSeconds": 2.61, "warning": "Existing AnyIO BlockingPortal alias DeprecationWarning in starlette.testclient"},
+  "newRegressionTests": {"command": ".venv/Scripts/python.exe -m pytest -q tests/test_local_policy_search.py", "exitCode": 0, "passed": 12},
+  "localQuerySmoke": {"exitCode": 0, "file": "LOCAL-QUERY-SMOKE.json", "scope": "LOCAL_EVIDENCE_CANDIDATES_ONLY"},
+  "benchmarkSearchRecords": 1000,
+  "benchmarkSearchErrors": 0,
+  "ruff": {"command": ".venv/Scripts/ruff.exe check src tests scripts", "exitCode": 0, "result": "All checks passed!"},
+  "gitDiffCheck": {"exitCode": 0, "note": "Existing extraction.py LF-to-CRLF informational warning"},
+  "sourceRepositoryStatus": {"repository": "chapchap-docs", "changedFiles": 0, "note": "Read-only global git ignore access warning; status command succeeded"},
+  "corpusAudit": {"result": "PASS", "classifiedPolicies": 225, "criticalConditions": 29},
+  "aggregationIncident": "Development aggregation failed after all 800 rows were flushed. Recovered summaries without rerunning retrieval. See WORKLOG.md."
+}

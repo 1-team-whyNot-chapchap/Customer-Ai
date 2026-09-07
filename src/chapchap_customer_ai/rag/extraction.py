@@ -61,13 +61,14 @@ class TextDocumentExtractor:
             )
 
         sections: list[DocumentSection] = []
-        heading_stack: list[str] = []
+        heading_stack: list[tuple[int, str]] = []
         buffered_lines: list[str] = []
 
         def flush() -> None:
             section_text = "\n".join(buffered_lines).strip()
             if section_text:
-                sections.append(DocumentSection(tuple(heading_stack or ["document"]), section_text))
+                path = tuple(title for _, title in heading_stack) or ("document",)
+                sections.append(DocumentSection(path, section_text))
             buffered_lines.clear()
 
         for line in text.split("\n"):
@@ -78,7 +79,9 @@ class TextDocumentExtractor:
 
             flush()
             level = len(heading.group(1))
-            heading_stack[level - 1 :] = [heading.group(2).strip()]
+            while heading_stack and heading_stack[-1][0] >= level:
+                heading_stack.pop()
+            heading_stack.append((level, heading.group(2).strip()))
 
         flush()
         return ExtractedDocument(tuple(sections))

@@ -1,0 +1,547 @@
+{
+  "sourceCommit": "309746605697d5119aac7d5621a097632e9ee182",
+  "documents": [
+    {
+      "file": "01-subscription-basics.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "sha256": "08e87b7f53f9434b062bb59656aa6fdb0e07c66e73da9614eaf8cacd65301bed",
+      "bytes": 26302,
+      "spans": [
+        {
+          "policyId": "SUB-INTRO-TERMS",
+          "start": 60,
+          "end": 96,
+          "sha256": "a0a6cd3281ea2187de870fa53ed30b4281d6b0309bbccbb3756d56fadd989b87"
+        },
+        {
+          "policyId": "SUB-CURRENT-HEADER",
+          "start": 140,
+          "end": 140,
+          "sha256": "ce7bed26cec09bd41225c2a1a300f4562c073c76fbc516fb1562e6a9ecc79c15"
+        },
+        {
+          "policyId": "POL-COMMON-001",
+          "start": 142,
+          "end": 146,
+          "sha256": "f3775e325d9834ec868b62fbf6c9f7b0dd9d6b593f22b2d62b49d667008c2457"
+        },
+        {
+          "policyId": "POL-TERMS-001",
+          "start": 148,
+          "end": 196,
+          "sha256": "c6a597fd3dfda2390c107ff7b6a0bdaae56bafd19ccf45da8f93d807757f6543"
+        },
+        {
+          "policyId": "POL-ADDRESS-001",
+          "start": 198,
+          "end": 221,
+          "sha256": "38d6e9ca01562ee74a8755409dfa2ad4fe001a93097f811d30f8678c62db1810"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-005",
+          "start": 383,
+          "end": 398,
+          "sha256": "ffac4e37a54a84c17ad6c7074975e1bf9435ccd39bb34a8f01588da441032493"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-006",
+          "start": 405,
+          "end": 413,
+          "sha256": "31891709fdb7ff6cbd600c39aaa43487205b1dbe0d54360230e67b85144205cb"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-007",
+          "start": 415,
+          "end": 436,
+          "sha256": "1472ac5bbf212ada86a8b7214dbf4c6586af533851d5dc79578f47ca38e22b88"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-008",
+          "start": 444,
+          "end": 456,
+          "sha256": "bce2bbc38aa6b6e7705257aad35cba5fd7f3c59c1044a80f634e7fc2e5cf7157"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-009",
+          "start": 458,
+          "end": 466,
+          "sha256": "84f7c5972e571ead1f1d57784062a868ce733d3cb311f74c971e5fcc76c60384"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-010",
+          "start": 468,
+          "end": 481,
+          "sha256": "162c30a10f34223ebc163e4b825481a6c341c028937a835de97272be80589a37"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-011",
+          "start": 489,
+          "end": 495,
+          "sha256": "b16bc6a9814b21b9756a8e8e172976cb31d3c3340d381f7e247a072e2dc306e3"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-012",
+          "start": 497,
+          "end": 507,
+          "sha256": "533439bc6aa8dd66323232e2c25e82847046a44cd2bcad37aaf2b9480b94bd6f"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-013",
+          "start": 515,
+          "end": 548,
+          "sha256": "c203ed8584499557e9d2c8f959bbb5d0a2f18fad235328b5cba478e14f56ea58"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-014",
+          "start": 555,
+          "end": 576,
+          "sha256": "d29675e454164ec5dcde08eaf8f4f7873c5712c5465174a66cdf38cbabab867f"
+        },
+        {
+          "policyId": "POL-ORDER-001",
+          "start": 928,
+          "end": 949,
+          "sha256": "5bf16e7a44c098720e1ccff9b04202552ab3db2fa8324f4d61023a8bf92b1cb0"
+        },
+        {
+          "policyId": "POL-ORDER-005",
+          "start": 1022,
+          "end": 1030,
+          "sha256": "8ae9c2cb3f339d51dcf3e066d18a9b46fdfa76ff8e3941caf91402ef30b8cbf7"
+        },
+        {
+          "policyId": "POL-ORDER-006",
+          "start": 1036,
+          "end": 1050,
+          "sha256": "d1f57d779e6571956dfe82d60331bfa741e636065cf59ca65b5e26613b34db05"
+        }
+      ]
+    },
+    {
+      "file": "02-subscription-changes-cancellation.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "sha256": "8dcf3021d41b2b78be68d2dd177b83e4f915b2f52ff692e5485b3bd4e30d8f2a",
+      "bytes": 22611,
+      "spans": [
+        {
+          "policyId": "POL-SUBSCRIPTION-001",
+          "start": 223,
+          "end": 242,
+          "sha256": "0d7e14a2f3ae2479350022db46a312e2678e811438d7d1a395d78af8f1cf717e"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-002",
+          "start": 252,
+          "end": 293,
+          "sha256": "e27372dab97bdb0beaef3cd24327a9a342bc0395e9a651dcbecf2f2cadcdceec"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-003",
+          "start": 305,
+          "end": 372,
+          "sha256": "09110a4e5f4a9d7016bd110b2e1dd497539faeaa227476b91f827a6b49df9953"
+        },
+        {
+          "policyId": "POL-SUBSCRIPTION-015",
+          "start": 585,
+          "end": 601,
+          "sha256": "d01fc460618ecb39a7c9910f0116292d67e1f99c8aed9a48623bcaa295e09784"
+        },
+        {
+          "policyId": "POL-ORDER-002",
+          "start": 958,
+          "end": 979,
+          "sha256": "53338dce0cdd64cecc9727ccdad37c99add857b16ae74f257e3d826340a71f01"
+        },
+        {
+          "policyId": "POL-ORDER-003",
+          "start": 987,
+          "end": 995,
+          "sha256": "d925a53cb118a5a3e9ef3fb4e7723d516756fc0807d27d0bb9214f3d9e8f2eee"
+        },
+        {
+          "policyId": "POL-ORDER-004",
+          "start": 1001,
+          "end": 1014,
+          "sha256": "f6ece7e4c8fd50fc59aa867d416fe21157af09cb06ff98ac0627ec3f8e84eae8"
+        }
+      ]
+    },
+    {
+      "file": "03-pricing-billing.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "sha256": "24e8363274d370601784ce3d63522dc159e916ee065367b8d0f0acf7e08b40bb",
+      "bytes": 15036,
+      "spans": [
+        {
+          "policyId": "POL-PAYMENT-001",
+          "start": 608,
+          "end": 622,
+          "sha256": "c9198c0b0c3988f8358dc7a1191ca508a1e2e3bb1870d4da230ce7c2193dfe7b"
+        },
+        {
+          "policyId": "POL-PAYMENT-002",
+          "start": 633,
+          "end": 641,
+          "sha256": "402984b09d5626d538accc39c5d77942b8172438b5debd06a17ab61f0f82ed84"
+        },
+        {
+          "policyId": "POL-PAYMENT-003",
+          "start": 643,
+          "end": 656,
+          "sha256": "2b75d922344925819c08fa43a6fe89bf4476c9f322d5420fb2f11c0113c27456"
+        },
+        {
+          "policyId": "POL-PAYMENT-004",
+          "start": 666,
+          "end": 681,
+          "sha256": "4dbc444df328af42517cdcc03261016da50dc61e0f4e8e7eaf548e75a6790918"
+        },
+        {
+          "policyId": "POL-PAYMENT-005",
+          "start": 691,
+          "end": 708,
+          "sha256": "4434f3fd7f7a3680aa56ea0e345476b8e2b48d2ea611b1e26cda40d41ac79563"
+        },
+        {
+          "policyId": "POL-PAYMENT-006",
+          "start": 718,
+          "end": 736,
+          "sha256": "3e8a5652b61efe93e9c095327452d9c21a83c405550e15999d5ea93bfe83beb6"
+        },
+        {
+          "policyId": "POL-PAYMENT-007",
+          "start": 744,
+          "end": 765,
+          "sha256": "657d1aefb5924fbcdf6398d322b6852fb1f28d9cca2f945b2b280f1ecc688bb0"
+        },
+        {
+          "policyId": "POL-PAYMENT-008",
+          "start": 776,
+          "end": 786,
+          "sha256": "4b27a2526da53d192b4da1ba9d52982823bfa5c4d8eeb603f5ec68dab42c6b3c"
+        },
+        {
+          "policyId": "POL-PAYMENT-011",
+          "start": 860,
+          "end": 883,
+          "sha256": "43a3fb7194c98cd14b08a3cd928d341ec3f6570e74f15bf195215a66b67ad941"
+        }
+      ]
+    },
+    {
+      "file": "04-refunds.md",
+      "source": "Subscription-Service/챱챱_구독_정책.md",
+      "sha256": "20fb5edc0ac005f1c87bb02b4d16a9f56d151f20ce0f3fa7dc68e3270b2ed821",
+      "bytes": 11323,
+      "spans": [
+        {
+          "policyId": "POL-PAYMENT-009",
+          "start": 792,
+          "end": 824,
+          "sha256": "b82b98638cf49a9c2cd210aa978b90f0b43710add2db3c372a6de101d99e7914"
+        },
+        {
+          "policyId": "POL-PAYMENT-012",
+          "start": 891,
+          "end": 920,
+          "sha256": "5a64cf91d897a462a555fa79ae3adf09ca1ec662b0bab80a20b130fd36502aaf"
+        },
+        {
+          "policyId": "POL-ORDER-008",
+          "start": 1099,
+          "end": 1126,
+          "sha256": "956f1f48bcd9e65c0fb893525366e3cf098bf98e0ac0755ad88892d6f8032754"
+        }
+      ]
+    },
+    {
+      "file": "05-delivery.md",
+      "source": "Delivery-Service/챱챱_배달_정책.md",
+      "sha256": "8452b2f73c19d45ea59d4b782d6fef1ac86acbd18bb54dabbfbd3391a0a9863a",
+      "bytes": 12035,
+      "spans": [
+        {
+          "policyId": "DLV-POL-PRINCIPLE-001",
+          "start": 97,
+          "end": 99,
+          "sha256": "4c3e956b75e4ffd207cc333ce6a1f0a49f96f7e9652d71d0f2e71519cd546a6b"
+        },
+        {
+          "policyId": "DLV-POL-SLOT-001",
+          "start": 173,
+          "end": 180,
+          "sha256": "a50bdf7c9f09703ec88dd1c54468713b572be310f6ab23817b0768e44385de33"
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-002",
+          "start": 581,
+          "end": 591,
+          "sha256": "3df5545eeb6b7293d9f5423325aeeacc497460f40cd1c5ed9cb575a85fb7d381"
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-003",
+          "start": 599,
+          "end": 604,
+          "sha256": "fc948c8ccc6b0e92ac3fb19a187d93b07d8ccecec147d4538f658a82bfa72fd7"
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-003",
+          "start": 610,
+          "end": 610,
+          "sha256": "a5067bbe3fe708e596d59b942ed48b90527a318ea0c9aeb8cd4707af200d560f"
+        },
+        {
+          "policyId": "DLV-POL-COMPLETE-003",
+          "start": 613,
+          "end": 613,
+          "sha256": "780176a8f8d842d961a13dca57ee7875f38917ec8158decff8ee9040bc9a4dcb"
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-001",
+          "start": 624,
+          "end": 633,
+          "sha256": "90decb9c8445adb9bb9d1343292d34fccf219b329ec0f8e6185e318048b88985"
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-002",
+          "start": 641,
+          "end": 653,
+          "sha256": "59ef4bfa95eb05470505c61aeaf3b2e807e2c11b84c6161cfe690637f59fafd3"
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-003",
+          "start": 660,
+          "end": 665,
+          "sha256": "9c067db64eabf106d63a1d598aac4d06c7bec95b77a415ba27dd1a5542fdd23c"
+        },
+        {
+          "policyId": "DLV-POL-ABSENCE-004",
+          "start": 672,
+          "end": 681,
+          "sha256": "2b6b87d8a6cee7b21657d149d699928828c59ac2029ae7980ed6d85b6877de2c"
+        },
+        {
+          "policyId": "DLV-POL-FAILURE-003",
+          "start": 744,
+          "end": 754,
+          "sha256": "4bcb2ca82574b3bdad9e7f2dfbcd93fb5cdad9845a61fa1ed507c9686fa293fb"
+        },
+        {
+          "policyId": "DLV-POL-DELAY-001",
+          "start": 763,
+          "end": 771,
+          "sha256": "c7d4f300a72b5ad03eef83016bf1f553e48c695b6911a27378be4a1ddc5d5134"
+        },
+        {
+          "policyId": "DLV-POL-DELAY-002",
+          "start": 779,
+          "end": 792,
+          "sha256": "00bc06a2597d0e69ad02f416a8405354b8802c4fe9cf6c300c57241de81fcec0"
+        },
+        {
+          "policyId": "DLV-POL-VIEW-001",
+          "start": 802,
+          "end": 827,
+          "sha256": "dd1d90fefc20135670096232a2d9e76c2f7a9eae87b24e4eb2d1835c41612510"
+        }
+      ]
+    },
+    {
+      "file": "06-customer-support.md",
+      "source": "Customer-Service/챱챱_Customer_Service_통합_정책서.md",
+      "sha256": "b17b701e8c05565220acbed1d14627eee726926ed18d0abf30eca3a5bbcd38d8",
+      "bytes": 6076,
+      "spans": [
+        {
+          "policyId": "CS-POL-RBAC-001",
+          "start": 117,
+          "end": 127,
+          "sha256": "f37aa56b4b8464624a194c55d66df0fa2e0d3875cb3f7fd50d36fab9cd4bc5ed"
+        },
+        {
+          "policyId": "CS-POL-CON-001",
+          "start": 175,
+          "end": 175,
+          "sha256": "b49b9262284ae3631d01c33fe9827e9017886c58a932cab3c2e8b7b80214f42b"
+        },
+        {
+          "policyId": "CS-POL-CON-001",
+          "start": 204,
+          "end": 204,
+          "sha256": "90dccfd54b44ef02882549b54164df23445001a8be1fe87528aceb9328c38ded"
+        },
+        {
+          "policyId": "CS-POL-CON-002",
+          "start": 206,
+          "end": 223,
+          "sha256": "45f24ca811e250b56f274f19dc11579b00f0629c2b360cf855fea8f1f5ec32e5"
+        },
+        {
+          "policyId": "CS-POL-QI-001",
+          "start": 594,
+          "end": 602,
+          "sha256": "b3ff21d69f6a1f31d1a02cbc6e22d07c3313d6247bd0c123688ba93b3c8718e8"
+        },
+        {
+          "policyId": "CS-POL-QI-002",
+          "start": 604,
+          "end": 633,
+          "sha256": "78e5ba1fb7bab21e824a78fb45b7d4539d53b8bf455ff32451bc0a2b933e4ccc"
+        },
+        {
+          "policyId": "CS-POL-QI-003",
+          "start": 636,
+          "end": 640,
+          "sha256": "e7f6bfd89ea1610a71c62a8cdabf93ae84a40b6f5d9be7ead3492f449aff072e"
+        },
+        {
+          "policyId": "CS-POL-QI-004",
+          "start": 642,
+          "end": 646,
+          "sha256": "d930e826326368d3d9f90bd22294ec5d89ceeff2af72bdd1fe6d865003f043bb"
+        },
+        {
+          "policyId": "CS-POL-QI-005",
+          "start": 648,
+          "end": 662,
+          "sha256": "532f239d6d9007d3fbd68e39c49fb7530ff764d0536c8619ec0f6dc973aac366"
+        },
+        {
+          "policyId": "CS-POL-NOTI-003",
+          "start": 685,
+          "end": 710,
+          "sha256": "a64b3a8882fa35a633bf95664457c6c5de291e8c36b94dd254cd0d48de7a2472"
+        },
+        {
+          "policyId": "CS-POL-NOTI-007",
+          "start": 745,
+          "end": 745,
+          "sha256": "82f85e1e7cabd57882234fb806141f301df350ebbcd416c20a2f393714138d01"
+        },
+        {
+          "policyId": "CS-POL-NOTI-007",
+          "start": 748,
+          "end": 748,
+          "sha256": "51217325dce46fab64e604f00c67d0f9a1909d2635c10f08f87b75164e2be6f0"
+        },
+        {
+          "policyId": "CS-POL-FILE-003",
+          "start": 936,
+          "end": 946,
+          "sha256": "7dd3070b53cacf5afa8e071a4d89d6f80d8685fa547bde11499a3dc20279d88f"
+        },
+        {
+          "policyId": "CS-POL-FILE-003",
+          "start": 956,
+          "end": 961,
+          "sha256": "fb2c2427e3a5f4516cc08a9ede8417b6be846ad9dd931c531224ed8aa90b6c5b"
+        }
+      ]
+    },
+    {
+      "file": "07-account.md",
+      "source": "Auth-Service/챱챱_Auth_Service_통합_정책서.md",
+      "sha256": "c1ba61dc8dac3daaeeb569eeeb877369f57bb17261511ecd1dfc64c3d6fafde0",
+      "bytes": 4695,
+      "spans": [
+        {
+          "policyId": "AUTH-POL-ACC-003",
+          "start": 175,
+          "end": 182,
+          "sha256": "b649dd1b2fe8840c5ffd40a7e88360c9bf96fa0578cd989cb3c50fef9b1b8f80"
+        },
+        {
+          "policyId": "AUTH-POL-SIGN-001",
+          "start": 200,
+          "end": 207,
+          "sha256": "0a471d0a2027c4d59c00e32fa73078050b831c79d1ab65a4b1cddd32d0d048ef"
+        },
+        {
+          "policyId": "AUTH-POL-SIGN-005",
+          "start": 240,
+          "end": 240,
+          "sha256": "f4866475576be9288e0e0416305d2735a5586ddd6e869d351fd4be74c1d00597"
+        },
+        {
+          "policyId": "AUTH-POL-SIGN-005",
+          "start": 246,
+          "end": 247,
+          "sha256": "42b34c0e09570495367c9145d70416ce57c8bf3dc752d0f6a78a62133f795830"
+        },
+        {
+          "policyId": "AUTH-POL-SES-001",
+          "start": 257,
+          "end": 261,
+          "sha256": "c16fe4756e9604cf7a5fc75330b2ce0ca1094c055ac5da1d7f15eb4efb2fbf0a"
+        },
+        {
+          "policyId": "AUTH-POL-SES-001",
+          "start": 264,
+          "end": 264,
+          "sha256": "255b33e1f7f745f62f678cf35289db3a5c0dfc6eacd2ecfcecfd4475eacfd5b4"
+        },
+        {
+          "policyId": "AUTH-POL-SES-003",
+          "start": 276,
+          "end": 282,
+          "sha256": "bb22dbdc776cce7c9e52cf55babb41668b089a93833ac27f3713f6952c9eef50"
+        },
+        {
+          "policyId": "AUTH-POL-SES-003",
+          "start": 285,
+          "end": 287,
+          "sha256": "a5934efe5b56215ea9212f85a5118ce977072735ef3eb8987738e54e018c3af5"
+        },
+        {
+          "policyId": "AUTH-POL-CNS-003",
+          "start": 378,
+          "end": 383,
+          "sha256": "0bd9f17f9139a8bef16787fd00f8b6d35c09161332f8ade719c4f37d9e886083"
+        },
+        {
+          "policyId": "AUTH-POL-CNS-004",
+          "start": 385,
+          "end": 390,
+          "sha256": "ed3c4f7eaf317658ade5e8fefa5ffb3c87eb9982f5cc67d5ebb1d02da23a4667"
+        },
+        {
+          "policyId": "AUTH-POL-WD-006",
+          "start": 587,
+          "end": 590,
+          "sha256": "653a0bbee37537eb4098eaf5ce0a17c46f05f6eee5f0f6c1c3740bc00a76e5ab"
+        },
+        {
+          "policyId": "AUTH-POL-IMG-001",
+          "start": 669,
+          "end": 674,
+          "sha256": "1a8b2b1890b27fec9c34890704e6633772c5fea4a6c35755e5eb0a2046cc54dc"
+        },
+        {
+          "policyId": "AUTH-POL-PRI-008",
+          "start": 615,
+          "end": 625,
+          "sha256": "680a63174911dddf339f7fc038b000884223339c0f8c1bf4c23b8ba7f0ba5f3e"
+        },
+        {
+          "policyId": "AUTH-POL-PRI-009",
+          "start": 627,
+          "end": 636,
+          "sha256": "dc6bb4be52c45a48edaa47630c78d3ce5bfc9e81b74cb37e08cb009067ccb992"
+        },
+        {
+          "policyId": "AUTH-POL-OPS-001",
+          "start": 846,
+          "end": 852,
+          "sha256": "97d472d4164cf2d5f64fcb2d6048b53f6039faeb70512bc625424f3951ac6ce6"
+        }
+      ]
+    }
+  ],
+  "policyCounts": {
+    "included": 57,
+    "partial": 13,
+    "excluded": 153,
+    "hold": 2
+  }
+}
