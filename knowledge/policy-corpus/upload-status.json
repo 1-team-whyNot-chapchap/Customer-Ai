@@ -1,0 +1,33 @@
+{
+  "status": "BLOCKED",
+  "uploadPerformed": false,
+  "embeddingPerformed": false,
+  "localHealthChecks": [
+    {
+      "service": "customer",
+      "endpoint": "http://127.0.0.1:8084/actuator/health",
+      "error": "ConnectTimeout"
+    },
+    {
+      "service": "customer-ai",
+      "endpoint": "http://127.0.0.1:8000/healthz",
+      "error": "ConnectTimeout"
+    },
+    {
+      "service": "minio",
+      "endpoint": "http://127.0.0.1:9000/minio/health/live",
+      "error": "ConnectTimeout"
+    }
+  ],
+  "localLibraries": {
+    "sentence_transformers": false,
+    "transformers": false,
+    "chromadb": true
+  },
+  "requiredInput": [
+    "target Gateway URL",
+    "admin credential location",
+    "policy effectiveFrom (KST)"
+  ],
+  "note": "Local default ports only; remote runtime availability has not been established."
+}

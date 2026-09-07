@@ -1,0 +1,8 @@
+# Preserve SHA-256 evidence and the exact source bytes used by the benchmark.
+knowledge/** -text -whitespace
+scripts/** -text whitespace=cr-at-eol
+pyproject.toml -text whitespace=cr-at-eol
+src/chapchap_customer_ai/rag/extraction.py -text whitespace=cr-at-eol
+src/chapchap_customer_ai/rag/local_policy_search.py -text
+tests/test_local_policy_search.py -text
+tests/test_policy_markdown_headings.py -text
