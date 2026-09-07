@@ -113,6 +113,16 @@ class ConsultationResponseRequest(ContractModel):
     subject: TrustedSubject
     message: str = Field(min_length=1, max_length=10_000)
     conversation_context: list[str] = Field(alias="conversationContext", max_length=20)
+    knowledge_version_ids: list[PositiveInt64] = Field(
+        default_factory=list, alias="knowledgeVersionIds", max_length=1000
+    )
+
+    @field_validator("knowledge_version_ids")
+    @classmethod
+    def validate_knowledge_versions(cls, ids: list[int]) -> list[int]:
+        if len(ids) != len(set(ids)):
+            raise ValueError("knowledgeVersionIds must be unique")
+        return ids
 
 
 class ConsultationRoute(StrEnum):

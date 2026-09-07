@@ -24,6 +24,10 @@ async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 def create_app() -> FastAPI:
     settings = get_settings()
+    if settings.provider_runtime_mode == "isolated":
+        from chapchap_customer_ai.application.runtime import create_isolated_app
+
+        return create_isolated_app(settings)
     app = FastAPI(
         title=settings.app_name,
         version="0.1.0",

@@ -66,7 +66,8 @@ def test_provider_models_round_trip_every_candidate_fixture(fixture) -> None:
         parsed = model.model_validate(candidate)
         exclude_none = model is ConsultationResponse
         assert parsed.model_dump(
-            by_alias=True, mode="json", exclude_none=exclude_none
+            by_alias=True, mode="json", exclude_none=exclude_none,
+            exclude_unset=model is ConsultationResponseRequest,
         ) == candidate
 
 
