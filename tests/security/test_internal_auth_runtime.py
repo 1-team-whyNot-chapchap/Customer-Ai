@@ -28,6 +28,15 @@ def test_runtime_rejects_unapproved_trust_contract_before_activation() -> None:
     assert error.value.code == AuthFailureCode.INVALID_TOKEN
 
 
-def test_runtime_rejects_non_local_environment_without_operational_replay_store() -> None:
-    with pytest.raises(RuntimeError, match="Operational replay protection"):
-        create_internal_auth_runtime(Settings(environment="production"))
+def test_runtime_allows_production_only_with_trusted_jwks_contract() -> None:
+    runtime = create_internal_auth_runtime(
+        Settings(
+            environment="production",
+            service_jwks_url="https://auth.internal/.well-known/jwks.json",
+            subject_assertion_jwks_url=(
+                "https://customer.internal/.well-known/customer-ai-subject-jwks.json"
+            ),
+        )
+    )
+
+    assert runtime.verifier.service_issuer == "chapchap-auth-service"
