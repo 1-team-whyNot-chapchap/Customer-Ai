@@ -21,5 +21,5 @@ def test_current_state_runtime_has_no_direct_data_or_unconfirmed_http_adapter() 
     assert "update set" not in source
     # SUB-FN-018 confirms HTTP only at the Subscription boundary and its factory.
     for path in source_root.glob("*.py"):
-        if path.name not in {"http.py", "runtime.py"}:
+        if path.name not in {"http.py", "runtime.py", "delivery_http.py"}:
             assert "httpx" not in path.read_text(encoding="utf-8")

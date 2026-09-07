@@ -1,5 +1,6 @@
 import time
 from collections.abc import Callable
+from contextlib import closing
 from dataclasses import dataclass
 from urllib.parse import urlsplit
 from uuid import UUID
@@ -47,20 +48,22 @@ class HttpSummaryResultPublisher:
                     raise SummaryCallbackDeliveryError(
                         "A callback service token is unavailable."
                     )
-                response = self.client.post(
-                    endpoint,
+                request = httpx.Request(
+                    "POST", endpoint,
                     headers={
                         "Authorization": f"Bearer {token}",
                         "X-Request-Id": str(request_id),
                         "Idempotency-Key": str(result.summary_job_id),
                     },
                     json=result.model_dump(by_alias=True, mode="json"),
-                    follow_redirects=False,
-                    timeout=self.timeout_seconds,
+                    extensions={"timeout": httpx.Timeout(self.timeout_seconds).as_dict()},
                 )
-                if response.status_code == 204:
-                    return
-                retryable = response.status_code in {408, 429} or response.status_code >= 500
+                with closing(self.client.send(
+                    request, auth=None, follow_redirects=False, stream=True
+                )) as response:
+                    if response.status_code == 204:
+                        return
+                    retryable = response.status_code in {408, 429} or response.status_code >= 500
             except SummaryCallbackDeliveryError:
                 raise
             except Exception:

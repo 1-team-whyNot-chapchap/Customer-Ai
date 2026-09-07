@@ -1,7 +1,8 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -17,6 +18,13 @@ class Settings(BaseSettings):
     environment: str = "local"
     log_level: str = "INFO"
     internal_security_enabled: bool = False
+    provider_runtime_mode: Literal["disabled", "isolated"] = "disabled"
+    auth_token_base_url: str | None = None
+    auth_client_id: str | None = None
+    auth_client_secret: SecretStr | None = None
+    auth_token_timeout_seconds: float = Field(default=3.0, gt=0, le=10)
+    provider_job_workers: int = Field(default=2, ge=1, le=4)
+    deepseek_api_key: SecretStr | None = None
     service_jwt_issuer: str = "chapchap-auth-service"
     service_jwt_audience: str = "chapchap-customer-ai"
     subject_assertion_issuer: str = "chapchap-customer-service"
@@ -49,7 +57,7 @@ class Settings(BaseSettings):
     summary_compose_timeout_seconds: float = Field(default=8.0, gt=0, le=30)
     summary_max_messages: int = Field(default=100, gt=0, le=1000)
     summary_max_context_characters: int = Field(default=50_000, gt=0)
-    summary_max_output_characters: int = Field(default=10_000, gt=0)
+    summary_max_output_characters: int = Field(default=500, gt=0, le=500)
     summary_callback_base_url: str | None = None
     summary_callback_timeout_seconds: float = Field(default=5.0, gt=0, le=30)
     summary_callback_max_attempts: int = Field(default=3, ge=1, le=5)

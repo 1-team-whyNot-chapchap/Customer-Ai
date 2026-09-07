@@ -12,3 +12,6 @@ class ThreadPoolJobScheduler:
 
     def submit(self, task: Callable[[], None]) -> None:
         self._executor.submit(task)
+
+    def close(self) -> None:
+        self._executor.shutdown(wait=True, cancel_futures=False)
