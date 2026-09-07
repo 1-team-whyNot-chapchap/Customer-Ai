@@ -26,3 +26,8 @@ def test_runtime_rejects_unapproved_trust_contract_before_activation() -> None:
         create_internal_auth_runtime(settings)
 
     assert error.value.code == AuthFailureCode.INVALID_TOKEN
+
+
+def test_runtime_rejects_non_local_environment_without_operational_replay_store() -> None:
+    with pytest.raises(RuntimeError, match="Operational replay protection"):
+        create_internal_auth_runtime(Settings(environment="production"))

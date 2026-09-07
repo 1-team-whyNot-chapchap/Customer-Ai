@@ -5,8 +5,7 @@ from chapchap_customer_ai.security.jwt_verifier import (
     InternalSecurityVerifier,
     create_internal_security_verifier,
 )
-from chapchap_customer_ai.security.redis_replay import create_replay_store
-from chapchap_customer_ai.security.replay import ReplayStore
+from chapchap_customer_ai.security.replay import InMemoryReplayStore, ReplayStore
 
 
 @dataclass(slots=True)
@@ -25,7 +24,9 @@ class InternalAuthRuntime:
 def create_internal_auth_runtime(settings: Settings) -> InternalAuthRuntime:
     """승인된 설정으로 내부 인증 Runtime을 Fail-Closed 방식으로 조립한다."""
 
-    replay_store = create_replay_store(settings)
+    if settings.environment.lower() not in {"local", "test"}:
+        raise RuntimeError("Operational replay protection is not configured.")
+    replay_store = InMemoryReplayStore()
     try:
         verifier = create_internal_security_verifier(settings, replay_store)
     except Exception:
