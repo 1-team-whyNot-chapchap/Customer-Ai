@@ -206,7 +206,7 @@ def test_malformed_transport_return_is_contract_error() -> None:
     assert fact.error_code == StateErrorCode.CONTRACT_ERROR
 
 
-def test_retryable_unavailable_and_connection_reset_retry_once() -> None:
+def test_subscription_never_retries_unavailable_or_connection_reset() -> None:
     retryable = RecordingTransport(
         [
             TransportResult(TransportOutcome.UNAVAILABLE, retryable=True),
@@ -228,9 +228,21 @@ def test_retryable_unavailable_and_connection_reset_retry_once() -> None:
         timeout_seconds=3.0,
     )[0]
 
-    assert recovered.availability == StateAvailability.AVAILABLE
+    assert recovered.availability == StateAvailability.UNAVAILABLE
     assert unavailable.availability == StateAvailability.UNAVAILABLE
-    assert len(retryable.calls) == len(reset.calls) == 2
+    assert len(retryable.calls) == len(reset.calls) == 1
+
+
+def test_delivery_keeps_existing_single_retry_policy() -> None:
+    transport = RecordingTransport([
+        TransportResult(TransportOutcome.UNAVAILABLE, retryable=True),
+        TransportResult(TransportOutcome.SUCCESS, DELIVERY_PAYLOAD),
+    ])
+    fact = CurrentStateAdapter(transport).fetch(
+        (Capability.DELIVERY_CURRENT,), context(("delivery.status.read",)), timeout_seconds=3,
+    )[0]
+    assert fact.availability == StateAvailability.AVAILABLE
+    assert len(transport.calls) == 2
 
 
 @pytest.mark.parametrize(
