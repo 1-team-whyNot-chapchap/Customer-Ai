@@ -334,3 +334,155 @@ def test_initialization_failure_closes_created_http_clients():
     with pytest.raises(ValueError):
         create_provider_runtime(settings(deepseek_model="unapproved"), deps)
     assert transport.closed
+
+
+@pytest.mark.parametrize("configured", [False, True])
+def test_delivery_runtime_wiring_from_settings(configured):
+    from chapchap_customer_ai.contracts.models import UserRole
+    from chapchap_customer_ai.current_state.models import TransportOutcome
+    from chapchap_customer_ai.security.models import AuthenticatedContext, AuthenticatedSubject
+
+    verifier, _, _ = security()
+    calls = []
+
+    def delivery(req):
+        calls.append(req)
+        assert req.headers["x-internal-api-key"] == "dedicated-test-key"
+        assert req.headers["x-internal-service"] == "customer-ai"
+        assert req.headers["x-user-id"] == "42"
+        return httpx.Response(
+            200,
+            json={
+                "code": "00",
+                "message": "SUCCESS",
+                "data": {"status": "DELIVERING", "delayStatus": "UNKNOWN"},
+            },
+        )
+
+    changes = (
+        {
+            "delivery_current_state_base_url": "https://delivery.test",
+            "delivery_current_state_api_key": SecretStr("dedicated-test-key"),
+        }
+        if configured
+        else {}
+    )
+    deps = ProviderRuntimeDependencies(
+        verifier=verifier,
+        retrieval=VectorRetrievalService(TestEmbedding(), ChromaVectorStore(Collection())),
+        chunk_builder=RagCoreService(TextDocumentExtractor(), HybridPolicyV1Chunker(TestTokens())),
+        http_transports={"delivery": httpx.MockTransport(delivery)},
+    )
+    runtime = create_provider_runtime(settings(**changes), deps)
+    try:
+        result = runtime.consultation.state_provider.transport.invoke(
+            "get_current_delivery_state",
+            {},
+            AuthenticatedContext(
+                "customer-service",
+                AuthenticatedSubject(
+                    42,
+                    UserRole.CUSTOMER,
+                    frozenset({"delivery.status.read"}),
+                    uuid4(),
+                    501,
+                ),
+            ),
+            required_scope="delivery.status.read",
+            timeout_seconds=3,
+        )
+        expected = TransportOutcome.SUCCESS if configured else TransportOutcome.UNAVAILABLE
+        assert result.outcome == expected
+        assert len(calls) == int(configured)
+    finally:
+        runtime.close()
+    if configured:
+        assert runtime.consultation.state_provider.transport.delivery.client.is_closed
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"delivery_current_state_base_url": "https://delivery.test"},
+        {"delivery_current_state_api_key": SecretStr("dedicated-test-key")},
+        {"delivery_current_state_base_url": "", "delivery_current_state_api_key": SecretStr("key")},
+        {
+            "delivery_current_state_base_url": "https://delivery.test",
+            "delivery_current_state_api_key": SecretStr(""),
+        },
+    ],
+)
+def test_delivery_partial_or_empty_configuration_fails_closed(changes):
+    verifier, _, _ = security()
+    with pytest.raises(ValueError):
+        create_provider_runtime(settings(**changes), ProviderRuntimeDependencies(verifier=verifier))
+
+
+def test_signed_consultation_uses_configured_delivery_without_llm():
+    verifier, auth, subject = security()
+    calls = []
+
+    def delivery(req):
+        calls.append(req)
+        assert req.method == "GET" and not req.content and not req.url.query
+        assert req.headers["x-internal-scope"] == "delivery.status.read"
+        assert req.headers["x-user-id"] == "42"
+        assert req.headers["x-user-role"] == "CUSTOMER"
+        assert "authorization" not in req.headers
+        assert "x-subject-assertion" not in req.headers
+        return httpx.Response(
+            200,
+            json={
+                "code": "00",
+                "message": "SUCCESS",
+                "data": {"status": "DELIVERING", "delayStatus": "UNKNOWN", "statusChangedAt": None},
+            },
+        )
+
+    def unexpected(req):
+        pytest.fail("State-only request must not call Auth, LLM or Subscription")
+
+    deps = ProviderRuntimeDependencies(
+        verifier=verifier,
+        retrieval=VectorRetrievalService(TestEmbedding(), ChromaVectorStore(Collection())),
+        chunk_builder=RagCoreService(TextDocumentExtractor(), HybridPolicyV1Chunker(TestTokens())),
+        http_transports={
+            "delivery": httpx.MockTransport(delivery),
+            **{name: httpx.MockTransport(unexpected) for name in ("auth", "llm", "subscription")},
+        },
+    )
+    app = create_isolated_app(
+        settings(
+            delivery_current_state_base_url="https://delivery.test",
+            delivery_current_state_api_key=SecretStr("dedicated-test-key"),
+        ),
+        deps,
+    )
+    request_id = uuid4()
+    body = {
+        "schemaVersion": "1.0",
+        "requestId": str(request_id),
+        "consultationId": 501,
+        "triggerMessageId": 9002,
+        "subject": {"userId": 42, "role": "CUSTOMER", "allowedAiScopes": ["delivery.status.read"]},
+        "message": "내 배송 상태 알려줘",
+        "conversationContext": [],
+        "knowledgeVersionIds": [],
+    }
+    with TestClient(app) as client:
+        response = client.post(
+            "/internal/v1/consultation-responses",
+            json=body,
+            headers=headers(auth, subject, request_id, "delivery-test", ["delivery.status.read"]),
+        )
+        assert response.status_code == 200, response.text
+        assert response.json()["decision"] == "ANSWER"
+        assert len(calls) == 1
+        body["subject"]["userId"] = 999
+        rejected = client.post(
+            "/internal/v1/consultation-responses",
+            json=body,
+            headers=headers(auth, subject, request_id, "forged-delivery", ["delivery.status.read"]),
+        )
+        assert rejected.status_code == 401
+        assert len(calls) == 1

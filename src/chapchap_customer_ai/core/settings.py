@@ -53,6 +53,9 @@ class Settings(BaseSettings):
     consultation_state_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
     subscription_current_state_base_url: str | None = None
     subscription_current_state_allow_loopback_http: bool = False
+    delivery_current_state_base_url: str | None = None
+    delivery_current_state_api_key: SecretStr | None = None
+    delivery_current_state_allow_loopback_http: bool = False
     consultation_compose_timeout_seconds: float = Field(default=3.0, gt=0, le=8)
     summary_compose_timeout_seconds: float = Field(default=8.0, gt=0, le=30)
     summary_max_messages: int = Field(default=100, gt=0, le=1000)
