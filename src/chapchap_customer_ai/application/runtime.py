@@ -17,7 +17,10 @@ from chapchap_customer_ai.consultation.knowledge_versions import RequestApproved
 from chapchap_customer_ai.consultation.services import ConsultationResponseService
 from chapchap_customer_ai.core.settings import Settings, get_settings
 from chapchap_customer_ai.current_state.adapter import CurrentStateAdapter
-from chapchap_customer_ai.current_state.delivery_http import DomainCurrentStateTransport
+from chapchap_customer_ai.current_state.delivery_http import (
+    DomainCurrentStateTransport,
+    HttpDeliveryCurrentStateTransport,
+)
 from chapchap_customer_ai.current_state.http import HttpSubscriptionCurrentStateTransport
 from chapchap_customer_ai.current_state.ports import CurrentStateTransport
 from chapchap_customer_ai.knowledge.http import (
@@ -92,6 +95,11 @@ def create_provider_runtime(
     if not all(required):
         raise ValueError("Provider runtime dependency configuration is incomplete")
     deps = dependencies or ProviderRuntimeDependencies()
+    delivery_configured = settings.delivery_current_state_base_url is not None
+    if delivery_configured != (settings.delivery_current_state_api_key is not None):
+        raise ValueError("Delivery current-state requires both base URL and dedicated API key")
+    if delivery_configured and deps.delivery is not None:
+        raise ValueError("Delivery configuration and injection are mutually exclusive")
     resources = ExitStack()
     try:
         if deps.verifier is None:
@@ -153,6 +161,14 @@ def create_provider_runtime(
                 settings.subscription_current_state_base_url,
                 settings.subscription_current_state_allow_loopback_http,
             )
+        delivery = deps.delivery
+        if delivery_configured:
+            delivery = HttpDeliveryCurrentStateTransport(
+                client("delivery"),
+                settings.delivery_current_state_base_url,
+                settings.delivery_current_state_api_key,
+                settings.delivery_current_state_allow_loopback_http,
+            )
         retrieval = deps.retrieval or create_vector_retrieval_service(settings)
         chunk_builder = deps.chunk_builder or RagCoreService(
             TextDocumentExtractor(),
@@ -160,7 +176,7 @@ def create_provider_runtime(
         )
         diagnostics = JsonLogDiagnosticSink(logging.getLogger("chapchap_customer_ai.runtime"))
         state_provider = CurrentStateAdapter(
-            DomainCurrentStateTransport(subscription, deps.delivery), diagnostics=diagnostics
+            DomainCurrentStateTransport(subscription, delivery), diagnostics=diagnostics
         )
         # Registered last: drain jobs before their HTTP clients are closed.
         scheduler = ThreadPoolJobScheduler(max_workers=settings.provider_job_workers)
