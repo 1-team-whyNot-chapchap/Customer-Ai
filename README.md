@@ -25,7 +25,15 @@ python -m pip install -e ".[dev]"
 python -m pytest
 python -m ruff check src tests
 python -m pip check
-uvicorn chapchap_customer_ai.main:create_app --factory --host 127.0.0.1 --workers 1
+python -m chapchap_customer_ai
+```
+
+로컬 실행 주소는 `http://127.0.0.1:8085`이며 Customer-Service의 기본 AI 주소 `http://localhost:8085`와 포트를 맞춘다. 상태 확인은 `GET /healthz`로 한다. 포트가 사용 중이면 기존 프로세스를 확인한다.
+
+Uvicorn을 직접 실행할 때도 포트를 명시한다.
+
+```powershell
+python -m uvicorn chapchap_customer_ai.main:create_app --factory --host 127.0.0.1 --port 8085 --workers 1
 ```
 
 실제 환경변수와 Credential은 저장소에 넣지 않는다. 설정 이름은 `config/provider-runtime.env.example`을 참고한다.
