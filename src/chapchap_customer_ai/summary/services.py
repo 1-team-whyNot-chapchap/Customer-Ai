@@ -57,7 +57,12 @@ class ConsultationSummaryService:
         )
         if registration.should_schedule:
             try:
-                self.scheduler.submit(lambda: self._process(request, request_id))
+                record = getattr(self.registry, "record_request", None)
+                if record is not None:
+                    record(idempotency_key, request_id, request)
+                self.scheduler.submit(
+                    lambda: self._run_registered(idempotency_key, request, request_id)
+                )
             except Exception:
                 self.registry.release(idempotency_key, request.summary_job_id)
                 raise SummaryRequestError(
@@ -70,6 +75,16 @@ class ConsultationSummaryService:
             consultation_id=request.consultation_id,
             status="ACCEPTED",
         )
+
+    def _run_registered(self, key, request, request_id):
+        try:
+            self._process(request, request_id)
+        except Exception:
+            self.registry.release(key, request.summary_job_id)
+            raise
+        complete = getattr(self.registry, "complete", None)
+        if complete is not None:
+            complete(key, request.summary_job_id)
 
     def _process(self, request: ConsultationSummaryRequest, request_id: UUID) -> None:
         try:
@@ -98,13 +113,9 @@ class ConsultationSummaryService:
         except SummaryComposerError:
             result = self._failed(request, ConsultationSummaryFailureCode.LLM_UNAVAILABLE)
         except (TypeError, ValueError, AttributeError):
-            result = self._failed(
-                request, ConsultationSummaryFailureCode.SUMMARY_GENERATION_FAILED
-            )
+            result = self._failed(request, ConsultationSummaryFailureCode.SUMMARY_GENERATION_FAILED)
         except Exception:
-            result = self._failed(
-                request, ConsultationSummaryFailureCode.CUSTOMER_AI_UNAVAILABLE
-            )
+            result = self._failed(request, ConsultationSummaryFailureCode.CUSTOMER_AI_UNAVAILABLE)
         if isinstance(result, ConsultationSummaryCompleted):
             event = DiagnosticEvent(
                 event_type=DiagnosticEventType.SUMMARY_COMPLETED,

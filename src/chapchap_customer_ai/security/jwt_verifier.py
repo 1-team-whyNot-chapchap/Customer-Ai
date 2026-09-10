@@ -20,6 +20,7 @@ from chapchap_customer_ai.security.models import (
     AuthFailureCode,
     InternalAuthError,
 )
+from chapchap_customer_ai.security.transport import allowed_url
 
 INT64_MAX = 9_223_372_036_854_775_807
 
@@ -297,12 +298,7 @@ class InternalSecurityVerifier:
 
     @staticmethod
     def _positive_int64(value: Any, field_name: str) -> int:
-        if (
-            isinstance(value, bool)
-            or not isinstance(value, int)
-            or value <= 0
-            or value > INT64_MAX
-        ):
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0 or value > INT64_MAX:
             raise InternalSecurityVerifier._subject_error(
                 f"The subject {field_name} claim is invalid."
             )
@@ -346,7 +342,7 @@ def create_internal_security_verifier(settings: Settings) -> InternalSecurityVer
         settings.service_jwt_issuer: settings.service_jwks_url,
         settings.subject_assertion_issuer: settings.subject_assertion_jwks_url,
     }
-    if any(not url or not _is_trusted_https_url(url) for url in urls.values()):
+    if any(not url or not allowed_url(url, settings.http_allowed_origins) for url in urls.values()):
         raise InternalAuthError(
             AuthFailureCode.KEY_UNAVAILABLE,
             401,

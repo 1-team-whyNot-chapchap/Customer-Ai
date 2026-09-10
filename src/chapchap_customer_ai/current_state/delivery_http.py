@@ -24,6 +24,7 @@ class HttpDeliveryCurrentStateTransport:
     base_url: str
     api_key: SecretStr
     allow_loopback_http: bool = False
+    http_allowed_origins: tuple[str, ...] = ()
 
     def __post_init__(self):
         key = self.api_key.get_secret_value()
@@ -33,7 +34,9 @@ class HttpDeliveryCurrentStateTransport:
             self,
             "base_url",
             validate_subscription_origin(
-                self.base_url, allow_loopback_http=self.allow_loopback_http
+                self.base_url,
+                allow_loopback_http=self.allow_loopback_http,
+                http_allowed_origins=self.http_allowed_origins,
             ),
         )
 

@@ -13,6 +13,7 @@ from chapchap_customer_ai.knowledge.ports import (
     KnowledgeResult,
     ServiceTokenProvider,
 )
+from chapchap_customer_ai.security.transport import allowed_url
 
 
 @dataclass(frozen=True, slots=True)
@@ -21,6 +22,7 @@ class HttpKnowledgeSourceFetcher:
     allowed_hosts: Collection[str]
     timeout_seconds: float = 5.0
     max_bytes: int = 10 * 1024 * 1024
+    http_allowed_origins: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         normalized_hosts = frozenset(host.lower().strip() for host in self.allowed_hosts)
@@ -34,7 +36,7 @@ class HttpKnowledgeSourceFetcher:
         url = str(source.download_url)
         parsed = urlsplit(url)
         if (
-            parsed.scheme != "https"
+            not allowed_url(url, self.http_allowed_origins)
             or not parsed.hostname
             or parsed.hostname.lower() not in self.allowed_hosts
             or parsed.username is not None
@@ -45,12 +47,16 @@ class HttpKnowledgeSourceFetcher:
             raise SourceFetchError("The knowledge source is not allowed.")
 
         try:
-            request = httpx.Request("GET", url, extensions={
-                "timeout": httpx.Timeout(self.timeout_seconds).as_dict(),
-            })
-            with closing(self.client.send(
-                request, auth=None, follow_redirects=False, stream=True
-            )) as response:
+            request = httpx.Request(
+                "GET",
+                url,
+                extensions={
+                    "timeout": httpx.Timeout(self.timeout_seconds).as_dict(),
+                },
+            )
+            with closing(
+                self.client.send(request, auth=None, follow_redirects=False, stream=True)
+            ) as response:
                 if response.status_code != 200:
                     raise SourceFetchError("The knowledge source could not be fetched.")
                 actual_content_type = response.headers.get("content-type", "").split(";", 1)[0]
@@ -94,11 +100,12 @@ class HttpKnowledgeResultPublisher:
     timeout_seconds: float = 5.0
     max_attempts: int = 3
     sleeper: Callable[[float], None] = time.sleep
+    http_allowed_origins: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         parsed = urlsplit(self.base_url)
         if (
-            parsed.scheme != "https"
+            not allowed_url(self.base_url, self.http_allowed_origins, origin_only=True)
             or not parsed.hostname
             or parsed.username is not None
             or parsed.password is not None
@@ -111,9 +118,7 @@ class HttpKnowledgeResultPublisher:
             raise ValueError("callback timeout or maximum attempts is invalid")
 
     def publish(self, result: KnowledgeResult, request_id: UUID) -> None:
-        endpoint = (
-            self.base_url.rstrip("/") + "/internal/v1/knowledge-processing-results"
-        )
+        endpoint = self.base_url.rstrip("/") + "/internal/v1/knowledge-processing-results"
         for attempt in range(1, self.max_attempts + 1):
             retryable = True
             try:
@@ -121,7 +126,8 @@ class HttpKnowledgeResultPublisher:
                 if not token or any(character.isspace() for character in token):
                     raise CallbackDeliveryError("A callback service token is unavailable.")
                 request = httpx.Request(
-                    "POST", endpoint,
+                    "POST",
+                    endpoint,
                     headers={
                         "Authorization": f"Bearer {token}",
                         "X-Request-Id": str(request_id),
@@ -130,9 +136,9 @@ class HttpKnowledgeResultPublisher:
                     json=result.model_dump(by_alias=True, mode="json"),
                     extensions={"timeout": httpx.Timeout(self.timeout_seconds).as_dict()},
                 )
-                with closing(self.client.send(
-                    request, auth=None, follow_redirects=False, stream=True
-                )) as response:
+                with closing(
+                    self.client.send(request, auth=None, follow_redirects=False, stream=True)
+                ) as response:
                     if response.status_code == 204:
                         return
                     retryable = response.status_code in {408, 429} or response.status_code >= 500

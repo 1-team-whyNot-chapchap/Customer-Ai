@@ -44,6 +44,75 @@ def settings(**changes):
     )
 
 
+def test_academy_startup_recovers_unfinished_knowledge_job(tmp_path):
+    from pathlib import Path
+
+    from chapchap_customer_ai.application.persistence import (
+        PersistentKnowledgeJobRegistry,
+        RuntimeStore,
+    )
+    from chapchap_customer_ai.contracts.models import KnowledgeProcessingRequest
+    from chapchap_customer_ai.knowledge.services import KnowledgeProcessingService
+
+    request = KnowledgeProcessingRequest.model_validate(
+        json.loads(
+            Path("tests/contract/fixtures/customer_ai_candidate_v1.json").read_text(
+                encoding="utf-8"
+            )
+        )["knowledge"]["request"]
+    )
+    state_dir = tmp_path / "state"
+    registry = PersistentKnowledgeJobRegistry(RuntimeStore(state_dir))
+    key = f"{request.knowledge_version_id}:{request.chunk_profile}"
+    original = registry.register(key, KnowledgeProcessingService._immutable_fingerprint(request), 1)
+    registry.record_request(key, uuid4(), request)
+    callbacks = []
+
+    def callback(req):
+        callbacks.append(json.loads(req.content))
+        return httpx.Response(204)
+
+    def token(req):
+        return httpx.Response(
+            200,
+            json={
+                "access_token": "test",
+                "token_type": "Bearer",
+                "expires_in": 300,
+                "scope": "customer-ai.callback",
+            },
+        )
+
+    dependencies = ProviderRuntimeDependencies(
+        verifier=security()[0],
+        retrieval=VectorRetrievalService(TestEmbedding(), ChromaVectorStore(Collection())),
+        chunk_builder=RagCoreService(TextDocumentExtractor(), HybridPolicyV1Chunker(TestTokens())),
+        http_transports={
+            "auth": httpx.MockTransport(token),
+            "callback": httpx.MockTransport(callback),
+            "source": httpx.MockTransport(
+                lambda req: httpx.Response(
+                    200, content=b"test", headers={"content-type": "text/plain"}
+                )
+            ),
+        },
+    )
+    runtime = create_provider_runtime(
+        settings(
+            provider_runtime_mode="academy",
+            environment="production",
+            runtime_state_directory=state_dir,
+            chroma_persist_directory=tmp_path / "chroma",
+            knowledge_source_allowed_hosts=("minio.internal",),
+        ),
+        dependencies,
+    )
+    runtime.close()  # drain the recovered job and callback
+    assert len(callbacks) == 1 and callbacks[0]["status"] == "COMPLETED"
+    assert callbacks[0]["processingId"] == original.processing_id
+    assert RuntimeStore(state_dir).pending() == []
+
+
 @pytest.mark.parametrize(
     "changes",
     [
@@ -156,7 +225,8 @@ def headers(auth, subject, request_id, key, scopes=None):
     }
 
 
-def test_authenticated_knowledge_consultation_summary_flow_and_shutdown():
+@pytest.mark.parametrize("academy", [False, True])
+def test_authenticated_knowledge_consultation_summary_flow_and_shutdown(academy, tmp_path):
     verifier, auth, subject = security()
     collection = Collection()
     callbacks = []
@@ -224,7 +294,20 @@ def test_authenticated_knowledge_consultation_summary_flow_and_shutdown():
             }.items()
         },
     )
-    app = create_isolated_app(settings(), deps)
+    configured = settings()
+    if academy:
+        configured = settings(
+            provider_runtime_mode="academy",
+            environment="production",
+            runtime_state_directory=tmp_path / "state",
+            chroma_persist_directory=tmp_path / "chroma",
+            auth_token_base_url="http://auth.test",
+            knowledge_callback_base_url="http://customer.test",
+            summary_callback_base_url="http://customer.test",
+            http_allowed_origins=("http://auth.test", "http://customer.test"),
+            knowledge_source_http_allowed_origins=("http://minio.test",),
+        )
+    app = create_isolated_app(configured, deps)
     request_id = uuid4()
     with TestClient(app) as client:
         knowledge = {
@@ -232,7 +315,7 @@ def test_authenticated_knowledge_consultation_summary_flow_and_shutdown():
             "knowledgeVersionId": 101,
             "attempt": 1,
             "source": {
-                "downloadUrl": "https://minio.test/policy?signature=test",
+                "downloadUrl": f"{'http' if academy else 'https'}://minio.test/policy?signature=test",
                 "contentType": "text/plain",
                 "fileSize": len(text.encode()),
             },
