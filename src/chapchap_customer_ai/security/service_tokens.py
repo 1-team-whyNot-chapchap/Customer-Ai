@@ -24,9 +24,12 @@ class AuthServiceCallbackTokenProvider:
         client_secret: SecretStr,
         *,
         timeout_seconds: float = 3,
+        http_allowed_origins: tuple[str, ...] = (),
         monotonic: Callable[[], float] = time.monotonic,
     ):
-        self._origin = validate_subscription_origin(base_url)
+        self._origin = validate_subscription_origin(
+            base_url, http_allowed_origins=http_allowed_origins
+        )
         if not client_id or not client_id.strip() or not client_secret.get_secret_value().strip():
             raise ValueError("Callback client credentials are required")
         if not 0 < timeout_seconds <= 10:

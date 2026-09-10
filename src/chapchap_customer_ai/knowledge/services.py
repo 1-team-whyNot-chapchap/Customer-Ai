@@ -63,8 +63,13 @@ class KnowledgeProcessingService:
         )
         if registration.should_schedule:
             try:
+                record = getattr(self.registry, "record_request", None)
+                if record is not None:
+                    record(logical_key, request_id, request)
                 self.scheduler.submit(
-                    lambda: self._process(registration.processing_id, request_id, request)
+                    lambda: self._run_registered(
+                        logical_key, registration.processing_id, request_id, request
+                    )
                 )
             except Exception:
                 self.registry.release_attempt(logical_key, request.attempt)
@@ -77,6 +82,16 @@ class KnowledgeProcessingService:
             knowledge_version_id=request.knowledge_version_id,
             status="ACCEPTED",
         )
+
+    def _run_registered(self, key, processing_id, request_id, request):
+        try:
+            self._process(processing_id, request_id, request)
+        except Exception:
+            self.registry.release_attempt(key, request.attempt)
+            raise
+        complete = getattr(self.registry, "complete_attempt", None)
+        if complete is not None:
+            complete(key, request.attempt)
 
     def _process(
         self, processing_id: int, request_id: UUID, request: KnowledgeProcessingRequest

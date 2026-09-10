@@ -14,6 +14,7 @@ from chapchap_customer_ai.current_state.models import TransportOutcome, Transpor
 from chapchap_customer_ai.current_state.normalization import ToolResultNormalizer
 from chapchap_customer_ai.current_state.registry import CAPABILITY_REGISTRY
 from chapchap_customer_ai.security.models import AuthenticatedContext
+from chapchap_customer_ai.security.transport import allowed_url
 
 _PATHS = {
     "get_current_payment_state": "payment",
@@ -24,7 +25,9 @@ _BINDINGS = {binding.tool_name: binding for binding in CAPABILITY_REGISTRY.value
 _MAX_RESPONSE_BYTES = 64 * 1024
 
 
-def validate_subscription_origin(value: str, *, allow_loopback_http: bool = False) -> str:
+def validate_subscription_origin(
+    value: str, *, allow_loopback_http: bool = False, http_allowed_origins: tuple[str, ...] = ()
+) -> str:
     try:
         parsed = urlsplit(value)
         port = parsed.port
@@ -35,7 +38,7 @@ def validate_subscription_origin(value: str, *, allow_loopback_http: bool = Fals
         )
         if (
             not parsed.hostname
-            or (parsed.scheme != "https" and not local_http)
+            or (not allowed_url(value, http_allowed_origins, origin_only=True) and not local_http)
             or parsed.username is not None
             or parsed.password is not None
             or parsed.path not in {"", "/"}
@@ -46,8 +49,9 @@ def validate_subscription_origin(value: str, *, allow_loopback_http: bool = Fals
         ):
             raise ValueError
     except (ValueError, TypeError):
-        raise ValueError("Subscription origin must be HTTPS or explicitly allowed loopback HTTP.") \
-            from None
+        raise ValueError(
+            "Subscription origin must be HTTPS or explicitly allowed loopback HTTP."
+        ) from None
     return value.rstrip("/")
 
 
@@ -56,11 +60,18 @@ class HttpSubscriptionCurrentStateTransport:
     client: httpx.Client
     base_url: str
     allow_loopback_http: bool = False
+    http_allowed_origins: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "base_url", validate_subscription_origin(
-            self.base_url, allow_loopback_http=self.allow_loopback_http
-        ))
+        object.__setattr__(
+            self,
+            "base_url",
+            validate_subscription_origin(
+                self.base_url,
+                allow_loopback_http=self.allow_loopback_http,
+                http_allowed_origins=self.http_allowed_origins,
+            ),
+        )
 
     def invoke(
         self,
@@ -73,8 +84,10 @@ class HttpSubscriptionCurrentStateTransport:
     ) -> TransportResult:
         binding = _BINDINGS.get(tool_name)
         if (
-            tool_name not in _PATHS or binding is None
-            or not isinstance(arguments, Mapping) or arguments
+            tool_name not in _PATHS
+            or binding is None
+            or not isinstance(arguments, Mapping)
+            or arguments
         ):
             return TransportResult(TransportOutcome.CONTRACT_ERROR)
         subject = security_context.subject
@@ -107,8 +120,10 @@ class HttpSubscriptionCurrentStateTransport:
                     return TransportResult(TransportOutcome.UNAVAILABLE)
                 if response.status_code != 200:
                     return TransportResult(TransportOutcome.CONTRACT_ERROR)
-                if response.headers.get("content-type", "").split(";", 1)[0].strip().lower() \
-                        != "application/json":
+                if (
+                    response.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+                    != "application/json"
+                ):
                     return TransportResult(TransportOutcome.CONTRACT_ERROR)
                 content = bytearray()
                 for block in response.iter_bytes():

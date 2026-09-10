@@ -14,6 +14,24 @@ Customer-Service의 내부 Python/FastAPI AI Runtime이다. 정책 질문은 RAG
 
 기본 앱은 health-only다. 운영 활성화는 Customer-Service gate 및 실제 의존성 검증과 별개다.
 
+## 학원 배포 모드
+
+`CUSTOMER_AI_PROVIDER_RUNTIME_MODE=academy`, `CUSTOMER_AI_ENVIRONMENT=production`,
+`CUSTOMER_AI_INTERNAL_SECURITY_ENABLED=true`를 명시하면 학원용 실제 기능을 실행한다.
+Customer는 `CUSTOMER_AI_ACTIVATION_MODE=ACADEMY`와 인증/비동기 연동 플래그를 함께 켠다.
+일반 운영 ACTIVE 승인 증거와 isolated의 local/test 제한은 그대로 유지한다.
+
+- `CUSTOMER_AI_HTTP_ALLOWED_ORIGINS`: HTTP를 허용할 정확한 origin의 JSON 배열. 예: `["http://auth-service:80","http://customer-service:80"]`.
+- `CUSTOMER_AI_KNOWLEDGE_SOURCE_HTTP_ALLOWED_ORIGINS`: 학원 MinIO의 별도 HTTP 예외 배열. 기존 source allowed hosts도 일치해야 한다.
+- HTTPS 인증서, JWT 서명/audience/scope, 사용자 assertion 검증을 유지하고 redirect를 거부한다.
+- `CUSTOMER_AI_RUNTIME_STATE_DIRECTORY=/data/runtime`, `CUSTOMER_AI_CHROMA_PERSIST_DIRECTORY=/data/chroma`, `HF_HOME=/data/huggingface`를 같은 PVC에 둔다.
+- replica=1/worker=1/Recreate 전용이다. 파일 잠금으로 같은 runtime 볼륨의 중복 worker를 거부한다.
+- SQLite에 작업 ID·fingerprint·미완료 요청·완료 상담 응답을 기록한다. 미완료 지식/요약은 재시작 시 재전송하고 완료 콜백 후 기록을 지운다. 중복 콜백의 최종 반영은 Customer가 소유한다.
+- 콜백 최대 재시도 이후 실패는 PVC에 남으며 다음 재시작 때 다시 시도한다. 재시작 시 만료된 MinIO URL은 실패 콜백으로 처리해 Customer 재시도 흐름에 맡긴다. 상시 분산 큐/주기적 재전송 서비스는 아니다.
+- PVC에는 상담 응답/요약 입력도 저장되므로 접근 권한과 보관·삭제 주기를 정해야 한다. 실제 운영에 앞서 보관 정책 및 다중 인스턴스용 저장/큐를 보완한다.
+
+`Dockerfile`은 RAG 의존성을 포함하고 비root 계정으로 8085에서 실행한다. `.env`는 이미지에 포함하지 않는다. 최초 시작에는 모델 다운로드와 PVC 용량이 필요하다. 실제 클러스터 배포와 외부 서비스 호출 성공 여부는 별도 검증한다.
+
 ## 개발 준비
 
 Python 3.11 이상이 필요하다.

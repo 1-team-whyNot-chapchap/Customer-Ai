@@ -18,7 +18,10 @@ class Settings(BaseSettings):
     environment: str = "local"
     log_level: str = "INFO"
     internal_security_enabled: bool = False
-    provider_runtime_mode: Literal["disabled", "isolated"] = "disabled"
+    provider_runtime_mode: Literal["disabled", "isolated", "academy"] = "disabled"
+    http_allowed_origins: tuple[str, ...] = ()
+    knowledge_source_http_allowed_origins: tuple[str, ...] = ()
+    runtime_state_directory: Path | None = None
     auth_token_base_url: str | None = None
     auth_client_id: str | None = None
     auth_client_secret: SecretStr | None = None
