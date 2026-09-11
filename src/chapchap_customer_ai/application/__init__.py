@@ -1,1 +1,1 @@
-"""Use cases and ports. Implementations must remain outside domain ownership boundaries."""
+"""유스케이스와 Port 패키지이며 구현은 도메인 소유권 경계 밖에 둔다."""

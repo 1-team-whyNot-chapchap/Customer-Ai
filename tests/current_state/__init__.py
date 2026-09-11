@@ -1,0 +1,1 @@
+"""Current-State adapter tests."""

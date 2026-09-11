@@ -1,0 +1,68 @@
+{
+  "method": "R4",
+  "datasetSha256": "334a68cac24aee227f007a8012c983b8800f15e0abcb72a1a5ac8d815a9df168",
+  "engineSha256": "5a9cc5b1cfd9156fc904896695c0390753fb869ba44dafaeee0c1f3bc7872255",
+  "selectedAt": "2026-09-08T00:30:29.596585+09:00",
+  "finalSetUsedForSelection": false,
+  "rule": "allSourceClauses, then allPolicies, then smaller meanContextTokens",
+  "developmentMetrics": {
+    "R1": {
+      "rows": 200,
+      "errors": 0,
+      "answerable": 160,
+      "nonPolicy": 40,
+      "allPolicies": 130,
+      "allAnchors": 119,
+      "allSourceClauses": 119,
+      "nonPolicyReturnedCandidates": 40,
+      "meanContextTokens": 1026.045,
+      "medianRetrievalMs": 2.595150000161084,
+      "p95RetrievalMs": 3.611500000261003
+    },
+    "R2": {
+      "rows": 200,
+      "errors": 0,
+      "answerable": 160,
+      "nonPolicy": 40,
+      "allPolicies": 119,
+      "allAnchors": 119,
+      "allSourceClauses": 119,
+      "nonPolicyReturnedCandidates": 40,
+      "meanContextTokens": 1354.54,
+      "medianRetrievalMs": 6.578800000170304,
+      "p95RetrievalMs": 21.401100000730366
+    },
+    "R3": {
+      "rows": 200,
+      "errors": 0,
+      "answerable": 160,
+      "nonPolicy": 40,
+      "allPolicies": 123,
+      "allAnchors": 123,
+      "allSourceClauses": 123,
+      "nonPolicyReturnedCandidates": 40,
+      "meanContextTokens": 1376.575,
+      "medianRetrievalMs": 7.200699999884819,
+      "p95RetrievalMs": 22.723199999745702
+    },
+    "R4": {
+      "rows": 200,
+      "errors": 0,
+      "answerable": 160,
+      "nonPolicy": 40,
+      "allPolicies": 129,
+      "allAnchors": 129,
+      "allSourceClauses": 129,
+      "nonPolicyReturnedCandidates": 40,
+      "meanContextTokens": 1390.74,
+      "medianRetrievalMs": 9.803400001146656,
+      "p95RetrievalMs": 23.76150000054622
+    }
+  },
+  "runHashes": {
+    "R1": "755156d3ae2263b4bec9bc3f2f5982185f0c9e0fc8ad09eb0d78b1781b35ac33",
+    "R2": "30bb54fa88949f45b113b3997731f88c2a43876553eabfa8ddb30ea9560e1d84",
+    "R3": "1d6380395c08433ab4dab74c67d76db7a22caa784b3f7d6cc3d8b3c20333f079",
+    "R4": "1605fc2dd8c510a1250dc293c3bf7d379bf43555c520929dc83bfe44d4aa5458"
+  }
+}
