@@ -426,3 +426,14 @@ def test_ambiguous_classifier_failure_is_safe_handoff() -> None:
     assert result.decision == ConsultationDecision.HANDOFF
     assert result.route == ConsultationRoute.UNSUPPORTED
     assert dependencies.versions.calls == dependencies.state.calls == 0
+
+@pytest.mark.parametrize('text', ['안녕', '안녕하세요!', '환불', '배송'])
+def test_short_customer_input_gets_clarification_without_dependency_calls(text):
+    dependencies = Dependencies()
+    value = request(text, ("customer-ai.policy.read",))
+    result = dependencies.service().respond(value, context(value), idempotency_key='short-input')
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert '어렵습니다' not in result.answer
+    assert not result.handoff_required
+    assert not result.evidence
+    assert dependencies.composer.calls == 0
