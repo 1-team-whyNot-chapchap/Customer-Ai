@@ -13,16 +13,53 @@ class RuleBasedRouteResolver:
         {"정책", "규정", "기간", "조건", "수수료", "기준", "방법", "가능", "faq"}
     )
     _state_terms = frozenset(
-        {"상태", "결과", "진행", "완료", "실패", "최근", "현재", "언제", "어디"}
+        {
+            "상태",
+            "결과",
+            "진행",
+            "완료",
+            "실패",
+            "최근",
+            "현재",
+            "언제",
+            "어디",
+            "안 왔",
+            "안왔",
+            "안 와",
+            "안와",
+            "늦",
+            "도착",
+            "됐",
+            "되었",
+            "들어갔",
+            "접수",
+            "확인",
+        }
     )
     _personal_terms = frozenset({"내", "제", "나의", "제가", "나는", "본인"})
     _customer_terms = frozenset(
-        {"결제", "환불", "구독", "배송", "해지", "취소", "주문", "챱챱",
-         "프로필", "로그인", "회원가입", "배송지", "플랜", "메뉴"}
+        {
+            "결제",
+            "환불",
+            "구독",
+            "배송",
+            "해지",
+            "취소",
+            "주문",
+            "챱챱",
+            "프로필",
+            "로그인",
+            "회원가입",
+            "배송지",
+            "플랜",
+            "메뉴",
+        }
     )
 
     def resolve(self, message: str, *, timeout_seconds: float = 0.5) -> ConsultationRoute:
         normalized = message.casefold()
+        if self.clarification(message) is not None:
+            return ConsultationRoute.UNSUPPORTED
         has_policy = self._contains(normalized, self._policy_terms)
         has_state = self._contains(normalized, self._state_terms) and (
             self._contains(normalized, self._personal_terms)
@@ -52,8 +89,36 @@ class RuleBasedRouteResolver:
         text = message.casefold().strip(" !?.~\n\t")
         if text in {"안녕", "안녕하세요", "안녕하세요오", "반가워", "반갑습니다", "hello", "hi"}:
             return "안녕하세요! 챱챱 상담 도우미예요. 배송, 구독, 결제 등 어떤 도움이 필요하신가요?"
+        if text in {"고마워", "고마워요", "감사합니다", "감사해요", "고맙습니다"}:
+            return "도움이 되었다니 다행이에요. 더 궁금한 점이 있으면 말씀해 주세요!"
+        if "주문" in text and cls._contains(
+            text, frozenset({"들어갔", "접수", "확인", "됐", "되었"})
+        ):
+            return (
+                "현재 이 채팅에서는 주문 접수 여부를 직접 조회할 수 없어요. "
+                "상단의 ‘상담사 연결’을 누르시면 확인을 요청할 수 있어요."
+            )
+        if text in {
+            "환불해줘",
+            "환불해 줘",
+            "환불해주세요",
+            "환불해 주세요",
+            "취소해줘",
+            "취소해 줘",
+            "취소해주세요",
+            "취소해 주세요",
+        }:
+            return (
+                "이 채팅에서 취소나 환불을 직접 처리할 수는 없어요. "
+                "상단의 ‘상담사 연결’을 눌러 처리 가능 여부를 확인해 주세요."
+            )
+        if text in {"그건", "그거", "그럼", "왜", "왜요", "어떻게", "그 주문"}:
+            return "어떤 내용이 궁금하신가요? 결제, 환불, 구독, 배송 중 확인할 내용을 알려주세요."
         if text in cls._customer_terms:
-            return f"{text} 관련해서 어떤 점이 궁금하신가요? 확인하고 싶은 내용이나 겪고 있는 상황을 조금 더 자세히 알려주세요."
+            return (
+                f"{text} 관련해서 어떤 점이 궁금하신가요? "
+                "확인하고 싶은 내용이나 겪고 있는 상황을 조금 더 자세히 알려주세요."
+            )
         return None
 
     @staticmethod
