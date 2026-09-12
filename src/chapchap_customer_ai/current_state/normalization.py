@@ -14,6 +14,16 @@ from chapchap_customer_ai.current_state.contracts import (
     CurrentSubscriptionState,
     RecentRefundResult,
 )
+from chapchap_customer_ai.current_state.presentation import (
+    DELAY_STATUS,
+    DELIVERY_STATUS,
+    PAYMENT_STATUS,
+    PAYMENT_TYPE,
+    REFUND_STATUS,
+    REFUND_TYPE,
+    SUBSCRIPTION_STATUS,
+    customer_time,
+)
 
 
 class ToolResultNormalizer:
@@ -42,8 +52,9 @@ class ToolResultNormalizer:
             Capability.PAYMENT_CURRENT,
             StateAvailability.AVAILABLE,
             (
-                f"최근 결제 상태는 {value.status}이며 결제 유형은 {value.payment_type}, "
-                f"금액은 {value.amount}원, 발생 시각은 {occurred_at}입니다."
+                f"최근 {PAYMENT_TYPE[value.payment_type]} 상태는 "
+                f"‘{PAYMENT_STATUS[value.status]}’이며, 금액은 {value.amount:,}원이에요. "
+                f"결제 기록 시각은 {customer_time(value.occurred_at)}이에요."
             ),
             (
                 ("status", value.status.value),
@@ -61,9 +72,11 @@ class ToolResultNormalizer:
             Capability.REFUND_RECENT,
             StateAvailability.AVAILABLE,
             (
-                f"최근 환불 상태는 {value.status}이며 요청 금액은 {value.requested_amount}원, "
-                f"환불 금액은 {value.refunded_amount}원, 미처리 금액은 "
-                f"{value.unprocessed_amount}원입니다."
+                f"최근 {REFUND_TYPE.get(value.refund_type, '환불')} 상태는 "
+                f"‘{REFUND_STATUS[value.status]}’입니다. "
+                f"요청 금액은 {value.requested_amount:,}원, "
+                f"환불된 금액은 {value.refunded_amount:,}원, "
+                f"아직 처리되지 않은 금액은 {value.unprocessed_amount:,}원이에요."
             ),
             (
                 ("status", value.status.value),
@@ -81,18 +94,22 @@ class ToolResultNormalizer:
         return StateFact(
             Capability.SUBSCRIPTION_CURRENT,
             StateAvailability.AVAILABLE,
-            f"현재 구독 상태는 {value.status}입니다.",
+            f"현재 구독 상태는 ‘{SUBSCRIPTION_STATUS[value.status]}’입니다.",
             (("status", value.status.value),),
         )
 
     @staticmethod
     def _delivery(value: CurrentDeliveryState) -> StateFact:
         changed_at = value.status_changed_at.isoformat() if value.status_changed_at else None
-        time_text = f" 상태 변경 시각은 {changed_at}입니다." if changed_at else ""
+        time_text = (
+            f" 상태가 바뀐 시각은 {customer_time(value.status_changed_at)}이에요."
+            if value.status_changed_at else ""
+        )
         return StateFact(
             Capability.DELIVERY_CURRENT,
             StateAvailability.AVAILABLE,
-            f"오늘 배송 상태는 {value.status}, 지연 상태는 {value.delay_status}입니다.{time_text}",
+            f"오늘 배송 상태는 ‘{DELIVERY_STATUS[value.status]}’입니다. "
+            f"{DELAY_STATUS[value.delay_status]}{time_text}",
             (
                 ("status", value.status.value),
                 ("delayStatus", value.delay_status.value),
