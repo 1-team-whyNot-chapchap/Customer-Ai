@@ -136,7 +136,8 @@ class ConsultationResponseService:
                 schema_version="1.0",
                 request_id=request.request_id,
                 decision=ConsultationDecision.DEGRADED,
-                answer="현재 고객지원 범위에서는 해당 요청에 답변하기 어렵습니다.",
+                answer=(RuleBasedRouteResolver.clarification(request.message)
+                        or "챱챱의 배송, 구독, 결제 등 서비스 이용 문의를 도와드릴 수 있어요. 어떤 도움이 필요한지 구체적으로 알려주세요."),
                 route=route,
                 degraded=True,
                 handoff_required=False,

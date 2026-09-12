@@ -17,7 +17,8 @@ class RuleBasedRouteResolver:
     )
     _personal_terms = frozenset({"내", "제", "나의", "제가", "나는", "본인"})
     _customer_terms = frozenset(
-        {"결제", "환불", "구독", "배송", "해지", "취소", "주문", "챱챱"}
+        {"결제", "환불", "구독", "배송", "해지", "취소", "주문", "챱챱",
+         "프로필", "로그인", "회원가입", "배송지", "플랜", "메뉴"}
     )
 
     def resolve(self, message: str, *, timeout_seconds: float = 0.5) -> ConsultationRoute:
@@ -33,6 +34,8 @@ class RuleBasedRouteResolver:
             return ConsultationRoute.USER_STATE
         if has_policy:
             return ConsultationRoute.POLICY
+        if normalized.strip(" !?.~\n\t") in self._customer_terms:
+            return ConsultationRoute.UNSUPPORTED
         if self._contains(normalized, self._customer_terms) and self.classifier is not None:
             try:
                 return ConsultationRoute(
@@ -40,7 +43,18 @@ class RuleBasedRouteResolver:
                 )
             except ValueError:
                 return ConsultationRoute.UNSUPPORTED
+        if self._contains(normalized, self._customer_terms):
+            return ConsultationRoute.POLICY
         return ConsultationRoute.UNSUPPORTED
+
+    @classmethod
+    def clarification(cls, message: str) -> str | None:
+        text = message.casefold().strip(" !?.~\n\t")
+        if text in {"안녕", "안녕하세요", "안녕하세요오", "반가워", "반갑습니다", "hello", "hi"}:
+            return "안녕하세요! 챱챱 상담 도우미예요. 배송, 구독, 결제 등 어떤 도움이 필요하신가요?"
+        if text in cls._customer_terms:
+            return f"{text} 관련해서 어떤 점이 궁금하신가요? 확인하고 싶은 내용이나 겪고 있는 상황을 조금 더 자세히 알려주세요."
+        return None
 
     @staticmethod
     def _contains(message: str, terms: frozenset[str]) -> bool:
