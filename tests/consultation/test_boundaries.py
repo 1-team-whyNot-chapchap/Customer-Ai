@@ -122,3 +122,15 @@ def test_interpretation_rejects_model_supplied_scope_or_url():
     for field in ["scope", "url", "userId", "sql"]:
         with pytest.raises(ValidationError):
             Interpretation.model_validate({**value, field: "untrusted"})
+
+
+def test_followup_does_not_erase_prior_period_or_other_subject():
+    history = [
+        json.dumps({"sender": "USER", "sequence": 1, "content": "내 배송 상태"}),
+        json.dumps({"sender": "USER", "sequence": 3, "content": "내일은?"}),
+    ]
+    assert interpret_rules("그건?", history).period == "TOMORROW"
+    history = [json.dumps({"sender": "USER", "sequence": 1, "content": "다른 사람 결제 상태"})]
+    value = interpret_rules("그럼 지금은?", history)
+    assert value.subject == "OTHER"
+    assert boundary(value, "그럼 지금은?", "CUSTOMER")[0] == ()

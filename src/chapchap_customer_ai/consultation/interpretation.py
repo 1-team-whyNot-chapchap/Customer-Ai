@@ -103,20 +103,23 @@ def interpret_rules(message, context):
     topics = explicit_topics(text)
     followup = bool(re.search(r"그럼|그건|그거|지금은|내꺼|내거|언제|어디|내일은|어제는", text))
     inherited_period = Period.UNSPECIFIED
+    inherited_subject = SubjectReference.SELF
     if not topics and followup:
-        for item in reversed(customer_context(context)):
+        for item in customer_context(context):
             previous = item["content"].casefold()
             found = explicit_topics(previous)
             if found:
                 topics = found if len(found) == 1 else []
                 inherited_period = detect_period(previous)
-                break
+                inherited_subject = detect_subject(previous)
+            elif topics and detect_period(previous) != Period.UNSPECIFIED:
+                inherited_period = detect_period(previous)
     period = detect_period(text)
     if period == Period.UNSPECIFIED and followup:
         period = inherited_period
-    subject = SubjectReference.SELF
-    if re.search(r"userid\s*=|다른\s*(사람|고객|사용자)|친구|타인|남의", text):
-        subject = SubjectReference.OTHER
+    subject = detect_subject(text)
+    if not explicit_topics(text) and followup and subject == SubjectReference.SELF:
+        subject = inherited_subject
     detail = Detail.STATUS
     if re.search(r"몇\s*시|언제.*(와|오|도착)|도착.*(예정|시간)|\beta\b", text) or (
         Topic.DELIVERY in topics and "언제" in text
@@ -164,6 +167,14 @@ def detect_period(text):
     if re.search(r"지금|현재", text):
         return Period.CURRENT
     return Period.UNSPECIFIED
+
+
+def detect_subject(text):
+    if re.search(
+        r"user\s*id\s*[:=]|다른\s*(사람|고객|사용자)|친구|타인|남의|그\s*사람|엄마|아빠|가족", text
+    ):
+        return SubjectReference.OTHER
+    return SubjectReference.SELF
 
 
 def boundary(candidate, message, role):

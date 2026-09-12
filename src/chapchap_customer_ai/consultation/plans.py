@@ -92,6 +92,22 @@ class ConsultationPlans:
             except Exception:
                 pass  # No tool calls on ambiguous model failure.
         capabilities, notice = boundary(candidate, request.message, request.subject.role.value)
+        if candidate.intent == Intent.UNCLEAR and safe:
+            repeated = 0
+            for item in request.conversation_context:
+                try:
+                    turn = json.loads(item)
+                    if turn.get("sender") == "AI" and "어떤 내용을 확인할까요?" in turn.get(
+                        "content", ""
+                    ):
+                        repeated += 1
+                except (ValueError, AttributeError):
+                    continue
+            if repeated >= 2:
+                notice = (
+                    "예를 들어 “오늘 배송 상태 알려줘”처럼 말씀해 주세요. "
+                    "계속 설명하기 어려우시면 상단의 상담사 연결을 이용해 주세요."
+                )
         if not safe:
             capabilities = ()
             notice = (
