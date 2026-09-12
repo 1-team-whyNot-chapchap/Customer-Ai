@@ -14,6 +14,8 @@ from chapchap_customer_ai.consultation.interpretation import (
     Period,
     SubjectReference,
     boundary,
+    customer_context,
+    explicit_topics,
     interpret_rules,
     route_for,
 )
@@ -70,8 +72,14 @@ class ConsultationPlans:
         start = self.clock()
         candidate = interpret_rules(request.message, request.conversation_context)
         safe = self.service.guardrails.input_is_safe(request.message, request.conversation_context)
-        ambiguous_reference = not candidate.topics and bool(
-            re.search(r"그건|그거|그럼|내꺼|내거", request.message)
+        history = customer_context(request.conversation_context)
+        explicit_history = [
+            explicit_topics(t["content"]) for t in history if explicit_topics(t["content"])
+        ]
+        ambiguous_reference = (
+            not candidate.topics
+            and bool(re.search(r"그건|그거|그럼|내꺼|내거", request.message))
+            and (not history or (explicit_history and len(explicit_history[-1]) > 1))
         )
         if safe and candidate.intent == Intent.UNCLEAR and not ambiguous_reference:
             try:

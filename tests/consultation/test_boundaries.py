@@ -134,3 +134,37 @@ def test_followup_does_not_erase_prior_period_or_other_subject():
     value = interpret_rules("그럼 지금은?", history)
     assert value.subject == "OTHER"
     assert boundary(value, "그럼 지금은?", "CUSTOMER")[0] == ()
+
+
+def test_model_can_resolve_followup_after_nonkeyword_question():
+    class Interpreter:
+        calls = 0
+
+        def interpret(self, message, history, **kwargs):
+            self.calls += 1
+            return {
+                "intent": "STATE",
+                "topics": ["DELIVERY"],
+                "period": "TODAY",
+                "detail": "ETA",
+                "subject": "SELF",
+            }
+
+    deps = Dependencies()
+    deps.composer = Interpreter()
+    initial = request("그럼 언제 와요?", POLICY).model_copy(
+        update={
+            "conversation_context": [
+                json.dumps({"sender": "USER", "sequence": 1, "content": "도시락 오고 있나요?"}),
+                json.dumps(
+                    {"sender": "AI", "sequence": 2, "content": "오늘 배송 상태는 완료입니다."}
+                ),
+            ]
+        }
+    )
+    plans = ConsultationPlans(deps.service())
+    plan = plans.prepare(initial, context(initial))
+    assert deps.composer.calls == 1
+    assert plan["capabilities"] == []
+    assert "도착 예정" in plans.execute(plan["planId"], initial, context(initial), "follow").answer
+    assert deps.state.calls == 0
