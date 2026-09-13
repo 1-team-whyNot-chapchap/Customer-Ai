@@ -58,6 +58,7 @@ def test_state_answer_uses_question_and_verified_meaning_in_composer(message, an
         TimeoutError(),
         GroundedAnswerDraft("허위 인용", ("made-up",)),
         GroundedAnswerDraft("Authorization: Bearer secret", ()),
+        GroundedAnswerDraft("이메일이나 계정 정보를 알려주시면 다시 확인해볼게요.", ()),
     ],
 )
 def test_generation_failure_retains_verified_fallback(failure):

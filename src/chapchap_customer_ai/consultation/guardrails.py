@@ -94,10 +94,34 @@ class ConsultationGuardrails:
         # Conversational generation has no facts. Prefer the approved fallback
         # over factual-looking business claims, even when a negative claim is true.
         return self.output_text_is_safe(answer) and not re.search(
-            r"\d|https?://|(?:조회|처리|취소|연결).*(?:완료|했|됐|되었)|"
+            r"\d|https?://|\]\(|javascript:|data:|(?:^|\s)/[a-zA-Z]|"
+            r"(?:조회|처리|취소|연결).*(?:완료|했|됐|되었)|"
+            r"(?:이동|열어|연결).*(?:드릴|드렸|줄게)|"
             r"연결.*(?:수\s*(?:는\s*)?없|불가|불가능)|"
+            r"연결.*(?:건|것).*아니|"
             r"(?:배송|결제|환불|구독).*(?:상태|완료|중|금액|원|일)|"
             r"(?:밥|식사|점심|저녁).*(?:먹었|했어요|했습니다)",
+            answer,
+        )
+
+    def state_output_is_safe(self, answer: str) -> bool:
+        # State tools use only the signed subject; they cannot accept identity
+        # information collected in chat as an alternate search key.
+        return self.output_text_is_safe(answer) and not re.search(
+            r"(?:이메일|메일\s*주소|전화번호|비밀번호|계정\s*정보|아이디|서비스명|상품명).{0,80}"
+            r"(?:알려|보내|입력|제공|말씀)|"
+            r"(?:알려|보내|입력|제공|말씀).{0,40}(?:이메일|전화번호|비밀번호|아이디)|"
+            r"(?:어떤|신청한|신청하신)\s*(?:서비스|상품).*(?:알려|말씀|확인해)",
+            answer,
+            re.DOTALL,
+        )
+
+    def policy_output_is_safe(self, answer: str) -> bool:
+        # A policy-only turn neither performs a personal lookup nor connects
+        # an agent. Reject action promises while allowing optional guidance.
+        return self.output_text_is_safe(answer) and not re.search(
+            r"연결(?:을)?\s*(?:도와\s*)?(?:해\s*)?(?:드릴게|드리겠|하겠|할게|했|됐|완료)|"
+            r"조회된\s*(?:결제|구독|배송|환불)\s*(?:건|기록|내역|정보)(?:이|가)?\s*없",
             answer,
         )
 

@@ -10,12 +10,16 @@ from chapchap_customer_ai.application.prompts import (
     ANSWER_PROMPT,
     DIALOGUE_PROMPT,
     INTERPRETATION_PROMPT,
+    STATE_ANSWER_PROMPT,
     SUMMARY_PROMPT,
 )
 from chapchap_customer_ai.consultation.models import (
+    Capability,
     ConsultationDependencyError,
     GroundedAnswerDraft,
+    StateAvailability,
 )
+from chapchap_customer_ai.consultation.navigation import PAGES
 from chapchap_customer_ai.summary.models import SummaryComposerError, SummaryDraft
 
 
@@ -82,6 +86,9 @@ class DeepSeekComposer:
             result = json.loads(message["content"])
             if not isinstance(result, dict):
                 raise ValueError
+            if isinstance(result.get("answer"), str):
+                # Brand spelling is a product constant, not a generative choice.
+                result["answer"] = result["answer"].replace("챕챱", "챱챱")
             return result
         except httpx.TimeoutException:
             raise TimeoutError("Composer deadline exceeded") from None
@@ -94,16 +101,22 @@ class DeepSeekComposer:
         )
         return self._complete(
             instruction,
-            {"message": message, "conversationContext": list(conversation_context)},
+            {"message": message, "conversationContext": list(conversation_context),
+             "navigationCatalog": [
+                 {"destination": key.value, "label": page.label, "purpose": page.guidance}
+                 for key, page in PAGES.items()
+             ]},
             timeout_seconds,
         )
 
     def compose(self, message, conversation_context, evidence, state_facts, *, timeout_seconds):
-        instruction = ANSWER_PROMPT
+        instruction = ANSWER_PROMPT if evidence else STATE_ANSWER_PROMPT
         try:
             result = self._complete(
                 instruction,
                 {
+                    "service": "챱챱",
+                    "accountContext": "조회 대상은 이미 확인된 로그인 계정입니다.",
                     "message": message,
                     "conversationContext": list(conversation_context),
                     "evidence": [
@@ -113,7 +126,13 @@ class DeepSeekComposer:
                         {
                             "capability": fact.capability.value,
                             "availability": fact.availability.value if fact.availability else None,
-                            "safeAnswer": fact.safe_answer,
+                            "safeAnswer": fact.safe_answer
+                            or (
+                                "챱챱 본인 구독 조회 성공. 구독 정보 없음."
+                                if fact.capability == Capability.SUBSCRIPTION_CURRENT
+                                and fact.availability == StateAvailability.NOT_FOUND
+                                else None
+                            ),
                             "values": dict(fact.values),
                         }
                         for fact in state_facts

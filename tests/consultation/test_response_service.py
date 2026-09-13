@@ -183,7 +183,8 @@ def test_missing_approved_versions_never_runs_unbounded_search() -> None:
 
     result = dependencies.service().respond(value, context(value), idempotency_key="message-9002")
 
-    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert not result.handoff_required and not result.evidence
     assert dependencies.retriever.calls == 0
 
 
@@ -191,7 +192,7 @@ def test_missing_approved_versions_never_runs_unbounded_search() -> None:
     "dependency_error",
     [ConsultationDependencyError("external detail"), TimeoutError(), RuntimeError("raw")],
 )
-def test_vector_or_composer_failure_returns_handoff_without_raw_error(
+def test_vector_or_composer_failure_keeps_chat_open_without_raw_error(
     dependency_error: Exception,
 ) -> None:
     if isinstance(dependency_error, ConsultationDependencyError):
@@ -202,8 +203,8 @@ def test_vector_or_composer_failure_returns_handoff_without_raw_error(
 
     result = dependencies.service().respond(value, context(value), idempotency_key="message-9002")
 
-    assert result.decision == ConsultationDecision.HANDOFF
-    assert result.answer is None
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert result.answer and not result.handoff_required and not result.evidence
     assert "external detail" not in str(result)
     assert "raw" not in str(result)
 
@@ -230,7 +231,8 @@ def test_direct_or_indirect_injection_returns_handoff() -> None:
 
     assert direct_result.decision == ConsultationDecision.HANDOFF
     assert direct.versions.calls == 0
-    assert indirect_result.decision == ConsultationDecision.HANDOFF
+    assert indirect_result.decision == ConsultationDecision.DEGRADED
+    assert not indirect_result.handoff_required and not indirect_result.evidence
     assert indirect.composer.calls == 0
 
 
@@ -242,7 +244,9 @@ def test_unapproved_composer_citation_is_rejected() -> None:
 
     result = dependencies.service().respond(value, context(value), idempotency_key="key")
 
-    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert not result.handoff_required and not result.evidence
+    assert "근거 없는 답변" not in result.answer
 
 
 def test_current_state_uses_verified_fallback_when_model_returns_invalid_citations() -> None:
@@ -374,7 +378,8 @@ def test_rag_result_that_exceeds_stage_budget_is_not_used() -> None:
 
     result = service.respond(value, context(value), idempotency_key="deadline")
 
-    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert not result.handoff_required
     assert dependencies.composer.calls == 0
 
 
