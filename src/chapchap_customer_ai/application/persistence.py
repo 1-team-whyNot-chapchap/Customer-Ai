@@ -189,7 +189,10 @@ class PersistentSummaryJobRegistry:
     def complete(self, key, summary_job_id):
         self._finish(key, summary_job_id, True)
 
-    def _finish(self, key, external_id, done):
+    def complete_failure(self, key, summary_job_id):
+        self._finish(key, summary_job_id, False, clear_pending=True)
+
+    def _finish(self, key, external_id, done, clear_pending=False):
         with self.store.transaction() as db:
             row = db.execute(
                 "SELECT id FROM jobs WHERE kind='summary' AND key=? AND external_id=?",
@@ -200,7 +203,7 @@ class PersistentSummaryJobRegistry:
                     "UPDATE attempts SET done=? WHERE job_id=? AND attempt=1", (int(done), row[0])
                 )
                 self.store.running.discard((row[0], 1))
-                if done:
+                if done or clear_pending:
                     db.execute("DELETE FROM pending WHERE kind='summary' AND key=?", (key,))
 
 

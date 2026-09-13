@@ -78,21 +78,32 @@ class ConsultationSummaryService:
 
     def _run_registered(self, key, request, request_id):
         try:
-            self._process(request, request_id)
+            result = self._process(request, request_id)
         except Exception:
             self.registry.release(key, request.summary_job_id)
             raise
+        if isinstance(result, ConsultationSummaryFailed):
+            failed = getattr(self.registry, "complete_failure", self.registry.release)
+            failed(key, request.summary_job_id)
+            return
         complete = getattr(self.registry, "complete", None)
         if complete is not None:
             complete(key, request.summary_job_id)
 
-    def _process(self, request: ConsultationSummaryRequest, request_id: UUID) -> None:
+    def _process(self, request: ConsultationSummaryRequest, request_id: UUID):
         try:
-            if not self.guardrails.input_is_safe(request.messages):
-                result = self._failed(request, ConsultationSummaryFailureCode.UNSAFE_CONTEXT)
+            safe_messages, excluded = self.guardrails.prepare(request.messages)
+            note = "일부 메시지는 안전 검토를 위해 요약에서 제외했습니다. 원문을 확인해 주세요."
+            limit = min(500, self.guardrails.max_summary_characters)
+            if not safe_messages:
+                result = ConsultationSummaryCompleted(
+                    schema_version="1.0", summary_job_id=request.summary_job_id,
+                    consultation_id=request.consultation_id, status="COMPLETED",
+                    summary=("안전하게 요약할 수 있는 대화가 없습니다. " + note)[:limit],
+                )
             else:
                 draft = self.composer.summarize(
-                    request.messages,
+                    safe_messages,
                     timeout_seconds=self.compose_timeout_seconds,
                 )
                 if not self.guardrails.output_is_safe(draft.text):
@@ -106,7 +117,8 @@ class ConsultationSummaryService:
                         summary_job_id=request.summary_job_id,
                         consultation_id=request.consultation_id,
                         status="COMPLETED",
-                        summary=draft.text,
+                        summary=(draft.text[:max(0, limit - len(note) - 2)] + "\n\n" + note)[:limit]
+                        if excluded else draft.text,
                     )
         except TimeoutError:
             result = self._failed(request, ConsultationSummaryFailureCode.PROCESSING_TIMEOUT)
@@ -132,6 +144,7 @@ class ConsultationSummaryService:
             )
         emit_safely(self.diagnostics, event)
         self.result_publisher.publish(result, request_id)
+        return result
 
     @staticmethod
     def _failed(
