@@ -10,6 +10,7 @@ from chapchap_customer_ai.consultation.interpretation import (
 )
 from chapchap_customer_ai.consultation.models import Capability, ConsultationRequestError, StateFact
 from chapchap_customer_ai.consultation.plans import ConsultationPlans
+from tests.consultation.model_fixtures import interpretation
 from tests.consultation.test_response_service import Dependencies, context, request
 
 POLICY = ("customer-ai.policy.read",)
@@ -56,6 +57,7 @@ def test_followup_preserves_topic_and_rejects_eta_and_period():
 
 def prepared(message="지금 배달중인거 있어?"):
     deps = Dependencies()
+    deps.composer.interpret = lambda *args, **kwargs: interpretation()
     deps.state.values = (
         StateFact(Capability.DELIVERY_CURRENT, "AVAILABLE", "오늘 배송은 완료 상태예요."),
     )
