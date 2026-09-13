@@ -123,6 +123,13 @@ class ConsultationResponseService:
         if not self.guardrails.input_is_safe(request.message, request.conversation_context):
             safe_route = RuleBasedRouteResolver().resolve(request.message)
             return self._handoff(request.request_id, safe_route)
+        request = request.model_copy(
+            update={
+                "conversation_context": list(
+                    self.guardrails.safe_context(request.conversation_context)
+                )
+            }
+        )
         try:
             route = self.route_resolver.resolve(
                 request.message, timeout_seconds=deadline.remaining(self.route_timeout_seconds)
@@ -136,8 +143,11 @@ class ConsultationResponseService:
                 schema_version="1.0",
                 request_id=request.request_id,
                 decision=ConsultationDecision.DEGRADED,
-                answer=(RuleBasedRouteResolver.clarification(request.message)
-                        or "챱챱의 배송, 구독, 결제 등 서비스 이용 문의를 도와드릴 수 있어요. 어떤 도움이 필요한지 구체적으로 알려주세요."),
+                answer=(
+                    RuleBasedRouteResolver.clarification(request.message)
+                    or "챱챱의 배송, 구독, 결제 등 서비스 이용 문의를 도와드릴 수 있어요. "
+                    "어떤 도움이 필요한지 구체적으로 알려주세요."
+                ),
                 route=route,
                 degraded=True,
                 handoff_required=False,
@@ -245,9 +255,7 @@ class ConsultationResponseService:
         return ConsultationResponse(
             schema_version="1.0",
             request_id=request_id,
-            decision=(
-                ConsultationDecision.DEGRADED if unresolved else ConsultationDecision.ANSWER
-            ),
+            decision=(ConsultationDecision.DEGRADED if unresolved else ConsultationDecision.ANSWER),
             answer=answer,
             route=route,
             degraded=unresolved,
@@ -290,9 +298,7 @@ class ConsultationResponseService:
             schema_version="1.0",
             request_id=request.request_id,
             decision=(
-                ConsultationDecision.DEGRADED
-                if unresolved_state
-                else ConsultationDecision.ANSWER
+                ConsultationDecision.DEGRADED if unresolved_state else ConsultationDecision.ANSWER
             ),
             answer=answer,
             route=route,

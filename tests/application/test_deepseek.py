@@ -129,3 +129,22 @@ def test_summary_limit_matches_java_utf16_length_for_emoji():
     ) as client:
         with pytest.raises(SummaryComposerError):
             DeepSeekComposer(client, SecretStr("test")).summarize([], timeout_seconds=1)
+
+
+@pytest.mark.parametrize(
+    "data",
+    [
+        {"answer": " "},
+        {"answer": "가" * 301},
+        {"answer": "안녕", "tool": "lookup"},
+        {"answer": 123},
+    ],
+)
+def test_dialogue_rejects_invalid_model_contract(data):
+    with httpx.Client(
+        transport=httpx.MockTransport(lambda req: httpx.Response(200, json=completion(data)))
+    ) as client:
+        with pytest.raises(ConsultationDependencyError):
+            DeepSeekComposer(client, SecretStr("test")).converse(
+                "안녕", "SMALL_TALK", "안녕하세요!", timeout_seconds=1
+            )
