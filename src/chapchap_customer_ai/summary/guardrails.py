@@ -39,6 +39,22 @@ class SummaryGuardrails:
             return False
         return not self._high_risk(texts)
 
+    def prepare(self, messages: Sequence[ConsultationSummaryMessage]):
+        """Omit suspect messages, never send their instructions to the composer."""
+        if not messages or len(messages) > self.max_messages:
+            raise ValueError("summary input exceeds limits")
+        if sum(len(message.content) for message in messages) > self.max_context_characters:
+            raise ValueError("summary context exceeds limits")
+        safe = tuple(
+            message for message in messages
+            if not any(pattern.search(message.content) for pattern in (
+                *self._instruction_patterns, *self._secret_patterns,
+            ))
+        )
+        if safe and not self.input_is_safe(safe):
+            return (), len(messages)
+        return safe, len(messages) - len(safe)
+
     def output_is_safe(self, summary: str) -> bool:
         return (
             bool(summary.strip())

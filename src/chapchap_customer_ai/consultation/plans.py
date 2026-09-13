@@ -13,6 +13,7 @@ from chapchap_customer_ai.consultation.interpretation import (
     Interpretation,
     Period,
     SubjectReference,
+    active_context,
     boundary,
     customer_context,
     explicit_topics,
@@ -47,6 +48,7 @@ class Plan:
     route: object
     notice: str | None
     scopes: frozenset
+    intent: Intent
 
 
 def fingerprint(request):
@@ -70,9 +72,12 @@ class ConsultationPlans:
                 "Interpretation requires policy-only scope.", status_code=403
             )
         start = self.clock()
-        candidate = interpret_rules(request.message, request.conversation_context)
         safe = self.service.guardrails.input_is_safe(request.message, request.conversation_context)
-        history = customer_context(request.conversation_context)
+        safe_history = active_context(
+            self.service.guardrails.safe_context(request.conversation_context)
+        )
+        candidate = interpret_rules(request.message, safe_history)
+        history = customer_context(safe_history)
         explicit_history = [
             explicit_topics(t["content"]) for t in history if explicit_topics(t["content"])
         ]
@@ -84,7 +89,7 @@ class ConsultationPlans:
         if safe and candidate.intent == Intent.UNCLEAR and not ambiguous_reference:
             try:
                 body = self.service.composer.interpret(
-                    request.message, request.conversation_context, timeout_seconds=1.5
+                    request.message, safe_history, timeout_seconds=1.5
                 )
                 model_candidate = Interpretation.model_validate(body)
                 # Explicit restrictions cannot be removed by a probabilistic classifier.
@@ -126,7 +131,15 @@ class ConsultationPlans:
         scopes = frozenset(
             {"customer-ai.policy.read"} | {CAPABILITY_SCOPES[c] for c in capabilities}
         )
-        plan = Plan(fingerprint(request), start + 8.0, capabilities, route, notice, scopes)
+        plan = Plan(
+            fingerprint(request),
+            start + 8.0,
+            capabilities,
+            route,
+            notice,
+            scopes,
+            candidate.intent if safe else Intent.OUT_OF_SCOPE,
+        )
         plan_id = str(uuid4())
         with self._lock:
             self._plans = {k: v for k, v in self._plans.items() if v.expires > self.clock()}
@@ -149,14 +162,25 @@ class ConsultationPlans:
             raise ConsultationRequestError("Invalid or expired consultation plan.", status_code=409)
         if context.subject.allowed_ai_scopes != plan.scopes:
             raise ConsultationRequestError("Plan scope mismatch.", status_code=403)
+        if plan.intent == Intent.HANDOFF:
+            return self.service._handoff(request.request_id, plan.route)
         if plan.notice:
+            conversational = plan.intent in {Intent.SMALL_TALK, Intent.CORRECTION, Intent.COMPLAINT}
+            if conversational:
+                if not isinstance(key, str) or not key.strip() or len(key.strip()) > 200:
+                    raise ConsultationRequestError("A valid Idempotency-Key is required.")
+                return self.service.registry.execute_once(
+                    key.strip(),
+                    self.service._fingerprint(request),
+                    lambda: self._conversation_response(plan, request),
+                )
             return ConsultationResponse(
                 schema_version="1.0",
                 request_id=request.request_id,
-                decision="DEGRADED",
+                decision="ANSWER" if conversational else "DEGRADED",
                 answer=plan.notice,
                 route="UNSUPPORTED",
-                degraded=True,
+                degraded=not conversational,
                 handoff_required=False,
             )
         service = replace(
@@ -166,3 +190,30 @@ class ConsultationPlans:
             request_deadline_seconds=max(0.001, plan.expires - self.clock()),
         )
         return service.respond(request, context, idempotency_key=key)
+
+    def _conversation_response(self, plan, request):
+        answer = plan.notice
+        try:
+            draft = self.service.composer.converse(
+                request.message,
+                plan.intent.value,
+                plan.notice,
+                timeout_seconds=min(1.5, max(0.001, plan.expires - self.clock())),
+            )
+            if (
+                isinstance(draft, str)
+                and 0 < len(draft) <= 300
+                and self.service.guardrails.dialogue_output_is_safe(draft)
+            ):
+                answer = draft
+        except Exception:
+            pass  # A bounded, useful fallback keeps the conversation available.
+        return ConsultationResponse(
+            schema_version="1.0",
+            request_id=request.request_id,
+            decision="ANSWER",
+            answer=answer,
+            route="UNSUPPORTED",
+            degraded=False,
+            handoff_required=False,
+        )
