@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from chapchap_customer_ai.api.consultation import build_candidate_consultation_router
+from tests.consultation.model_fixtures import interpretation
 from tests.consultation.test_candidate_api import Verifier, payload
 from tests.consultation.test_response_service import Dependencies
 
@@ -11,7 +12,9 @@ from tests.consultation.test_response_service import Dependencies
 def client(monkeypatch, enabled):
     monkeypatch.setenv("CONSULTATION_BOUNDARIES_ENABLED", str(enabled).lower())
     app = FastAPI()
-    app.include_router(build_candidate_consultation_router(Dependencies().service(), Verifier()))
+    deps = Dependencies()
+    deps.composer.interpret = lambda *args, **kwargs: interpretation(period="TOMORROW")
+    app.include_router(build_candidate_consultation_router(deps.service(), Verifier()))
     return TestClient(app)
 
 

@@ -2,22 +2,18 @@
 
 import hashlib
 import json
-import re
 import time
 from dataclasses import dataclass, replace
 from threading import Lock
 from uuid import uuid4
 
 from chapchap_customer_ai.consultation.interpretation import (
+    Detail,
     Intent,
     Interpretation,
     Period,
     SubjectReference,
-    active_context,
     boundary,
-    customer_context,
-    explicit_topics,
-    interpret_rules,
     route_for,
 )
 from chapchap_customer_ai.consultation.models import CAPABILITY_SCOPES, ConsultationRequestError
@@ -73,37 +69,26 @@ class ConsultationPlans:
             )
         start = self.clock()
         safe = self.service.guardrails.input_is_safe(request.message, request.conversation_context)
-        safe_history = active_context(
-            self.service.guardrails.safe_context(request.conversation_context)
+        safe_history = self.service.guardrails.safe_context(request.conversation_context)
+        # The model owns semantic interpretation for every safe utterance. Code
+        # validates structure and execution authority, never guesses an intent
+        # or overwrites a subject/date based on keywords.
+        candidate = Interpretation(
+            intent=Intent.UNCLEAR,
+            topics=[],
+            period=Period.UNSPECIFIED,
+            detail=Detail.OTHER,
+            subject=SubjectReference.UNCLEAR,
         )
-        candidate = interpret_rules(request.message, safe_history)
-        history = customer_context(safe_history)
-        explicit_history = [
-            explicit_topics(t["content"]) for t in history if explicit_topics(t["content"])
-        ]
-        ambiguous_reference = (
-            not candidate.topics
-            and bool(re.search(r"그건|그거|그럼|내꺼|내거", request.message))
-            and (not history or (explicit_history and len(explicit_history[-1]) > 1))
-        )
-        if safe and candidate.intent == Intent.UNCLEAR and not ambiguous_reference:
+        interpretation_failed = False
+        if safe:
             try:
                 body = self.service.composer.interpret(
                     request.message, safe_history, timeout_seconds=1.5
                 )
-                model_candidate = Interpretation.model_validate(body)
-                # Explicit restrictions cannot be removed by a probabilistic classifier.
-                if candidate.subject == SubjectReference.OTHER:
-                    model_candidate = model_candidate.model_copy(
-                        update={"subject": candidate.subject}
-                    )
-                if candidate.period != Period.UNSPECIFIED:
-                    model_candidate = model_candidate.model_copy(
-                        update={"period": candidate.period}
-                    )
-                candidate = model_candidate
+                candidate = Interpretation.model_validate(body)
             except Exception:
-                pass  # No tool calls on ambiguous model failure.
+                interpretation_failed = True  # No heuristic lookup or handoff on failure.
         capabilities, notice = boundary(candidate, request.message, request.subject.role.value)
         if candidate.intent == Intent.UNCLEAR and safe:
             repeated = 0
@@ -121,6 +106,11 @@ class ConsultationPlans:
                     "예를 들어 “오늘 배송 상태 알려줘”처럼 말씀해 주세요. "
                     "계속 설명하기 어려우시면 상단의 상담사 연결을 이용해 주세요."
                 )
+        if interpretation_failed:
+            notice = (
+                "지금은 질문을 정확히 이해하지 못했어요. "
+                "잠시 후 다시 말씀해 주세요. 상담사 연결도 이용할 수 있어요."
+            )
         if not safe:
             capabilities = ()
             notice = (
@@ -165,7 +155,13 @@ class ConsultationPlans:
         if plan.intent == Intent.HANDOFF:
             return self.service._handoff(request.request_id, plan.route)
         if plan.notice:
-            conversational = plan.intent in {Intent.SMALL_TALK, Intent.CORRECTION, Intent.COMPLAINT}
+            conversational = plan.intent in {
+                Intent.SMALL_TALK,
+                Intent.CORRECTION,
+                Intent.COMPLAINT,
+                Intent.HANDOFF_INFO,
+                Intent.CONTINUE_CHAT,
+            }
             if conversational:
                 if not isinstance(key, str) or not key.strip() or len(key.strip()) > 200:
                     raise ConsultationRequestError("A valid Idempotency-Key is required.")

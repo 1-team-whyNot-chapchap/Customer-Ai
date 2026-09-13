@@ -15,6 +15,8 @@ class Intent(StrEnum):
     CORRECTION = "CORRECTION"
     COMPLAINT = "COMPLAINT"
     HANDOFF = "HANDOFF"
+    HANDOFF_INFO = "HANDOFF_INFO"
+    CONTINUE_CHAT = "CONTINUE_CHAT"
     POLICY = "POLICY"
     STATE = "STATE"
     POLICY_AND_STATE = "POLICY_AND_STATE"
@@ -138,6 +140,7 @@ def is_correction(text):
 
 
 def interpret_rules(message, context):
+    """Legacy rule interpreter; the active two-phase runtime uses the LLM instead."""
     text = message.casefold().strip()
     compact = re.sub(r"\s+", "", text)
     topics = explicit_topics(text)
@@ -251,16 +254,12 @@ def boundary(candidate, message, role):
     """Return only server-owned routing, scopes and fixed safe notices."""
     if candidate.intent == Intent.HANDOFF:
         return (), None
+    if candidate.intent == Intent.HANDOFF_INFO:
+        return (), "상단의 상담사 연결 버튼을 누르시면 상담사에게 상담을 요청할 수 있어요."
+    if candidate.intent == Intent.CONTINUE_CHAT:
+        return (), "네, 이 채팅에서 계속 도와드릴게요. 궁금한 내용을 말씀해 주세요."
     if candidate.intent == Intent.CORRECTION:
-        return (
-            (),
-            (
-                "말씀을 잘못 이해했어요. 다른 고객의 정보를 조회해 달라는 뜻은 아니었군요. "
-                "어떤 도움을 원하셨는지 말씀해 주세요."
-            )
-            if detect_subject(message) == SubjectReference.OTHER
-            else "말씀을 잘못 이해했어요. 어떤 도움을 원하셨는지 다시 말씀해 주세요.",
-        )
+        return (), "말씀을 잘못 이해했어요. 어떤 도움을 원하셨는지 다시 말씀해 주세요."
     if candidate.intent == Intent.COMPLAINT:
         return (
             (),
