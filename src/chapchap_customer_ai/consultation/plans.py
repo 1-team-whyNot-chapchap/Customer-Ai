@@ -17,6 +17,7 @@ from chapchap_customer_ai.consultation.interpretation import (
     route_for,
 )
 from chapchap_customer_ai.consultation.models import CAPABILITY_SCOPES, ConsultationRequestError
+from chapchap_customer_ai.consultation.navigation import PAGES, Destination
 from chapchap_customer_ai.contracts.models import ConsultationResponse
 
 
@@ -45,6 +46,7 @@ class Plan:
     notice: str | None
     scopes: frozenset
     intent: Intent
+    destination: Destination | None = None
 
 
 def fingerprint(request):
@@ -84,7 +86,7 @@ class ConsultationPlans:
         if safe:
             try:
                 body = self.service.composer.interpret(
-                    request.message, safe_history, timeout_seconds=1.5
+                    request.message, safe_history, timeout_seconds=2.5
                 )
                 candidate = Interpretation.model_validate(body)
             except Exception:
@@ -129,6 +131,11 @@ class ConsultationPlans:
             notice,
             scopes,
             candidate.intent if safe else Intent.OUT_OF_SCOPE,
+            candidate.destination
+            if safe
+            and candidate.intent == Intent.NAVIGATION
+            and request.subject.role.value == "CUSTOMER"
+            else None,
         )
         plan_id = str(uuid4())
         with self._lock:
@@ -161,6 +168,8 @@ class ConsultationPlans:
                 Intent.COMPLAINT,
                 Intent.HANDOFF_INFO,
                 Intent.CONTINUE_CHAT,
+                Intent.NAVIGATION,
+                Intent.STATE_DISPUTE,
             }
             if conversational:
                 if not isinstance(key, str) or not key.strip() or len(key.strip()) > 200:
@@ -189,21 +198,24 @@ class ConsultationPlans:
 
     def _conversation_response(self, plan, request):
         answer = plan.notice
-        try:
-            draft = self.service.composer.converse(
-                request.message,
-                plan.intent.value,
-                plan.notice,
-                timeout_seconds=min(1.5, max(0.001, plan.expires - self.clock())),
-            )
-            if (
-                isinstance(draft, str)
-                and 0 < len(draft) <= 300
-                and self.service.guardrails.dialogue_output_is_safe(draft)
-            ):
-                answer = draft
-        except Exception:
-            pass  # A bounded, useful fallback keeps the conversation available.
+        if plan.intent != Intent.NAVIGATION or plan.destination in PAGES:
+            try:
+                draft = self.service.composer.converse(
+                    request.message,
+                    plan.intent.value,
+                    plan.notice,
+                    timeout_seconds=min(1.5, max(0.001, plan.expires - self.clock())),
+                )
+                if (
+                    isinstance(draft, str)
+                    and 0 < len(draft) <= 300
+                    and self.service.guardrails.dialogue_output_is_safe(draft)
+                ):
+                    answer = draft
+            except Exception:
+                pass  # A bounded, useful fallback keeps the conversation available.
+        if plan.intent == Intent.NAVIGATION and plan.destination in PAGES:
+            answer += "\n\n" + PAGES[plan.destination].link
         return ConsultationResponse(
             schema_version="1.0",
             request_id=request.request_id,

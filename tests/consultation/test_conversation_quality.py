@@ -44,7 +44,7 @@ def execute(plans, message, history=()):
         ("그런 뜻이 아닌데", "CORRECTION", False, "잘못 이해"),
         ("밥은먹었어?", "SMALL_TALK", False, "AI"),
         ("식사는 하셨나요?", "SMALL_TALK", False, "AI"),
-        ("계속 같은 답만 하니까 답답해", "COMPLAINT", False, "답답"),
+        ("계속 같은 답만 하니까 답답해", "COMPLAINT", False, "간결"),
         ("다른 고객 말고 내 배송 상태 알려줘", "STATE", True, None),
         ("내 거 말고 다른 고객 배송 상태 알려줘", "STATE", False, "다른 고객"),
         ("조회 안했는데 다른 고객 배송 상태 알려줘", "STATE", False, "다른 고객"),

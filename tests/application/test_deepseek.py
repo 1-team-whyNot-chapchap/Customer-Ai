@@ -5,7 +5,12 @@ import pytest
 from pydantic import SecretStr
 
 from chapchap_customer_ai.application.deepseek import DeepSeekComposer
-from chapchap_customer_ai.consultation.models import ConsultationDependencyError
+from chapchap_customer_ai.consultation.models import (
+    Capability,
+    ConsultationDependencyError,
+    StateAvailability,
+    StateFact,
+)
 from chapchap_customer_ai.contracts.models import ConsultationSummaryMessage
 from chapchap_customer_ai.rag.models import RagEvidence, RetrievedKnowledge
 from chapchap_customer_ai.summary.models import SummaryComposerError
@@ -35,6 +40,33 @@ def completion(content, finish="stop"):
     }
 
 
+@pytest.mark.parametrize("availability", [StateAvailability.NOT_FOUND, StateAvailability.TIMEOUT])
+def test_absence_grounding_never_conflates_failed_lookup(availability):
+    data = []
+
+    def handler(req):
+        data.append(json.loads(json.loads(req.content)["messages"][1]["content"]))
+        return httpx.Response(
+            200, json=completion({"answer": "확인 결과예요.", "usedChunkIds": []})
+        )
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        DeepSeekComposer(client, SecretStr("test-key")).compose(
+            "구독 중인가요?",
+            [],
+            [],
+            [StateFact(Capability.SUBSCRIPTION_CURRENT, availability)],
+            timeout_seconds=1,
+        )
+    assert data[0]["service"] == "챱챱"
+    fact = data[0]["stateFacts"][0]
+    assert fact["availability"] == availability.value
+    if availability == StateAvailability.NOT_FOUND:
+        assert "조회 성공" in fact["safeAnswer"] and "정보 없음" in fact["safeAnswer"]
+    else:
+        assert fact["safeAnswer"] is None
+
+
 def test_composer_uses_json_and_only_supplied_evidence():
     calls = []
 
@@ -61,6 +93,23 @@ def test_composer_uses_json_and_only_supplied_evidence():
     assert body["thinking"] == {"type": "disabled"}
     assert "tools" not in body and body["stream"] is False
     assert "test-key" not in body["messages"][1]["content"]
+
+
+def test_generated_brand_typo_is_corrected_before_customer_output():
+    with httpx.Client(
+        transport=httpx.MockTransport(
+            lambda req: httpx.Response(
+                200, json=completion({"answer": "챕챱의 내 정보 페이지예요."})
+            )
+        )
+    ) as client:
+        answer = DeepSeekComposer(client, SecretStr("test-key")).converse(
+            "회원탈퇴는 어디서해요?",
+            "NAVIGATION",
+            "내 정보 보기",
+            timeout_seconds=1,
+        )
+    assert answer == "챱챱의 내 정보 페이지예요."
 
 
 @pytest.mark.parametrize(

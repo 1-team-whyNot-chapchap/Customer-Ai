@@ -7,10 +7,13 @@ from enum import StrEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from chapchap_customer_ai.consultation.models import Capability
+from chapchap_customer_ai.consultation.navigation import PAGES, Destination
 from chapchap_customer_ai.contracts.models import ConsultationRoute
 
 
 class Intent(StrEnum):
+    NAVIGATION = "NAVIGATION"
+    STATE_DISPUTE = "STATE_DISPUTE"
     SMALL_TALK = "SMALL_TALK"
     CORRECTION = "CORRECTION"
     COMPLAINT = "COMPLAINT"
@@ -64,6 +67,7 @@ class Interpretation(BaseModel):
     period: Period
     detail: Detail
     subject: SubjectReference
+    destination: Destination | None = None
 
 
 TOPICS = {
@@ -252,6 +256,19 @@ def detect_subject(text):
 
 def boundary(candidate, message, role):
     """Return only server-owned routing, scopes and fixed safe notices."""
+    if candidate.intent == Intent.NAVIGATION:
+        if role != "CUSTOMER":
+            return (), "이 페이지는 고객 계정으로 이용할 수 있어요."
+        page = PAGES.get(candidate.destination)
+        return (), page.guidance if page else (
+            "찾으시는 페이지의 위치를 확인하지 못했어요. 페이지 이름이나 하려는 일을 알려주세요."
+        )
+    if candidate.intent == Intent.STATE_DISPUTE:
+        return (), (
+            "말씀하신 내용과 앞서 안내된 기록이 달라 확인이 필요해요. "
+            "지금 정보만으로는 기록이 생긴 경위를 확인할 수 없어요. "
+            "확인을 요청하시려면 상단의 상담사 연결을 눌러 주세요."
+        )
     if candidate.intent == Intent.HANDOFF:
         return (), None
     if candidate.intent == Intent.HANDOFF_INFO:
@@ -263,14 +280,23 @@ def boundary(candidate, message, role):
     if candidate.intent == Intent.COMPLAINT:
         return (
             (),
-            "답변이 답답하셨겠어요. 원하시는 내용을 다시 말씀해 주시면 확인할게요. "
-            "상담사 연결도 이용하실 수 있어요.",
+            "말씀해 주신 점을 반영해 질문에 맞춰 간결하게 안내할게요.",
         )
     if candidate.intent == Intent.ACTION_REQUEST:
-        return (), "이 채팅에서는 취소나 환불을 직접 처리할 수 없어요. 상담사 연결을 이용해 주세요."
+        return (), (
+            "이 채팅에서 요청하신 작업을 직접 실행할 수는 없어요. "
+            "이용 방법은 안내해 드릴 수 있어요."
+        )
     if candidate.intent == Intent.SMALL_TALK:
         return (), small_talk_answer(message)
-    if candidate.intent in {Intent.UNCLEAR, Intent.OUT_OF_SCOPE} or not candidate.topics:
+    if candidate.intent == Intent.OUT_OF_SCOPE:
+        return (), (
+            "저는 챱챱 이용 문의를 도와드리고 있어요. "
+            "서비스 이용에 관해 궁금한 점을 말씀해 주세요."
+        )
+    if candidate.intent == Intent.POLICY:
+        return (), None
+    if candidate.intent == Intent.UNCLEAR or not candidate.topics:
         return (), "어떤 내용을 확인할까요? 배송, 결제, 환불, 구독 중 하나를 알려주세요."
     if len(set(candidate.topics)) != len(candidate.topics) or len(candidate.topics) > 2:
         return (), "한 번에 두 가지까지 확인할 수 있어요. 먼저 확인할 항목을 골라 주세요."
