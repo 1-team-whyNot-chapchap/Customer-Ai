@@ -114,6 +114,7 @@ class DeepSeekComposer:
                             "capability": fact.capability.value,
                             "availability": fact.availability.value if fact.availability else None,
                             "safeAnswer": fact.safe_answer,
+                            "values": dict(fact.values),
                         }
                         for fact in state_facts
                     ],

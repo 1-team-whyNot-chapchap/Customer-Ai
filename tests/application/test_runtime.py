@@ -501,9 +501,10 @@ def test_delivery_partial_or_empty_configuration_fails_closed(changes):
         create_provider_runtime(settings(**changes), ProviderRuntimeDependencies(verifier=verifier))
 
 
-def test_signed_consultation_uses_configured_delivery_without_llm():
+def test_signed_consultation_words_verified_delivery_with_llm():
     verifier, auth, subject = security()
     calls = []
+    llm_calls = []
 
     def delivery(req):
         calls.append(req)
@@ -522,8 +523,36 @@ def test_signed_consultation_uses_configured_delivery_without_llm():
             },
         )
 
+    def llm(req):
+        payload = json.loads(req.content)
+        data = json.loads(payload["messages"][1]["content"])
+        llm_calls.append(data)
+        assert data["evidence"] == []
+        assert data["stateFacts"][0]["values"]["status"] == "DELIVERING"
+        assert "dedicated-test-key" not in str(data)
+        assert "userId" not in str(data) and "subject" not in data
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "finish_reason": "stop",
+                        "message": {
+                            "role": "assistant",
+                            "content": json.dumps(
+                                {
+                                    "answer": "현재 배송 중이에요. 지연 여부는 알 수 없어요.",
+                                    "usedChunkIds": [],
+                                }
+                            ),
+                        },
+                    }
+                ]
+            },
+        )
+
     def unexpected(req):
-        pytest.fail("State-only request must not call Auth, LLM or Subscription")
+        pytest.fail("State-only request must not call Auth or Subscription")
 
     deps = ProviderRuntimeDependencies(
         verifier=verifier,
@@ -531,7 +560,8 @@ def test_signed_consultation_uses_configured_delivery_without_llm():
         chunk_builder=RagCoreService(TextDocumentExtractor(), HybridPolicyV1Chunker(TestTokens())),
         http_transports={
             "delivery": httpx.MockTransport(delivery),
-            **{name: httpx.MockTransport(unexpected) for name in ("auth", "llm", "subscription")},
+            "llm": httpx.MockTransport(llm),
+            **{name: httpx.MockTransport(unexpected) for name in ("auth", "subscription")},
         },
     )
     app = create_isolated_app(
@@ -560,6 +590,8 @@ def test_signed_consultation_uses_configured_delivery_without_llm():
         )
         assert response.status_code == 200, response.text
         assert response.json()["decision"] == "ANSWER"
+        assert response.json()["answer"].startswith("현재 배송 중이에요.")
+        assert len(llm_calls) == 1
         assert len(calls) == 1
         body["subject"]["userId"] = 999
         rejected = client.post(
@@ -569,3 +601,4 @@ def test_signed_consultation_uses_configured_delivery_without_llm():
         )
         assert rejected.status_code == 401
         assert len(calls) == 1
+        assert len(llm_calls) == 1

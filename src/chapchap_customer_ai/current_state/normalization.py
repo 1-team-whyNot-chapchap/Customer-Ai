@@ -21,6 +21,7 @@ from chapchap_customer_ai.current_state.presentation import (
     PAYMENT_TYPE,
     REFUND_STATUS,
     REFUND_TYPE,
+    SUBSCRIPTION_MEANING,
     SUBSCRIPTION_STATUS,
     customer_time,
 )
@@ -95,7 +96,7 @@ class ToolResultNormalizer:
             Capability.SUBSCRIPTION_CURRENT,
             StateAvailability.AVAILABLE,
             f"현재 구독 상태는 ‘{SUBSCRIPTION_STATUS[value.status]}’입니다.",
-            (("status", value.status.value),),
+            (("status", value.status.value), ("statusMeaning", SUBSCRIPTION_MEANING[value.status])),
         )
 
     @staticmethod
@@ -103,7 +104,8 @@ class ToolResultNormalizer:
         changed_at = value.status_changed_at.isoformat() if value.status_changed_at else None
         time_text = (
             f" 상태가 바뀐 시각은 {customer_time(value.status_changed_at)}이에요."
-            if value.status_changed_at else ""
+            if value.status_changed_at
+            else ""
         )
         return StateFact(
             Capability.DELIVERY_CURRENT,

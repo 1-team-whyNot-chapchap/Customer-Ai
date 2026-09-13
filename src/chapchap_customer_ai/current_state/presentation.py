@@ -44,6 +44,19 @@ SUBSCRIPTION_STATUS = {
     SubscriptionStatus.CANCELED_BEFORE_START: "시작 전 취소",
     SubscriptionStatus.ENDED: "종료",
 }
+# Domain meaning for grounding, not sentences to display to the customer.
+SUBSCRIPTION_MEANING = {
+    SubscriptionStatus.AWAITING_CONFIRMATION: "신청 확정 대기. 이용 중인지 단정 불가.",
+    SubscriptionStatus.SCHEDULED: "구독 시작이 예정되어 있으나 아직 이용이 시작되지 않은 상태.",
+    SubscriptionStatus.IN_PROGRESS: "현재 구독을 이용 중인 상태.",
+    SubscriptionStatus.CANCELLATION_SCHEDULED: "현재 이용 중이며 해지 예정. 종료 아님.",
+    SubscriptionStatus.PAYMENT_FAILED: "결제 실패. 이용 가능 여부·재시도 결과는 알 수 없음.",
+    SubscriptionStatus.CANCELED_BEFORE_START: (
+        "구독 시작 전에 취소되어 현재 구독 이용 중이 아닌 상태. "
+        "취소 사유나 환불 완료 여부는 알 수 없음."
+    ),
+    SubscriptionStatus.ENDED: "구독 종료로 현재 이용 중이 아님. 종료 사유는 알 수 없음.",
+}
 DELIVERY_STATUS = {
     DeliveryStatus.READY: "준비 중",
     DeliveryStatus.DELIVERING: "배송 중",

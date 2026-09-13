@@ -175,7 +175,7 @@ class ConsultationResponseService:
                 )
 
         if route == ConsultationRoute.USER_STATE:
-            return self._state_response(request.request_id, route, capabilities, state_facts)
+            return self._state_response(request, route, capabilities, state_facts, deadline)
         return self._composed_response(request, route, evidence, state_facts, deadline)
 
     def _retrieve_policy(
@@ -234,14 +234,15 @@ class ConsultationResponseService:
 
     def _state_response(
         self,
-        request_id: UUID,
+        request: ConsultationResponseRequest,
         route: ConsultationRoute,
         capabilities: tuple[Capability, ...],
         facts: tuple[StateFact, ...],
+        deadline: _Deadline,
     ) -> ConsultationResponse:
         answers = self._state_answers(capabilities, facts)
         if not answers:
-            return self._handoff(request_id, route)
+            return self._handoff(request.request_id, route)
         unresolved = any(
             fact.availability in {StateAvailability.UNAVAILABLE, StateAvailability.TIMEOUT}
             or fact.error_code == StateErrorCode.CONTRACT_ERROR
@@ -251,10 +252,29 @@ class ConsultationResponseService:
         if unresolved:
             answer += " 일부 현재 상태는 확인할 수 없어 관리자 확인이 필요합니다."
         if not self.guardrails.output_text_is_safe(answer):
-            return self._handoff(request_id, route)
+            return self._handoff(request.request_id, route)
+        if not unresolved:
+            try:
+                draft = self.composer.compose(
+                    request.message,
+                    request.conversation_context,
+                    (),
+                    facts,
+                    timeout_seconds=deadline.remaining(self.compose_timeout_seconds),
+                )
+                # A state-only answer has no document citations. Keep the verified
+                # fallback on invalid output, model failure or exhausted deadline.
+                if (
+                    not draft.used_chunk_ids
+                    and len(draft.answer.encode("utf-16-le")) // 2 <= 10000
+                    and self.guardrails.output_text_is_safe(draft.answer)
+                ):
+                    answer = draft.answer
+            except Exception:
+                pass
         return ConsultationResponse(
             schema_version="1.0",
-            request_id=request_id,
+            request_id=request.request_id,
             decision=(ConsultationDecision.DEGRADED if unresolved else ConsultationDecision.ANSWER),
             answer=answer,
             route=route,
