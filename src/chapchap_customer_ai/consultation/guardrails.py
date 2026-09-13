@@ -95,6 +95,7 @@ class ConsultationGuardrails:
         # over factual-looking business claims, even when a negative claim is true.
         return self.output_text_is_safe(answer) and not re.search(
             r"\d|https?://|(?:조회|처리|취소|연결).*(?:완료|했|됐|되었)|"
+            r"연결.*(?:수\s*(?:는\s*)?없|불가|불가능)|"
             r"(?:배송|결제|환불|구독).*(?:상태|완료|중|금액|원|일)|"
             r"(?:밥|식사|점심|저녁).*(?:먹었|했어요|했습니다)",
             answer,

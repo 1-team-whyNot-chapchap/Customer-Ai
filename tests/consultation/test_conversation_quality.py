@@ -187,3 +187,10 @@ def test_conversational_reply_is_cached_and_receives_no_customer_history_or_fact
 def test_handoff_instructions_do_not_trigger_handoff():
     _, result = execute(ConsultationPlans(Dependencies().service()), "상담사 연결은 어떻게 하나요?")
     assert not result.handoff_required and "버튼" in result.answer
+
+
+def test_dialogue_cannot_invent_an_unavailable_handoff_feature():
+    deps = Dependencies()
+    deps.composer.converse = lambda *args, **kwargs: "상담사를 연결할 수는 없어요."
+    _, result = execute(ConsultationPlans(deps.service()), "상담사 연결은 어떻게 하나요?")
+    assert result.answer == "상단의 상담사 연결 버튼을 누르시면 상담사에게 상담을 요청할 수 있어요."
