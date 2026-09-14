@@ -123,6 +123,13 @@ class ConsultationResponseService:
         if not self.guardrails.input_is_safe(request.message, request.conversation_context):
             safe_route = RuleBasedRouteResolver().resolve(request.message)
             return self._handoff(request.request_id, safe_route)
+        request = request.model_copy(
+            update={
+                "conversation_context": list(
+                    self.guardrails.safe_context(request.conversation_context)
+                )
+            }
+        )
         try:
             route = self.route_resolver.resolve(
                 request.message, timeout_seconds=deadline.remaining(self.route_timeout_seconds)
@@ -136,7 +143,11 @@ class ConsultationResponseService:
                 schema_version="1.0",
                 request_id=request.request_id,
                 decision=ConsultationDecision.DEGRADED,
-                answer="현재 고객지원 범위에서는 해당 요청에 답변하기 어렵습니다.",
+                answer=(
+                    RuleBasedRouteResolver.clarification(request.message)
+                    or "챱챱의 배송, 구독, 결제 등 서비스 이용 문의를 도와드릴 수 있어요. "
+                    "어떤 도움이 필요한지 구체적으로 알려주세요."
+                ),
                 route=route,
                 degraded=True,
                 handoff_required=False,
@@ -153,7 +164,7 @@ class ConsultationResponseService:
         if route in {ConsultationRoute.POLICY, ConsultationRoute.POLICY_AND_STATE}:
             evidence = self._retrieve_policy(request, context, deadline)
             if not evidence:
-                return self._handoff(request.request_id, route)
+                return self._policy_failure(request.request_id, route)
 
         state_facts: tuple[StateFact, ...] = ()
         if route in {ConsultationRoute.USER_STATE, ConsultationRoute.POLICY_AND_STATE}:
@@ -164,7 +175,7 @@ class ConsultationResponseService:
                 )
 
         if route == ConsultationRoute.USER_STATE:
-            return self._state_response(request.request_id, route, capabilities, state_facts)
+            return self._state_response(request, route, capabilities, state_facts, deadline)
         return self._composed_response(request, route, evidence, state_facts, deadline)
 
     def _retrieve_policy(
@@ -223,14 +234,15 @@ class ConsultationResponseService:
 
     def _state_response(
         self,
-        request_id: UUID,
+        request: ConsultationResponseRequest,
         route: ConsultationRoute,
         capabilities: tuple[Capability, ...],
         facts: tuple[StateFact, ...],
+        deadline: _Deadline,
     ) -> ConsultationResponse:
         answers = self._state_answers(capabilities, facts)
         if not answers:
-            return self._handoff(request_id, route)
+            return self._handoff(request.request_id, route)
         unresolved = any(
             fact.availability in {StateAvailability.UNAVAILABLE, StateAvailability.TIMEOUT}
             or fact.error_code == StateErrorCode.CONTRACT_ERROR
@@ -240,13 +252,30 @@ class ConsultationResponseService:
         if unresolved:
             answer += " 일부 현재 상태는 확인할 수 없어 관리자 확인이 필요합니다."
         if not self.guardrails.output_text_is_safe(answer):
-            return self._handoff(request_id, route)
+            return self._handoff(request.request_id, route)
+        if not unresolved:
+            try:
+                draft = self.composer.compose(
+                    request.message,
+                    request.conversation_context,
+                    (),
+                    facts,
+                    timeout_seconds=deadline.remaining(self.compose_timeout_seconds),
+                )
+                # A state-only answer has no document citations. Keep the verified
+                # fallback on invalid output, model failure or exhausted deadline.
+                if (
+                    not draft.used_chunk_ids
+                    and len(draft.answer.encode("utf-16-le")) // 2 <= 10000
+                    and self.guardrails.state_output_is_safe(draft.answer)
+                ):
+                    answer = draft.answer
+            except Exception:
+                pass
         return ConsultationResponse(
             schema_version="1.0",
-            request_id=request_id,
-            decision=(
-                ConsultationDecision.DEGRADED if unresolved else ConsultationDecision.ANSWER
-            ),
+            request_id=request.request_id,
+            decision=(ConsultationDecision.DEGRADED if unresolved else ConsultationDecision.ANSWER),
             answer=answer,
             route=route,
             degraded=unresolved,
@@ -274,30 +303,46 @@ class ConsultationResponseService:
             )
             used = self.guardrails.validate_draft(draft, evidence)
         except Exception:
-            return self._handoff(request.request_id, route)
+            return self._policy_failure(request.request_id, route)
         if not used:
-            return self._handoff(request.request_id, route)
+            return self._policy_failure(request.request_id, route)
         unresolved_state = route == ConsultationRoute.POLICY_AND_STATE and (
             len(available_state) != len(state_facts) or not state_facts
         )
         answer = draft.answer
+        if route == ConsultationRoute.POLICY and not self.guardrails.policy_output_is_safe(answer):
+            return self._policy_failure(request.request_id, route)
         if unresolved_state:
             answer += " 현재 상태 일부는 확인할 수 없어 관리자 확인이 필요합니다."
         if not self.guardrails.output_text_is_safe(answer):
-            return self._handoff(request.request_id, route)
+            return self._policy_failure(request.request_id, route)
         return ConsultationResponse(
             schema_version="1.0",
             request_id=request.request_id,
             decision=(
-                ConsultationDecision.DEGRADED
-                if unresolved_state
-                else ConsultationDecision.ANSWER
+                ConsultationDecision.DEGRADED if unresolved_state else ConsultationDecision.ANSWER
             ),
             answer=answer,
             route=route,
             degraded=unresolved_state,
             handoff_required=unresolved_state,
             evidence=[self._evidence(item) for item in used],
+        )
+
+    def _policy_failure(self, request_id, route):
+        if route != ConsultationRoute.POLICY:
+            return self._handoff(request_id, route)
+        return ConsultationResponse(
+            schema_version="1.0",
+            request_id=request_id,
+            decision=ConsultationDecision.DEGRADED,
+            route=ConsultationRoute.UNSUPPORTED,
+            answer=(
+                "문의하신 정책은 지금 정확히 확인할 수 없어요. "
+                "확인을 원하시면 상담사 연결을 이용해 주세요."
+            ),
+            degraded=True,
+            handoff_required=False,
         )
 
     @staticmethod
@@ -308,7 +353,7 @@ class ConsultationResponseService:
         not_found = {
             Capability.PAYMENT_CURRENT: "조회 범위에 해당하는 결제 정보가 없습니다.",
             Capability.REFUND_RECENT: "조회 범위에 해당하는 환불 업무가 없습니다.",
-            Capability.SUBSCRIPTION_CURRENT: "조회 범위에 해당하는 구독 정보가 없습니다.",
+            Capability.SUBSCRIPTION_CURRENT: "조회되는 구독 정보가 없어요.",
             Capability.DELIVERY_CURRENT: "오늘 조회 가능한 배송 정보가 없습니다.",
         }
         answers: list[str] = []

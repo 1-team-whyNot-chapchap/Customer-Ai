@@ -155,7 +155,7 @@ def test_normalizer_creates_minimal_fact_without_subject_or_raw_payload() -> Non
         "occurredAt": "2026-08-31T09:00:00+09:00",
     }
     assert "user" not in str(fact.values).lower()
-    assert "12900" in fact.safe_answer
+    assert "12,900원" in fact.safe_answer
 
 
 def test_delivery_unknown_delay_and_missing_time_are_preserved() -> None:

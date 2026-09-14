@@ -181,11 +181,10 @@ def test_missing_approved_versions_never_runs_unbounded_search() -> None:
     dependencies = Dependencies(versions=Versions(()))
     value = request("환불 정책 알려줘", ("customer-ai.policy.read",))
 
-    result = dependencies.service().respond(
-        value, context(value), idempotency_key="message-9002"
-    )
+    result = dependencies.service().respond(value, context(value), idempotency_key="message-9002")
 
-    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert not result.handoff_required and not result.evidence
     assert dependencies.retriever.calls == 0
 
 
@@ -193,7 +192,7 @@ def test_missing_approved_versions_never_runs_unbounded_search() -> None:
     "dependency_error",
     [ConsultationDependencyError("external detail"), TimeoutError(), RuntimeError("raw")],
 )
-def test_vector_or_composer_failure_returns_handoff_without_raw_error(
+def test_vector_or_composer_failure_keeps_chat_open_without_raw_error(
     dependency_error: Exception,
 ) -> None:
     if isinstance(dependency_error, ConsultationDependencyError):
@@ -202,12 +201,10 @@ def test_vector_or_composer_failure_returns_handoff_without_raw_error(
         dependencies = Dependencies(composer=Composer(error=dependency_error))
     value = request("환불 정책 알려줘", ("customer-ai.policy.read",))
 
-    result = dependencies.service().respond(
-        value, context(value), idempotency_key="message-9002"
-    )
+    result = dependencies.service().respond(value, context(value), idempotency_key="message-9002")
 
-    assert result.decision == ConsultationDecision.HANDOFF
-    assert result.answer is None
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert result.answer and not result.handoff_required and not result.evidence
     assert "external detail" not in str(result)
     assert "raw" not in str(result)
 
@@ -234,7 +231,8 @@ def test_direct_or_indirect_injection_returns_handoff() -> None:
 
     assert direct_result.decision == ConsultationDecision.HANDOFF
     assert direct.versions.calls == 0
-    assert indirect_result.decision == ConsultationDecision.HANDOFF
+    assert indirect_result.decision == ConsultationDecision.DEGRADED
+    assert not indirect_result.handoff_required and not indirect_result.evidence
     assert indirect.composer.calls == 0
 
 
@@ -246,10 +244,12 @@ def test_unapproved_composer_citation_is_rejected() -> None:
 
     result = dependencies.service().respond(value, context(value), idempotency_key="key")
 
-    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert not result.handoff_required and not result.evidence
+    assert "근거 없는 답변" not in result.answer
 
 
-def test_current_state_available_and_not_found_are_deterministic() -> None:
+def test_current_state_uses_verified_fallback_when_model_returns_invalid_citations() -> None:
     scope = ("subscription.payment.read",)
     available_dependencies = Dependencies(
         state=StateProvider(
@@ -264,9 +264,7 @@ def test_current_state_available_and_not_found_are_deterministic() -> None:
     )
     available_request = request("내 결제 상태 알려줘", scope)
     not_found_dependencies = Dependencies(
-        state=StateProvider(
-            (StateFact(Capability.PAYMENT_CURRENT, StateAvailability.NOT_FOUND),)
-        )
+        state=StateProvider((StateFact(Capability.PAYMENT_CURRENT, StateAvailability.NOT_FOUND),))
     )
     not_found_request = request("내 결제 상태 알려줘", scope)
 
@@ -279,16 +277,14 @@ def test_current_state_available_and_not_found_are_deterministic() -> None:
 
     assert available.decision == ConsultationDecision.ANSWER
     assert "SUCCESS" in available.answer
-    assert available_dependencies.composer.calls == 0
+    assert available_dependencies.composer.calls == 1
     assert not_found.decision == ConsultationDecision.ANSWER
     assert "결제 정보가 없습니다" in not_found.answer
 
 
 def test_combined_route_degrades_when_state_is_unavailable() -> None:
     dependencies = Dependencies(
-        state=StateProvider(
-            (StateFact(Capability.REFUND_RECENT, StateAvailability.TIMEOUT),)
-        )
+        state=StateProvider((StateFact(Capability.REFUND_RECENT, StateAvailability.TIMEOUT),))
     )
     value = request(
         "내 환불 결과와 환불 기간 알려줘",
@@ -317,9 +313,7 @@ def test_contract_error_is_never_used_as_a_business_state() -> None:
     )
     value = request("내 결제 상태 알려줘", ("subscription.payment.read",))
 
-    result = dependencies.service().respond(
-        value, context(value), idempotency_key="contract-error"
-    )
+    result = dependencies.service().respond(value, context(value), idempotency_key="contract-error")
 
     assert result.decision == ConsultationDecision.HANDOFF
     assert result.answer is None
@@ -345,9 +339,7 @@ def test_scope_and_signed_body_mismatch_fail_before_dependencies() -> None:
             missing_scope, context(missing_scope), idempotency_key="scope"
         )
     with pytest.raises(ConsultationRequestError) as subject_error:
-        dependencies.service().respond(
-            missing_scope, mismatched_context, idempotency_key="subject"
-        )
+        dependencies.service().respond(missing_scope, mismatched_context, idempotency_key="subject")
 
     assert scope_error.value.status_code == 403
     assert subject_error.value.status_code == 401
@@ -386,7 +378,8 @@ def test_rag_result_that_exceeds_stage_budget_is_not_used() -> None:
 
     result = service.respond(value, context(value), idempotency_key="deadline")
 
-    assert result.decision == ConsultationDecision.HANDOFF
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert not result.handoff_required
     assert dependencies.composer.calls == 0
 
 
@@ -426,3 +419,15 @@ def test_ambiguous_classifier_failure_is_safe_handoff() -> None:
     assert result.decision == ConsultationDecision.HANDOFF
     assert result.route == ConsultationRoute.UNSUPPORTED
     assert dependencies.versions.calls == dependencies.state.calls == 0
+
+
+@pytest.mark.parametrize("text", ["안녕", "안녕하세요!", "환불", "배송"])
+def test_short_customer_input_gets_clarification_without_dependency_calls(text):
+    dependencies = Dependencies()
+    value = request(text, ("customer-ai.policy.read",))
+    result = dependencies.service().respond(value, context(value), idempotency_key="short-input")
+    assert result.decision == ConsultationDecision.DEGRADED
+    assert "어렵습니다" not in result.answer
+    assert not result.handoff_required
+    assert not result.evidence
+    assert dependencies.composer.calls == 0
