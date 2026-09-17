@@ -12,7 +12,7 @@ Customer-Service의 내부 Python/FastAPI AI Runtime이다. 정책 질문은 RAG
 - Delivery의 customer-ai 전용 인증 계약에 맞춘 Consumer와 설정 기반 연결을 구현했다. URL/전용 키가 없으면 비활성이다.
 - 운영 진단은 구조화 로그를 사용한다. Prometheus는 사용하지 않는다.
 
-기본 앱은 health-only다. 운영 활성화는 Customer-Service gate 및 실제 의존성 검증과 별개다..
+기본 앱은 health-only다. 운영 활성화는 Customer-Service gate 및 실제 의존성 검증과 별개다.
 
 ## 학원 배포 모드
 
