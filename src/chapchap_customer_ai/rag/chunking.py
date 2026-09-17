@@ -70,15 +70,17 @@ class HybridPolicyV1Chunker:
         pieces: list[str] = []
         buffer: list[str] = []
         for word in words:
+            # Check every word before assigning it to the next buffer.
+            # Previously an oversized word after a valid prefix bypassed this check.
+            if self.token_counter.count(word) > self.max_tokens:
+                raise RagCoreError(
+                    RagFailureCode.TEXT_EXTRACTION_FAILED,
+                    "A single word exceeds the configured chunk limit.",
+                )
             candidate = " ".join([*buffer, word])
             if self.token_counter.count(candidate) <= self.max_tokens:
                 buffer.append(word)
                 continue
-            if not buffer:
-                raise RagCoreError(
-                    RagFailureCode.TEXT_EXTRACTION_FAILED,
-                    "A single token exceeds the configured chunk limit.",
-                )
             pieces.append(" ".join(buffer))
             buffer = [word]
         if buffer:

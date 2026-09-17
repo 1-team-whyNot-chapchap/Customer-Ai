@@ -1,5 +1,6 @@
 import hashlib
 import json
+import logging
 from dataclasses import dataclass
 from uuid import UUID
 
@@ -34,6 +35,18 @@ from chapchap_customer_ai.rag.models import (
     RagCoreError,
     RagFailureCode,
 )
+
+
+_LOGGER = logging.getLogger(__name__)
+# Only static reason codes are emitted. Never log source URLs, tokens or document text.
+_SOURCE_FAILURE_REASONS = {
+    "The knowledge source is not allowed.": "SOURCE_NOT_ALLOWED",
+    "The knowledge source could not be fetched.": "FETCH_UNAVAILABLE",
+    "The knowledge source content type does not match.": "CONTENT_TYPE_MISMATCH",
+    "The knowledge source size does not match.": "SIZE_MISMATCH",
+    "The knowledge source exceeds the allowed size.": "SIZE_LIMIT_EXCEEDED",
+    "The knowledge source size is invalid.": "INVALID_SIZE",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -96,8 +109,10 @@ class KnowledgeProcessingService:
     def _process(
         self, processing_id: int, request_id: UUID, request: KnowledgeProcessingRequest
     ) -> None:
+        stage = "SOURCE_FETCH"
         try:
             content = self.source_fetcher.fetch(request.source)
+            stage = "CHUNK_BUILD"
             context = KnowledgeContext(
                 request.knowledge_version_id,
                 request.chunk_profile,
@@ -109,6 +124,7 @@ class KnowledgeProcessingService:
             chunks = tuple(
                 self.chunk_builder.build_chunks(context, content, request.source.content_type)
             )
+            stage = "EMBEDDING_AND_STORE"
             chunk_count = self.indexer.index(chunks)
             if chunk_count < 1 or chunk_count != len(chunks):
                 raise RagCoreError(
@@ -123,30 +139,34 @@ class KnowledgeProcessingService:
                 chunk_count=chunk_count,
                 chunk_profile=request.chunk_profile,
             )
-        except SourceFetchError:
+        except SourceFetchError as error:
             result = self._failed(
                 processing_id,
                 request.knowledge_version_id,
                 KnowledgeProcessingFailureCode.SOURCE_FETCH_FAILED,
             )
-        except TimeoutError:
+            self._log_failure(stage, error, processing_id, request_id, request, result.failure_code)
+        except TimeoutError as error:
             result = self._failed(
                 processing_id,
                 request.knowledge_version_id,
                 KnowledgeProcessingFailureCode.PROCESSING_TIMEOUT,
             )
+            self._log_failure(stage, error, processing_id, request_id, request, result.failure_code)
         except RagCoreError as error:
             try:
                 failure_code = KnowledgeProcessingFailureCode(error.code)
             except ValueError:
                 failure_code = KnowledgeProcessingFailureCode.CUSTOMER_AI_UNAVAILABLE
             result = self._failed(processing_id, request.knowledge_version_id, failure_code)
-        except Exception:
+            self._log_failure(stage, error, processing_id, request_id, request, result.failure_code)
+        except Exception as error:
             result = self._failed(
                 processing_id,
                 request.knowledge_version_id,
                 KnowledgeProcessingFailureCode.CUSTOMER_AI_UNAVAILABLE,
             )
+            self._log_failure(stage, error, processing_id, request_id, request, result.failure_code)
         if isinstance(result, KnowledgeProcessingCompleted):
             event = DiagnosticEvent(
                 event_type=DiagnosticEventType.KNOWLEDGE_COMPLETED,
@@ -165,7 +185,46 @@ class KnowledgeProcessingService:
                 retryable=result.retryable,
             )
         emit_safely(self.diagnostics, event)
-        self.result_publisher.publish(result, request_id)
+        try:
+            self.result_publisher.publish(result, request_id)
+        except Exception as error:
+            # Delivery failure is separate from processing failure. Preserve existing
+            # exception/release semantics; do not turn a stored result into FAILED.
+            self._log_failure("CALLBACK_DELIVERY", error, processing_id, request_id, request)
+            raise
+
+    @staticmethod
+    def _log_failure(
+        stage: str,
+        error: Exception,
+        processing_id: int,
+        request_id: UUID,
+        request: KnowledgeProcessingRequest,
+        failure_code: KnowledgeProcessingFailureCode | None = None,
+    ) -> None:
+        try:
+            detail = {
+                "eventType": "KNOWLEDGE_FAILURE_DETAIL",
+                "requestId": str(request_id),
+                "knowledgeVersionId": request.knowledge_version_id,
+                "processingId": processing_id,
+                "attempt": request.attempt,
+                "stage": stage,
+                "errorType": type(error).__name__,
+            }
+            if failure_code is not None:
+                detail["failureCode"] = failure_code.value
+            if error.__cause__ is not None:
+                detail["causeType"] = type(error.__cause__).__name__
+            if isinstance(error, SourceFetchError):
+                detail["sourceReason"] = _SOURCE_FAILURE_REASONS.get(
+                    str(error), "SOURCE_FETCH_ERROR"
+                )
+            # Raw exception messages and traceback can contain presigned URLs/secrets.
+            _LOGGER.warning(json.dumps(detail, ensure_ascii=False, separators=(",", ":")))
+        except Exception:
+            # Diagnostic output must not change the business result or callback.
+            pass
 
     @staticmethod
     def _failed(
